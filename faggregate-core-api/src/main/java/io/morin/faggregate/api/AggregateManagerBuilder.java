@@ -42,10 +42,22 @@ public interface AggregateManagerBuilder<I, S> {
     /**
      * Register a new command handler.
      *
-     * @param type    the class of the command
-     * @param handler the command handler
+     * @param <C>       the type of the command
+     * @param <R>       the type of the result
+     * @param type      the class of the command
+     * @param handler   the command handler
+     * @param intention the intention of the command
+     * @return the builder
+     */
+    <C, R> AggregateManagerBuilder<I, S> add(Class<C> type, Handler<S, C, R> handler, Intention intention);
+
+    /**
+     * Register a new command handler with the intention {@link Intention#MUTATION}.
+     *
      * @param <C>     the type of the command
      * @param <R>     the type of the result
+     * @param type    the class of the command
+     * @param handler the command handler
      * @return the builder
      */
     <C, R> AggregateManagerBuilder<I, S> add(Class<C> type, Handler<S, C, R> handler);

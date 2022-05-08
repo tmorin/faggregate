@@ -8,6 +8,7 @@ import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -26,15 +27,18 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
     Destroyer<I, S> destroyer;
 
     @NonNull
-    Map<Class<?>, Handler<S, ?, ?>> handlers;
+    Map<Class<?>, HandlerEntry<S>> handlers;
 
     @NonNull
     Map<Class<?>, List<Mutator<S, Object>>> mutators;
 
-    private <C, R> CompletableFuture<Output<R>> mutate(@NonNull ExecutionRequest<I, S, C> request) {
+    private <C, R> CompletableFuture<Output<R>> mutate(
+        @NonNull ExecutionRequest<I, S, C> request,
+        @NonNull Handler<S, ?, ?> handler
+    ) {
         // execute command
         return StageExecuteCommand
-            .<I, S, C, R>execute(request, handlers)
+            .<I, S, C, R>execute(request, handler)
             // apply mutations
             .thenComposeAsync(response -> StageMutateAggregate.execute(response, mutators))
             // persist state and events
@@ -42,10 +46,13 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
             .thenApply(ExecutionContext::getOutput);
     }
 
-    private <C, R> CompletableFuture<Output<R>> destroy(@NonNull ExecutionRequest<I, S, C> request) {
+    private <C, R> CompletableFuture<Output<R>> destroy(
+        @NonNull ExecutionRequest<I, S, C> request,
+        @NonNull Handler<S, ?, ?> handler
+    ) {
         // execute command
         return StageExecuteCommand
-            .<I, S, C, R>execute(request, handlers)
+            .<I, S, C, R>execute(request, handler)
             // apply mutations
             .thenComposeAsync(response -> StageMutateAggregate.execute(response, mutators))
             // persist state and events
@@ -54,17 +61,24 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
     }
 
     @Override
-    public <C, R> CompletableFuture<Output<R>> initiate(@NonNull I identifier, @NonNull C command) {
-        return StageInitiateAggregate.execute(identifier, command, initializer).thenCompose(this::mutate);
-    }
-
-    @Override
-    public <C, R> CompletableFuture<Output<R>> mutate(@NonNull I identifier, @NonNull C command) {
-        return StageLoadAggregate.execute(identifier, command, loader).thenCompose(this::mutate);
-    }
-
-    @Override
-    public <C, R> CompletableFuture<Output<R>> destroy(I identifier, C command) {
-        return StageLoadAggregate.execute(identifier, command, loader).thenCompose(this::destroy);
+    public <C, R> CompletableFuture<Output<R>> execute(I identifier, C command) {
+        val handlerKey = command.getClass();
+        if (!this.handlers.containsKey(handlerKey)) {
+            return CompletableFuture.failedFuture(new HandlerNotFoundException(command.getClass()));
+        }
+        val handlerEntry = this.handlers.get(handlerKey);
+        if (handlerEntry.getIntention().equals(Intention.INITIALIZATION)) {
+            return StageInitiateAggregate
+                .execute(identifier, command, initializer)
+                .thenCompose(request -> this.mutate(request, handlerEntry.getHandler()));
+        }
+        if (handlerEntry.getIntention().equals(Intention.DESTRUCTION)) {
+            return StageLoadAggregate
+                .execute(identifier, command, loader)
+                .thenCompose(request -> this.destroy(request, handlerEntry.getHandler()));
+        }
+        return StageLoadAggregate
+            .execute(identifier, command, loader)
+            .thenCompose(request -> this.mutate(request, handlerEntry.getHandler()));
     }
 }

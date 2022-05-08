@@ -1,14 +1,12 @@
 package io.morin.faggregate.simple.core;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import io.morin.faggregate.api.Handler;
 import io.morin.faggregate.api.OutputBuilder;
 import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,8 +27,6 @@ class StageExecuteCommandTest {
 
     ExecutionRequest<String, String, Serializable> request;
 
-    final Map<Class<?>, Handler<String, ?, ?>> handlers = new HashMap<>();
-
     @BeforeEach
     void beforeEach() {
         request = ExecutionRequest.create(identifier, state, command);
@@ -41,18 +37,11 @@ class StageExecuteCommandTest {
     void shouldExecute() {
         final Handler<String, Serializable, String> handler = (state, command) ->
             CompletableFuture.completedFuture(OutputBuilder.get(String.format("%s - %s", state, command)).build());
-        handlers.put(command.getClass(), handler);
 
-        val output = StageExecuteCommand.execute(request, handlers).get();
+        val output = StageExecuteCommand.execute(request, handler).get();
         assertEquals("initial", output.getState());
         assertEquals(command, output.getCommand());
         assertFalse(output.getOutput().getResult().isEmpty());
         assertEquals("initial - command", output.getOutput().getResult().get());
-    }
-
-    @Test
-    @SneakyThrows
-    void shouldThrowWhenNoHandler() {
-        assertThrows(ExecutionException.class, () -> StageExecuteCommand.execute(request, handlers).get());
     }
 }

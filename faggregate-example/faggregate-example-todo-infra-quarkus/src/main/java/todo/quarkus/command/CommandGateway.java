@@ -33,10 +33,7 @@ public class CommandGateway {
     private CompletionStage<Response> handle(String name, Object queryAsMap) {
         val descriptor = CommandDescriptor.valueOf(name);
         val command = objectMapper.convertValue(queryAsMap, descriptor.type);
-        if (descriptor.initializer) {
-            return aggregateManager.initiate(command.getTodoListId(), command).thenComposeAsync(this::toResponse);
-        }
-        return aggregateManager.mutate(command.getTodoListId(), command).thenComposeAsync(this::toResponse);
+        return aggregateManager.execute(command.getTodoListId(), command).thenComposeAsync(this::toResponse);
     }
 
     @POST

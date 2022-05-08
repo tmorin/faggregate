@@ -19,6 +19,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class SimpleAggregateTest {
 
     final String identifier = "identifier";
+    final EmptyCommandA commandA = new EmptyCommandA();
+    final EmptyCommandB commandB = new EmptyCommandB();
+    final EmptyCommandC commandC = new EmptyCommandC();
+    final EmptyEvent event = new EmptyEvent();
 
     @Mock
     Initializer<String> initializer;
@@ -32,12 +36,14 @@ class SimpleAggregateTest {
     @Mock
     Destroyer<String, String> destroyer;
 
-    final EmptyCommand command = new EmptyCommand();
+    @Mock
+    Handler<String, EmptyCommandA, String> handlerA;
 
     @Mock
-    Handler<String, EmptyCommand, String> handler;
+    Handler<String, EmptyCommandB, String> handlerB;
 
-    final EmptyEvent event = new EmptyEvent();
+    @Mock
+    Handler<String, EmptyCommandC, String> handlerC;
 
     @Mock
     Mutator<String, EmptyEvent> mutator;
@@ -54,9 +60,6 @@ class SimpleAggregateTest {
             .lenient()
             .when(destroyer.destroy(Mockito.any(), Mockito.any(), Mockito.any()))
             .thenReturn(CompletableFuture.completedFuture(null));
-        Mockito
-            .when(handler.handle(Mockito.any(), Mockito.any()))
-            .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get("result").add(event).build()));
         Mockito.when(mutator.mutate(Mockito.any(), Mockito.any())).thenReturn("mutated state");
 
         aggregateManager =
@@ -66,7 +69,9 @@ class SimpleAggregateTest {
                 .set(initializer)
                 .set(persister)
                 .set(destroyer)
-                .add(EmptyCommand.class, handler)
+                .add(EmptyCommandA.class, handlerA, Intention.INITIALIZATION)
+                .add(EmptyCommandB.class, handlerB)
+                .add(EmptyCommandC.class, handlerC, Intention.DESTRUCTION)
                 .add(EmptyEvent.class, mutator)
                 .build();
     }
@@ -76,7 +81,11 @@ class SimpleAggregateTest {
     void shouldInitiate() {
         Mockito.when(initializer.initialize()).thenReturn(CompletableFuture.completedFuture("initial state"));
 
-        val output = aggregateManager.initiate(identifier, command).get();
+        Mockito
+            .when(handlerA.handle(Mockito.any(), Mockito.any()))
+            .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get("result").add(event).build()));
+
+        val output = aggregateManager.execute(identifier, commandA).get();
 
         assertFalse(output.getResult().isEmpty());
         assertEquals("result", output.getResult().get());
@@ -85,18 +94,23 @@ class SimpleAggregateTest {
         Mockito.verify(loader, Mockito.never()).load(Mockito.any());
         Mockito.verify(persister, Mockito.only()).persist(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.verify(destroyer, Mockito.never()).destroy(Mockito.any(), Mockito.any(), Mockito.any());
-        Mockito.verify(handler, Mockito.only()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerA, Mockito.only()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerB, Mockito.never()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerC, Mockito.never()).handle(Mockito.any(), Mockito.any());
         Mockito.verify(mutator, Mockito.only()).mutate(Mockito.any(), Mockito.any());
     }
 
     @Test
     @SneakyThrows
-    void shouldExecute() {
+    void shouldMutate() {
         Mockito
             .when(loader.load(Mockito.any()))
             .thenReturn(CompletableFuture.completedFuture(Optional.of("loaded state")));
 
-        val output = aggregateManager.mutate(identifier, command).get();
+        Mockito
+            .when(handlerB.handle(Mockito.any(), Mockito.any()))
+            .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get("result").add(event).build()));
+        val output = aggregateManager.execute(identifier, commandB).get();
 
         assertFalse(output.getResult().isEmpty());
         assertEquals("result", output.getResult().get());
@@ -105,7 +119,9 @@ class SimpleAggregateTest {
         Mockito.verify(loader, Mockito.only()).load(Mockito.any());
         Mockito.verify(persister, Mockito.only()).persist(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.verify(destroyer, Mockito.never()).destroy(Mockito.any(), Mockito.any(), Mockito.any());
-        Mockito.verify(handler, Mockito.only()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerA, Mockito.never()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerB, Mockito.only()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerC, Mockito.never()).handle(Mockito.any(), Mockito.any());
         Mockito.verify(mutator, Mockito.only()).mutate(Mockito.any(), Mockito.any());
     }
 
@@ -116,7 +132,10 @@ class SimpleAggregateTest {
             .when(loader.load(Mockito.any()))
             .thenReturn(CompletableFuture.completedFuture(Optional.of("loaded state")));
 
-        val output = aggregateManager.destroy(identifier, command).get();
+        Mockito
+            .when(handlerC.handle(Mockito.any(), Mockito.any()))
+            .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get("result").add(event).build()));
+        val output = aggregateManager.execute(identifier, commandC).get();
 
         assertFalse(output.getResult().isEmpty());
         assertEquals("result", output.getResult().get());
@@ -125,11 +144,17 @@ class SimpleAggregateTest {
         Mockito.verify(loader, Mockito.only()).load(Mockito.any());
         Mockito.verify(persister, Mockito.never()).persist(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.verify(destroyer, Mockito.only()).destroy(Mockito.any(), Mockito.any(), Mockito.any());
-        Mockito.verify(handler, Mockito.only()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerA, Mockito.never()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerB, Mockito.never()).handle(Mockito.any(), Mockito.any());
+        Mockito.verify(handlerC, Mockito.only()).handle(Mockito.any(), Mockito.any());
         Mockito.verify(mutator, Mockito.only()).mutate(Mockito.any(), Mockito.any());
     }
 
-    static class EmptyCommand {}
+    static class EmptyCommandA {}
+
+    static class EmptyCommandB {}
+
+    static class EmptyCommandC {}
 
     static class EmptyEvent {}
 }

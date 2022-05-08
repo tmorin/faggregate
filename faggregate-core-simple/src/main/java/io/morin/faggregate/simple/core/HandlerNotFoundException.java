@@ -7,6 +7,9 @@ import lombok.NonNull;
  */
 public class HandlerNotFoundException extends Exception {
 
+    /**
+     * @param type the type of the command
+     */
     public HandlerNotFoundException(@NonNull Class<?> type) {
         super(String.format("unable to find the handler of the Command type %s", type));
     }

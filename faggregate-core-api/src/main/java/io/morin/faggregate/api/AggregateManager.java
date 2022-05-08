@@ -5,8 +5,9 @@ import java.util.concurrent.CompletableFuture;
 /**
  * <p>A facade providing an interface to manage Aggregates.
  *
- * <p>The facade provides three fundamental actions: 1. initiate, 2. mutate, 3. destroy.
- * An action is triggered by a command and returns an {@link Output}.
+ * <p>The facade provides only one fundamental action: the execution of commands.
+ * A command is an intention to either initialize, mutate or destroy an aggregate.
+ * Each execution returns an {@link Output}.
  * It provides an optional result and a set of events.
  *
  * <p>Managers are built using {@link AggregateManagerBuilder}.
@@ -19,18 +20,6 @@ import java.util.concurrent.CompletableFuture;
  */
 public interface AggregateManager<I> {
     /**
-     * Initiate a new aggregate.
-     * That means an aggregate which is not yet persisted.
-     *
-     * @param identifier the identifier of the new aggregate
-     * @param command    the command triggering the initiation
-     * @param <C>        the type of the command
-     * @param <R>        the type of the result
-     * @return the output
-     */
-    <C, R> CompletableFuture<Output<R>> initiate(I identifier, C command);
-
-    /**
      * Mutate a managed aggregate.
      *
      * @param identifier the identifier
@@ -39,16 +28,5 @@ public interface AggregateManager<I> {
      * @param <R>        the type of the result
      * @return the output
      */
-    <C, R> CompletableFuture<Output<R>> mutate(I identifier, C command);
-
-    /**
-     * Destroy a managed aggregate.
-     *
-     * @param identifier the identifier
-     * @param command    the command
-     * @param <C>        the type of the command
-     * @param <R>        the type of the result
-     * @return the output
-     */
-    <C, R> CompletableFuture<Output<R>> destroy(I identifier, C command);
+    <C, R> CompletableFuture<Output<R>> execute(I identifier, C command);
 }

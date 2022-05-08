@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuilder<I, S> {
 
-    final Map<Class<?>, Handler<S, ?, ?>> handlers = new HashMap<>();
+    final Map<Class<?>, HandlerEntry<S>> handlers = new HashMap<>();
     final Map<Class<?>, List<Mutator<S, Object>>> mutators = new HashMap<>();
     Initializer<S> initializer;
     Loader<I, S> loader;
@@ -63,8 +63,12 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
     }
 
     @Override
-    public <C, R> AggregateManagerBuilder<I, S> add(@NonNull Class<C> type, @NonNull Handler<S, C, R> handler) {
-        this.handlers.put(type, handler);
+    public <C, R> AggregateManagerBuilder<I, S> add(
+        @NonNull Class<C> type,
+        @NonNull Handler<S, C, R> handler,
+        Intention intention
+    ) {
+        this.handlers.put(type, new HandlerEntry<>(handler, intention));
         return this;
     }
 
@@ -76,6 +80,11 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
         }
         this.mutators.get(type).add((Mutator<S, Object>) mutator);
         return this;
+    }
+
+    @Override
+    public <C, R> AggregateManagerBuilder<I, S> add(Class<C> type, Handler<S, C, R> handler) {
+        return this.add(type, handler, Intention.MUTATION);
     }
 
     @Override

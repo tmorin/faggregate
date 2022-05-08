@@ -27,7 +27,7 @@ public class OutputBuilder<R> {
      *
      * @return the builder
      */
-    public static <Void> OutputBuilder<Void> get() {
+    public static OutputBuilder<Void> get() {
         return new OutputBuilder<>(null);
     }
 

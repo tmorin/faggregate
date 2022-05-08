@@ -2,6 +2,7 @@ package todo.model.command;
 
 import io.morin.faggregate.api.AggregateManagerBuilder;
 import io.morin.faggregate.api.Configurer;
+import io.morin.faggregate.api.Intention;
 import javax.enterprise.context.ApplicationScoped;
 import lombok.ToString;
 import todo.model.TodoListId;
@@ -27,7 +28,7 @@ public class TodoListModelConfigurer implements Configurer<TodoListId, TodoList>
 
         // HANDLERS
         builder.add(AddTodoItemCmd.class, new AddTodoItemHandler());
-        builder.add(CreateTodoListCmd.class, new CreateTodoListHandler());
+        builder.add(CreateTodoListCmd.class, new CreateTodoListHandler(), Intention.INITIALIZATION);
         builder.add(RemoveTodoItemCmd.class, new RemoveTodoItemHandler());
         builder.add(ToggleTodoItemCmd.class, new ToggleTodoItemHandler());
 

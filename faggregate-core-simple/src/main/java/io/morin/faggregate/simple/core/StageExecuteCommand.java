@@ -1,6 +1,5 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Handler;
 import java.util.Map;
 import java.util.Optional;
@@ -10,7 +9,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor
-class StageExecuteCommand<I, S, C extends Command, R> {
+class StageExecuteCommand<I, S, C, R> {
 
     @NonNull
     ExecutionRequest<I, S, C> request;
@@ -18,7 +17,7 @@ class StageExecuteCommand<I, S, C extends Command, R> {
     @NonNull
     Map<Class<?>, Handler<S, ?, ?>> handlers;
 
-    static <I, S, C extends Command, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
+    static <I, S, C, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
         @NonNull ExecutionRequest<I, S, C> request,
         @NonNull Map<Class<?>, Handler<S, ?, ?>> handlers
     ) {

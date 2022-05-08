@@ -31,7 +31,7 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
     @NonNull
     Map<Class<?>, List<Mutator<S, ?>>> mutators;
 
-    private <C extends Command, R> CompletableFuture<Output<R>> mutate(@NonNull ExecutionRequest<I, S, C> request) {
+    private <C, R> CompletableFuture<Output<R>> mutate(@NonNull ExecutionRequest<I, S, C> request) {
         // execute command
         return StageExecuteCommand
             .<I, S, C, R>execute(request, handlers)
@@ -42,7 +42,7 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
             .thenApply(ExecutionContext::getOutput);
     }
 
-    private <C extends Command, R> CompletableFuture<Output<R>> destroy(@NonNull ExecutionRequest<I, S, C> request) {
+    private <C, R> CompletableFuture<Output<R>> destroy(@NonNull ExecutionRequest<I, S, C> request) {
         // execute command
         return StageExecuteCommand
             .<I, S, C, R>execute(request, handlers)
@@ -54,17 +54,17 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
     }
 
     @Override
-    public <C extends Command, R> CompletableFuture<Output<R>> initiate(@NonNull I identifier, @NonNull C command) {
+    public <C, R> CompletableFuture<Output<R>> initiate(@NonNull I identifier, @NonNull C command) {
         return StageInitiateAggregate.execute(identifier, command, initializer).thenCompose(this::mutate);
     }
 
     @Override
-    public <C extends Command, R> CompletableFuture<Output<R>> mutate(@NonNull I identifier, @NonNull C command) {
+    public <C, R> CompletableFuture<Output<R>> mutate(@NonNull I identifier, @NonNull C command) {
         return StageLoadAggregate.execute(identifier, command, loader).thenCompose(this::mutate);
     }
 
     @Override
-    public <C extends Command, R> CompletableFuture<Output<R>> destroy(I identifier, C command) {
+    public <C, R> CompletableFuture<Output<R>> destroy(I identifier, C command) {
         return StageLoadAggregate.execute(identifier, command, loader).thenCompose(this::destroy);
     }
 }

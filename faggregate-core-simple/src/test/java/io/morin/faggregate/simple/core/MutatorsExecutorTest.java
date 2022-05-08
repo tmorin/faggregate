@@ -2,10 +2,10 @@ package io.morin.faggregate.simple.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Event;
 import io.morin.faggregate.api.Output;
 import io.morin.faggregate.api.OutputBuilder;
+import java.io.Serializable;
 import java.util.Arrays;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -23,9 +23,9 @@ class MutatorsExecutorTest {
     String state = "initial";
 
     @Mock
-    Command command;
+    Serializable command;
 
-    ExecutionRequest<String, String, Command> request;
+    ExecutionRequest<String, String, Serializable> request;
 
     @Mock
     Event event0;
@@ -40,7 +40,7 @@ class MutatorsExecutorTest {
 
     Output<String> output;
 
-    ExecutionContext<String, String, Command, String> context;
+    ExecutionContext<String, String, Serializable, String> context;
 
     @BeforeEach
     void beforeEach() {

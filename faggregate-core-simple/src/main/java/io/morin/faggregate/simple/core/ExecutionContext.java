@@ -1,6 +1,5 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Output;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,7 +8,7 @@ import lombok.experimental.FieldDefaults;
 
 @Getter(AccessLevel.PACKAGE)
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-class ExecutionContext<I, S, C extends Command, R> extends ExecutionRequest<I, S, C> {
+class ExecutionContext<I, S, C, R> extends ExecutionRequest<I, S, C> {
 
     @NonNull
     Output<R> output;
@@ -19,7 +18,7 @@ class ExecutionContext<I, S, C extends Command, R> extends ExecutionRequest<I, S
         this.output = output;
     }
 
-    static <I, S, C extends Command, R> ExecutionContext<I, S, C, R> create(
+    static <I, S, C, R> ExecutionContext<I, S, C, R> create(
         @NonNull ExecutionRequest<I, S, C> request,
         Output<R> output
     ) {

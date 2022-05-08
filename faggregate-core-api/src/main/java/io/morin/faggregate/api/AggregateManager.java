@@ -6,14 +6,14 @@ import java.util.concurrent.CompletableFuture;
  * <p>A facade providing an interface to manage Aggregates.
  *
  * <p>The facade provides three fundamental actions: 1. initiate, 2. mutate, 3. destroy.
- * An action is triggered by a {@link Command} and returns an {@link Output}.
+ * An action is triggered by a command and returns an {@link Output}.
  * It provides an optional result and a set of {@link Event}.
  *
  * <p>Managers are built using {@link AggregateManagerBuilder}.
  * Each {@link AggregateManager} manages a DDD Aggregate.
  * That means, there is one {@link AggregateManager} by <i>DDD Root Aggregate</i>.
  *
- * <blockquote>A DDD aggregate is a cluster of domain objects that can be treated as a single unit. - Martin Fowler - https://www.martinfowler.com/bliki/DDD_Aggregate.html</blockquote>
+ * <blockquote>A DDD aggregate is a cluster of domain objects that can be treated as a single unit. - Martin Fowler - <a href="https://www.martinfowler.com/bliki/DDD_Aggregate.html">https://www.martinfowler.com/bliki/DDD_Aggregate.html</a></blockquote>
  *
  * @param <I> the identifier type of the aggregate
  */
@@ -28,7 +28,7 @@ public interface AggregateManager<I> {
      * @param <R>        the type of the result
      * @return the output
      */
-    <C extends Command, R> CompletableFuture<Output<R>> initiate(I identifier, C command);
+    <C, R> CompletableFuture<Output<R>> initiate(I identifier, C command);
 
     /**
      * Mutate a managed aggregate.
@@ -38,7 +38,7 @@ public interface AggregateManager<I> {
      * @param <R>        the type of the result
      * @return the output
      */
-    <C extends Command, R> CompletableFuture<Output<R>> mutate(I identifier, C command);
+    <C, R> CompletableFuture<Output<R>> mutate(I identifier, C command);
 
     /**
      * Destroy a managed aggregate.
@@ -48,5 +48,5 @@ public interface AggregateManager<I> {
      * @param <R>        the type of the result
      * @return the output
      */
-    <C extends Command, R> CompletableFuture<Output<R>> destroy(I identifier, C command);
+    <C, R> CompletableFuture<Output<R>> destroy(I identifier, C command);
 }

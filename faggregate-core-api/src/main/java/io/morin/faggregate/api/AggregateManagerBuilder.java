@@ -48,7 +48,7 @@ public interface AggregateManagerBuilder<I, S> {
      * @param <R>     the type of the result
      * @return the builder
      */
-    <C extends Command, R> AggregateManagerBuilder<I, S> add(Class<C> type, Handler<S, C, R> handler);
+    <C, R> AggregateManagerBuilder<I, S> add(Class<C> type, Handler<S, C, R> handler);
 
     /**
      * Register a new aggregate mutator.

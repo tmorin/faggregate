@@ -1,14 +1,12 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Initializer;
-import io.morin.faggregate.api.Loader;
 import java.util.concurrent.CompletableFuture;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class StageInitiateAggregate<I, S, C extends Command> {
+class StageInitiateAggregate<I, S, C> {
 
     @NonNull
     I identifier;
@@ -19,7 +17,7 @@ class StageInitiateAggregate<I, S, C extends Command> {
     @NonNull
     Initializer<S> initializer;
 
-    static <I, S, C extends Command> CompletableFuture<ExecutionRequest<I, S, C>> execute(
+    static <I, S, C> CompletableFuture<ExecutionRequest<I, S, C>> execute(
         @NonNull I identifier,
         @NonNull C command,
         @NonNull Initializer<S> initializer

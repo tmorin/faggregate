@@ -1,13 +1,12 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Persister;
 import java.util.concurrent.CompletableFuture;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-class StagePersistAggregate<I, S, C extends Command, R> {
+class StagePersistAggregate<I, S, C, R> {
 
     @NonNull
     ExecutionContext<I, S, C, R> response;
@@ -15,7 +14,7 @@ class StagePersistAggregate<I, S, C extends Command, R> {
     @NonNull
     Persister<I, S> persister;
 
-    static <I, S, C extends Command, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
+    static <I, S, C, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
         @NonNull ExecutionContext<I, S, C, R> response,
         @NonNull Persister<I, S> persister
     ) {

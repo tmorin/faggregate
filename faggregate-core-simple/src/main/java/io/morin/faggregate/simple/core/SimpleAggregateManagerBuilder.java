@@ -63,10 +63,7 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
     }
 
     @Override
-    public <C extends Command, R> AggregateManagerBuilder<I, S> add(
-        @NonNull Class<C> type,
-        @NonNull Handler<S, C, R> handler
-    ) {
+    public <C, R> AggregateManagerBuilder<I, S> add(@NonNull Class<C> type, @NonNull Handler<S, C, R> handler) {
         this.handlers.put(type, handler);
         return this;
     }

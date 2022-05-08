@@ -1,6 +1,10 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.*;
+import io.morin.faggregate.api.Event;
+import io.morin.faggregate.api.Output;
+import io.morin.faggregate.api.OutputBuilder;
+import io.morin.faggregate.api.Persister;
+import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.BeforeEach;
@@ -18,9 +22,9 @@ class StagePersistAggregateTest {
     String state = "initial";
 
     @Mock
-    Command command;
+    Serializable command;
 
-    ExecutionRequest<String, String, Command> request;
+    ExecutionRequest<String, String, Serializable> request;
 
     @Mock
     Event event0;
@@ -29,7 +33,7 @@ class StagePersistAggregateTest {
 
     Output<String> output;
 
-    ExecutionContext<String, String, Command, String> context;
+    ExecutionContext<String, String, Serializable, String> context;
 
     @Mock
     Persister<String, String> persister;

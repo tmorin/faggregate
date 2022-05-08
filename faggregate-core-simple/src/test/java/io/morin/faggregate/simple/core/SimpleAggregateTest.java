@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class SimpleAggregateTest {
 
-    static class EmptyCommand implements Command {}
+    static class EmptyCommand {}
 
     static class EmptyEvent implements Event {}
 

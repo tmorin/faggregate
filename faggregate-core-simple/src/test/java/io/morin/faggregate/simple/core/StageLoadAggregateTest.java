@@ -2,8 +2,8 @@ package io.morin.faggregate.simple.core;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Loader;
+import java.io.Serializable;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -22,7 +22,7 @@ class StageLoadAggregateTest {
     String state = "initial";
 
     @Mock
-    Command command;
+    Serializable command;
 
     @Mock
     Loader<String, String> loader;

@@ -1,6 +1,5 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Event;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -11,7 +10,7 @@ import lombok.experimental.FieldDefaults;
 
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
-class MutatorsExecutor<I, S, C extends Command, R> {
+class MutatorsExecutor<I, S, C, R> {
 
     @NonNull
     ExecutionContext<I, S, C, R> context;

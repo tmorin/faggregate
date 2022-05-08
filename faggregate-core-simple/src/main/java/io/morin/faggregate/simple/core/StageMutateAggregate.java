@@ -1,6 +1,5 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Mutator;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor
-class StageMutateAggregate<I, S, C extends Command, R> {
+class StageMutateAggregate<I, S, C, R> {
 
     @NonNull
     ExecutionContext<I, S, C, R> context;
@@ -21,7 +20,7 @@ class StageMutateAggregate<I, S, C extends Command, R> {
     @NonNull
     Map<Class<?>, List<Mutator<S, ?>>> mutators;
 
-    static <I, S, C extends Command, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
+    static <I, S, C, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
         @NonNull ExecutionContext<I, S, C, R> context,
         @NonNull Map<Class<?>, List<Mutator<S, ?>>> mutators
     ) {

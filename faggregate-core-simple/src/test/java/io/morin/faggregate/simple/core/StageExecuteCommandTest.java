@@ -2,9 +2,9 @@ package io.morin.faggregate.simple.core;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.Handler;
 import io.morin.faggregate.api.OutputBuilder;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -25,9 +25,9 @@ class StageExecuteCommandTest {
     String state = "initial";
 
     @Mock
-    Command command;
+    Serializable command;
 
-    ExecutionRequest<String, String, Command> request;
+    ExecutionRequest<String, String, Serializable> request;
 
     Map<Class<?>, Handler<String, ?, ?>> handlers = new HashMap<>();
 
@@ -39,7 +39,7 @@ class StageExecuteCommandTest {
     @Test
     @SneakyThrows
     void shouldExecute() {
-        final Handler<String, Command, String> handler = (state, command) ->
+        final Handler<String, Serializable, String> handler = (state, command) ->
             CompletableFuture.completedFuture(OutputBuilder.get(String.format("%s - %s", state, command)).build());
         handlers.put(command.getClass(), handler);
 

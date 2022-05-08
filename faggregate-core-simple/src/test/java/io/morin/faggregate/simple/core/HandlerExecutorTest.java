@@ -2,8 +2,8 @@ package io.morin.faggregate.simple.core;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.morin.faggregate.api.Command;
 import io.morin.faggregate.api.OutputBuilder;
+import java.io.Serializable;
 import java.util.concurrent.CompletableFuture;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -21,9 +21,9 @@ class HandlerExecutorTest {
     String state = "initial";
 
     @Mock
-    Command command;
+    Serializable command;
 
-    ExecutionRequest<String, String, Command> request;
+    ExecutionRequest<String, String, Serializable> request;
 
     @BeforeEach
     void beforeEach() {

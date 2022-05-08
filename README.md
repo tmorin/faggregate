@@ -1,11 +1,11 @@
 # faggregate
 
-> A Java library helping to implement DDD Aggregate with a Functional touch.
+> A Java library helping to implement DDD aggregates with a functional touch.
 
 1. define the data structure of the aggregate's state
 2. define the commands and events which mutates the state
-3. define the side effects : storing, loading, destroying
-4. and finally bundle everything with builder
+3. define the side effects : initialization, storing, loading, destroying
+4. and finally bundle everything with a builder
 
 ## Installation
 

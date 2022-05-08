@@ -14,7 +14,7 @@ public class InMemoryTodoListCommandRepository implements TodoListRepository {
 
     Map<TodoListId, TodoList> snapshots = new HashMap<>();
 
-    Map<TodoListId, List> events = new HashMap<>();
+    Map<TodoListId, List<Object>> events = new HashMap<>();
 
     @Override
     public CompletableFuture<Optional<TodoList>> load(TodoListId identifier) {

@@ -16,9 +16,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class StagePersistAggregateTest {
 
-    String identifier = "identifier";
+    final String identifier = "identifier";
 
-    String state = "initial";
+    final String state = "initial";
 
     @Mock
     Serializable command;
@@ -28,7 +28,7 @@ class StagePersistAggregateTest {
     @Mock
     Serializable event0;
 
-    String result = "result";
+    final String result = "result";
 
     Output<String> output;
 

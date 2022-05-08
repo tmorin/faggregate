@@ -6,7 +6,6 @@ import java.util.concurrent.CompletionStage;
 import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
 import lombok.val;
 import todo.model.TodoListId;
 import todo.model.mapper.TodoMappers;

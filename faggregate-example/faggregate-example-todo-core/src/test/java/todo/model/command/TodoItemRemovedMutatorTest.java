@@ -10,9 +10,9 @@ import todo.model.event.TodoItemRemovedEvt;
 
 class TodoItemRemovedMutatorTest {
 
-    String label = "a label";
-    TodoItemId todoItemId = TodoItemId.generate();
-    TodoListId todoListId = TodoListId.generate();
+    final String label = "a label";
+    final TodoItemId todoItemId = TodoItemId.generate();
+    final TodoListId todoListId = TodoListId.generate();
 
     @Test
     void shouldMutate() {

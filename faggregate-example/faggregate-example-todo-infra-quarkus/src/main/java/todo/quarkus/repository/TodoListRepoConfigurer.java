@@ -1,12 +1,9 @@
 package todo.quarkus.repository;
 
 import io.morin.faggregate.api.*;
-import javax.enterprise.inject.Default;
 import javax.inject.Inject;
-import javax.inject.Named;
 import javax.inject.Singleton;
 import lombok.ToString;
-import lombok.val;
 import todo.model.TodoListId;
 import todo.model.command.TodoList;
 import todo.model.command.TodoListConfigurer;

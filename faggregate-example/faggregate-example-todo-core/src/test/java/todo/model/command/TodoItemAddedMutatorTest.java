@@ -10,9 +10,9 @@ import todo.model.event.TodoItemAddedEvt;
 
 class TodoItemAddedMutatorTest {
 
-    String label = "a label";
-    TodoItemId todoItemId = TodoItemId.generate();
-    TodoListId todoListId = TodoListId.generate();
+    final String label = "a label";
+    final TodoItemId todoItemId = TodoItemId.generate();
+    final TodoListId todoListId = TodoListId.generate();
 
     @Test
     void shouldMutate() {

@@ -3,7 +3,7 @@ package io.morin.faggregate.api;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * An handler handles a command to generate a set of events.
+ * A handler handles a command to generate a set of events.
  *
  * @param <S> the type of the state
  * @param <C> the type of the command

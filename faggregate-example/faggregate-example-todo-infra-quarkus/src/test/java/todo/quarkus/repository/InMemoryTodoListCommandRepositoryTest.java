@@ -17,9 +17,9 @@ import todo.model.command.TodoList;
 @ExtendWith(MockitoExtension.class)
 class InMemoryTodoListCommandRepositoryTest {
 
-    TodoListId todoListId = TodoListId.generate();
+    final TodoListId todoListId = TodoListId.generate();
 
-    TodoList todoList = ImmutableTodoList.builder().todoListId(todoListId).build();
+    final TodoList todoList = ImmutableTodoList.builder().todoListId(todoListId).build();
 
     @Mock
     Serializable event;

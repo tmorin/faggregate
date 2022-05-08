@@ -10,11 +10,11 @@ import todo.model.event.TodoItemToggledEvt;
 
 class TodoItemToggleMutatorTest {
 
-    String label = "a label";
-    TodoItemId todoItemId0 = TodoItemId.generate();
-    TodoItemId todoItemId1 = TodoItemId.generate();
-    TodoItemId todoItemId2 = TodoItemId.generate();
-    TodoListId todoListId = TodoListId.generate();
+    final String label = "a label";
+    final TodoItemId todoItemId0 = TodoItemId.generate();
+    final TodoItemId todoItemId1 = TodoItemId.generate();
+    final TodoItemId todoItemId2 = TodoItemId.generate();
+    final TodoListId todoListId = TodoListId.generate();
 
     @Test
     void shouldMutate() {

@@ -17,9 +17,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class StageLoadAggregateTest {
 
-    String identifier = "identifier";
+    final String identifier = "identifier";
 
-    String state = "initial";
+    final String state = "initial";
 
     @Mock
     Serializable command;

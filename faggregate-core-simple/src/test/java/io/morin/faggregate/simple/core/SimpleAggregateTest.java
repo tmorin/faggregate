@@ -18,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class SimpleAggregateTest {
 
-    String identifier = "identifier";
+    final String identifier = "identifier";
 
     @Mock
     Initializer<String> initializer;
@@ -32,12 +32,12 @@ class SimpleAggregateTest {
     @Mock
     Destroyer<String, String> destroyer;
 
-    EmptyCommand command = new EmptyCommand();
+    final EmptyCommand command = new EmptyCommand();
 
     @Mock
     Handler<String, EmptyCommand, String> handler;
 
-    EmptyEvent event = new EmptyEvent();
+    final EmptyEvent event = new EmptyEvent();
 
     @Mock
     Mutator<String, EmptyEvent> mutator;

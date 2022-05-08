@@ -21,9 +21,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class StageMutateAggregateTest {
 
-    String identifier = "identifier";
+    final String identifier = "identifier";
 
-    String state = "initial";
+    final String state = "initial";
 
     @Mock
     Serializable command;
@@ -33,9 +33,9 @@ class StageMutateAggregateTest {
     @Mock
     Serializable event;
 
-    String result = "result";
+    final String result = "result";
 
-    Map<Class<?>, List<Mutator<String, Object>>> mutators = new HashMap<>();
+    final Map<Class<?>, List<Mutator<String, Object>>> mutators = new HashMap<>();
 
     @BeforeEach
     void beforeEach() {

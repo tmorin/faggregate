@@ -20,16 +20,16 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class StageExecuteCommandTest {
 
-    String identifier = "identifier";
+    final String identifier = "identifier";
 
-    String state = "initial";
+    final String state = "initial";
 
     @Mock
     Serializable command;
 
     ExecutionRequest<String, String, Serializable> request;
 
-    Map<Class<?>, Handler<String, ?, ?>> handlers = new HashMap<>();
+    final Map<Class<?>, Handler<String, ?, ?>> handlers = new HashMap<>();
 
     @BeforeEach
     void beforeEach() {

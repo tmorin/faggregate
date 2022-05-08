@@ -9,8 +9,8 @@ import todo.model.event.TodoListCreatedEvt;
 
 class TodoListCreatedMutatorTest {
 
-    String label = "a label";
-    TodoListId todoListId = TodoListId.generate();
+    final String label = "a label";
+    final TodoListId todoListId = TodoListId.generate();
 
     @Test
     void shouldMutate() {

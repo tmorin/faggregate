@@ -24,6 +24,6 @@ class StagePersistAggregate<I, S, C, R> {
     CompletableFuture<ExecutionContext<I, S, C, R>> execute() {
         return persister
             .persist(response.getIdentifier(), response.getState(), response.getOutput().getEvents())
-            .thenApply(v -> response);
+            .thenApplyAsync(v -> response);
     }
 }

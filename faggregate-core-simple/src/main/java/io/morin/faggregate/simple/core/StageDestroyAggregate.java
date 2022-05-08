@@ -24,6 +24,6 @@ class StageDestroyAggregate<I, S, C, R> {
     CompletableFuture<ExecutionContext<I, S, C, R>> execute() {
         return destroyer
             .destroy(response.getIdentifier(), response.getState(), response.getOutput().getEvents())
-            .thenApply(v -> response);
+            .thenApplyAsync(v -> response);
     }
 }

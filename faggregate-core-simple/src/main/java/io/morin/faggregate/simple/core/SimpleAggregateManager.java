@@ -43,7 +43,7 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
             .thenComposeAsync(response -> StageMutateAggregate.execute(response, mutators))
             // persist state and events
             .thenComposeAsync(response -> StagePersistAggregate.execute(response, persister))
-            .thenApply(ExecutionContext::getOutput);
+            .thenApplyAsync(ExecutionContext::getOutput);
     }
 
     private <C, R> CompletableFuture<Output<R>> destroy(
@@ -57,7 +57,7 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
             .thenComposeAsync(response -> StageMutateAggregate.execute(response, mutators))
             // persist state and events
             .thenComposeAsync(response -> StageDestroyAggregate.execute(response, destroyer))
-            .thenApply(ExecutionContext::getOutput);
+            .thenApplyAsync(ExecutionContext::getOutput);
     }
 
     @Override
@@ -70,15 +70,15 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
         if (handlerEntry.getIntention().equals(Intention.INITIALIZATION)) {
             return StageInitiateAggregate
                 .execute(identifier, command, initializer)
-                .thenCompose(request -> this.mutate(request, handlerEntry.getHandler()));
+                .thenComposeAsync(request -> this.mutate(request, handlerEntry.getHandler()));
         }
         if (handlerEntry.getIntention().equals(Intention.DESTRUCTION)) {
             return StageLoadAggregate
                 .execute(identifier, command, loader)
-                .thenCompose(request -> this.destroy(request, handlerEntry.getHandler()));
+                .thenComposeAsync(request -> this.destroy(request, handlerEntry.getHandler()));
         }
         return StageLoadAggregate
             .execute(identifier, command, loader)
-            .thenCompose(request -> this.mutate(request, handlerEntry.getHandler()));
+            .thenComposeAsync(request -> this.mutate(request, handlerEntry.getHandler()));
     }
 }

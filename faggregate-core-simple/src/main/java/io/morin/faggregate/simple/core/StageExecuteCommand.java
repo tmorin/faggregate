@@ -25,6 +25,6 @@ class StageExecuteCommand<I, S, C, R> {
     CompletableFuture<ExecutionContext<I, S, C, R>> execute() {
         val castedHandler = HandlerExecutor.<S, C, R>castHandler(handler);
         val executor = new HandlerExecutor<>(request, castedHandler);
-        return executor.execute().thenApply(output -> ExecutionContext.create(request, output));
+        return executor.execute().thenApplyAsync(output -> ExecutionContext.create(request, output));
     }
 }

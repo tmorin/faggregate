@@ -46,6 +46,6 @@ class StageMutateAggregate<I, S, C, R> {
 
         val mutatorsExecutor = new MutatorsExecutor<>(context, list);
 
-        return mutatorsExecutor.execute().thenApply(state -> context.withState(state));
+        return mutatorsExecutor.execute().thenApplyAsync(state -> context.withState(state));
     }
 }

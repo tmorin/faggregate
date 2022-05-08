@@ -21,7 +21,7 @@ class ToggleTodoItemHandler implements Handler<TodoList, ToggleTodoItemCmd, Todo
             .orElseGet(() ->
                 CompletableFuture.failedFuture(new TodoItemNotFound(command.getTodoListId(), command.getTodoItemId()))
             )
-            .thenApply(todoItem -> {
+            .thenApplyAsync(todoItem -> {
                 val event = TodoItemToggledEvt
                     .builder()
                     .todoListId(state.todoListId())

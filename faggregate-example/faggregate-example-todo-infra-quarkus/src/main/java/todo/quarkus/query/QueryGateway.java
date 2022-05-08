@@ -64,7 +64,7 @@ public class QueryGateway {
                 val handler = cast(selectedHandlers.get());
 
                 log.info("handle {} / {}", name, query);
-                return handler.execute(query).thenApply(this::toResponse);
+                return handler.execute(query).thenApplyAsync(this::toResponse);
             })
             .orElseGet(() -> CompletableFuture.completedStage(Response.status(Response.Status.NOT_FOUND).build()));
         return Uni.createFrom().completionStage(response);

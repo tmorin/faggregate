@@ -14,10 +14,7 @@ public interface TodoList {
     /**
      * The identifier of the TodoList.
      */
-    @Value.Default
-    default TodoListId todoListId() {
-        return TodoListId.generate();
-    }
+    TodoListId todoListId();
 
     /**
      * The label of the TodoList.

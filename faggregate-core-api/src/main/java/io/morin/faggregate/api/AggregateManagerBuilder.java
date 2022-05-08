@@ -13,7 +13,7 @@ public interface AggregateManagerBuilder<I, S> {
      * @param initializer the initiator
      * @return the builder
      */
-    AggregateManagerBuilder<I, S> set(Initializer<S> initializer);
+    AggregateManagerBuilder<I, S> set(Initializer<I, S> initializer);
 
     /**
      * Set the aggregate loader.

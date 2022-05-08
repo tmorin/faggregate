@@ -25,7 +25,7 @@ class SimpleAggregateTest {
     final EmptyEvent event = new EmptyEvent();
 
     @Mock
-    Initializer<String> initializer;
+    Initializer<String, String> initializer;
 
     @Mock
     Loader<String, String> loader;
@@ -79,7 +79,7 @@ class SimpleAggregateTest {
     @Test
     @SneakyThrows
     void shouldInitiate() {
-        Mockito.when(initializer.initialize()).thenReturn(CompletableFuture.completedFuture("initial state"));
+        Mockito.when(initializer.initialize(identifier)).thenReturn(CompletableFuture.completedFuture("initial state"));
 
         Mockito
             .when(handlerA.handle(Mockito.any(), Mockito.any()))
@@ -90,7 +90,7 @@ class SimpleAggregateTest {
         assertFalse(output.getResult().isEmpty());
         assertEquals("result", output.getResult().get());
 
-        Mockito.verify(initializer, Mockito.only()).initialize();
+        Mockito.verify(initializer, Mockito.only()).initialize(identifier);
         Mockito.verify(loader, Mockito.never()).load(Mockito.any());
         Mockito.verify(persister, Mockito.only()).persist(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.verify(destroyer, Mockito.never()).destroy(Mockito.any(), Mockito.any(), Mockito.any());
@@ -115,7 +115,7 @@ class SimpleAggregateTest {
         assertFalse(output.getResult().isEmpty());
         assertEquals("result", output.getResult().get());
 
-        Mockito.verify(initializer, Mockito.never()).initialize();
+        Mockito.verify(initializer, Mockito.never()).initialize(identifier);
         Mockito.verify(loader, Mockito.only()).load(Mockito.any());
         Mockito.verify(persister, Mockito.only()).persist(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.verify(destroyer, Mockito.never()).destroy(Mockito.any(), Mockito.any(), Mockito.any());
@@ -140,7 +140,7 @@ class SimpleAggregateTest {
         assertFalse(output.getResult().isEmpty());
         assertEquals("result", output.getResult().get());
 
-        Mockito.verify(initializer, Mockito.never()).initialize();
+        Mockito.verify(initializer, Mockito.never()).initialize(identifier);
         Mockito.verify(loader, Mockito.only()).load(Mockito.any());
         Mockito.verify(persister, Mockito.never()).persist(Mockito.any(), Mockito.any(), Mockito.any());
         Mockito.verify(destroyer, Mockito.only()).destroy(Mockito.any(), Mockito.any(), Mockito.any());

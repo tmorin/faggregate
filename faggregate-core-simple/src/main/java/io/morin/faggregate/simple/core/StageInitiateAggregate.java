@@ -15,19 +15,19 @@ class StageInitiateAggregate<I, S, C> {
     C command;
 
     @NonNull
-    Initializer<S> initializer;
+    Initializer<I, S> initializer;
 
     static <I, S, C> CompletableFuture<ExecutionRequest<I, S, C>> execute(
         @NonNull I identifier,
         @NonNull C command,
-        @NonNull Initializer<S> initializer
+        @NonNull Initializer<I, S> initializer
     ) {
         return new StageInitiateAggregate<I, S, C>(identifier, command, initializer).execute();
     }
 
     CompletableFuture<ExecutionRequest<I, S, C>> execute() {
         return initializer
-            .initialize()
+            .initialize(identifier)
             .thenComposeAsync(state ->
                 CompletableFuture.completedFuture(new ExecutionRequest<>(identifier, state, command))
             );

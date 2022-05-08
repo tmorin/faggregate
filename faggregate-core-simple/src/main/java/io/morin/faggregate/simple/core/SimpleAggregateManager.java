@@ -15,7 +15,7 @@ import lombok.val;
 class SimpleAggregateManager<I, S> implements AggregateManager<I> {
 
     @NonNull
-    Initializer<S> initializer;
+    Initializer<I, S> initializer;
 
     @NonNull
     Loader<I, S> loader;

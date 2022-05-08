@@ -15,7 +15,7 @@ class SimpleAggregateAltTest {
     final String identifier = "identifier";
 
     @Mock
-    Initializer<String> initializer;
+    Initializer<String, String> initializer;
 
     @Mock
     Loader<String, String> loader;

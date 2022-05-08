@@ -22,7 +22,7 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
 
     final Map<Class<?>, HandlerEntry<S>> handlers = new HashMap<>();
     final Map<Class<?>, List<Mutator<S, Object>>> mutators = new HashMap<>();
-    Initializer<S> initializer;
+    Initializer<I, S> initializer;
     Loader<I, S> loader;
     Persister<I, S> persister;
     Destroyer<I, S> destroyer;
@@ -39,7 +39,7 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
     }
 
     @Override
-    public AggregateManagerBuilder<I, S> set(@NonNull Initializer<S> initializer) {
+    public AggregateManagerBuilder<I, S> set(@NonNull Initializer<I, S> initializer) {
         this.initializer = initializer;
         return this;
     }

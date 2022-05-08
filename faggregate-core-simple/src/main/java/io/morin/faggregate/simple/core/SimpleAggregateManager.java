@@ -29,7 +29,7 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
     Map<Class<?>, Handler<S, ?, ?>> handlers;
 
     @NonNull
-    Map<Class<?>, List<Mutator<S, ?>>> mutators;
+    Map<Class<?>, List<Mutator<S, Object>>> mutators;
 
     private <C, R> CompletableFuture<Output<R>> mutate(@NonNull ExecutionRequest<I, S, C> request) {
         // execute command

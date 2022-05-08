@@ -20,5 +20,5 @@ public interface Destroyer<I, S> {
      * @param <E>        the type of the event
      * @return nothing
      */
-    <E extends Event> CompletableFuture<Void> destroy(I identifier, S state, List<E> events);
+    <E> CompletableFuture<Void> destroy(I identifier, S state, List<E> events);
 }

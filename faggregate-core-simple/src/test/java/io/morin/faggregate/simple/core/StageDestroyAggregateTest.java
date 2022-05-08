@@ -1,7 +1,6 @@
 package io.morin.faggregate.simple.core;
 
 import io.morin.faggregate.api.Destroyer;
-import io.morin.faggregate.api.Event;
 import io.morin.faggregate.api.Output;
 import io.morin.faggregate.api.OutputBuilder;
 import java.io.Serializable;
@@ -27,7 +26,7 @@ class StageDestroyAggregateTest {
     ExecutionRequest<String, String, Serializable> request;
 
     @Mock
-    Event event0;
+    Serializable event0;
 
     String result = "result";
 

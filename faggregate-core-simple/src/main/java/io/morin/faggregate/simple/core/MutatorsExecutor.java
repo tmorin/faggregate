@@ -1,6 +1,5 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Event;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import lombok.AccessLevel;
@@ -16,7 +15,7 @@ class MutatorsExecutor<I, S, C, R> {
     ExecutionContext<I, S, C, R> context;
 
     @NonNull
-    List<MutatorExecutor<S, Event>> executors;
+    List<MutatorExecutor<S, Object>> executors;
 
     CompletableFuture<S> execute() {
         return CompletableFuture.completedFuture(

@@ -21,5 +21,5 @@ public interface Output<R> {
      *
      * @return the events
      */
-    List<Event> getEvents();
+    List<Object> getEvents();
 }

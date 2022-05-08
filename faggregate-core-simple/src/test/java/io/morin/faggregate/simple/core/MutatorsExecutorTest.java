@@ -2,7 +2,6 @@ package io.morin.faggregate.simple.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.morin.faggregate.api.Event;
 import io.morin.faggregate.api.Output;
 import io.morin.faggregate.api.OutputBuilder;
 import java.io.Serializable;
@@ -28,13 +27,13 @@ class MutatorsExecutorTest {
     ExecutionRequest<String, String, Serializable> request;
 
     @Mock
-    Event event0;
+    Serializable event0;
 
     @Mock
-    Event event1;
+    Serializable event1;
 
     @Mock
-    Event event2;
+    Serializable event2;
 
     String result = "result";
 
@@ -53,9 +52,9 @@ class MutatorsExecutorTest {
     @SneakyThrows
     void shouldExecute() {
         val list = Arrays.asList(
-            new MutatorExecutor<String, Event>(event0, (state, event) -> String.format("%s - %s", state, event)),
-            new MutatorExecutor<String, Event>(event1, (state, event) -> String.format("%s - %s", state, event)),
-            new MutatorExecutor<String, Event>(event2, (state, event) -> String.format("%s - %s", state, event))
+            new MutatorExecutor<String, Object>(event0, (state, event) -> String.format("%s - %s", state, event)),
+            new MutatorExecutor<String, Object>(event1, (state, event) -> String.format("%s - %s", state, event)),
+            new MutatorExecutor<String, Object>(event2, (state, event) -> String.format("%s - %s", state, event))
         );
 
         val mutatorsExecutor = new MutatorsExecutor<>(context, list);

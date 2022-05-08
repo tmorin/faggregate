@@ -1,7 +1,7 @@
 package io.morin.faggregate.api;
 
 /**
- * A mutator mutates the state of an aggregate according to a given {@link Event}.
+ * A mutator mutates the state of an aggregate according to a given event.
  *
  * @param <S> the type of the state
  * @param <E> the type of the event
@@ -9,7 +9,7 @@ package io.morin.faggregate.api;
 @FunctionalInterface
 public interface Mutator<S, E> {
     /**
-     * Mutate the state according to an {@link Event}.
+     * Mutate the state according to an event.
      *
      * @param state the initial state
      * @param event the event

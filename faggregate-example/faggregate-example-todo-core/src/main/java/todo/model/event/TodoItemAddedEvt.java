@@ -1,6 +1,5 @@
 package todo.model.event;
 
-import io.morin.faggregate.api.Event;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ import todo.model.TodoListId;
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 @Builder
 @Jacksonized
-public class TodoItemAddedEvt implements Event {
+public class TodoItemAddedEvt {
 
     /**
      * The identifier of the TodoList.

@@ -7,7 +7,7 @@ import java.util.concurrent.CompletableFuture;
  *
  * <p>The facade provides three fundamental actions: 1. initiate, 2. mutate, 3. destroy.
  * An action is triggered by a command and returns an {@link Output}.
- * It provides an optional result and a set of {@link Event}.
+ * It provides an optional result and a set of events.
  *
  * <p>Managers are built using {@link AggregateManagerBuilder}.
  * Each {@link AggregateManager} manages a DDD Aggregate.
@@ -32,8 +32,9 @@ public interface AggregateManager<I> {
 
     /**
      * Mutate a managed aggregate.
+     *
      * @param identifier the identifier
-     * @param command the command
+     * @param command    the command
      * @param <C>        the type of the command
      * @param <R>        the type of the result
      * @return the output
@@ -42,8 +43,9 @@ public interface AggregateManager<I> {
 
     /**
      * Destroy a managed aggregate.
+     *
      * @param identifier the identifier
-     * @param command the command
+     * @param command    the command
      * @param <C>        the type of the command
      * @param <R>        the type of the result
      * @return the output

@@ -2,7 +2,7 @@ package todo.quarkus.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import io.morin.faggregate.api.Event;
+import java.io.Serializable;
 import java.util.Collections;
 import lombok.SneakyThrows;
 import lombok.val;
@@ -22,7 +22,7 @@ class InMemoryTodoListCommandRepositoryTest {
     TodoList todoList = ImmutableTodoList.builder().todoListId(todoListId).build();
 
     @Mock
-    Event event;
+    Serializable event;
 
     @Test
     @SneakyThrows

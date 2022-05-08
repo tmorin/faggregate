@@ -18,10 +18,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 @ExtendWith(MockitoExtension.class)
 class SimpleAggregateTest {
 
-    static class EmptyCommand {}
-
-    static class EmptyEvent implements Event {}
-
     String identifier = "identifier";
 
     @Mock
@@ -132,4 +128,8 @@ class SimpleAggregateTest {
         Mockito.verify(handler, Mockito.only()).handle(Mockito.any(), Mockito.any());
         Mockito.verify(mutator, Mockito.only()).mutate(Mockito.any(), Mockito.any());
     }
+
+    static class EmptyCommand {}
+
+    static class EmptyEvent {}
 }

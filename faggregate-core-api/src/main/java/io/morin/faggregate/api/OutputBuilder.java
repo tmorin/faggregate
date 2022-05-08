@@ -16,7 +16,7 @@ import lombok.experimental.FieldDefaults;
 public class OutputBuilder<R> {
 
     R result;
-    List<Event> events = new ArrayList<>();
+    List<Object> events = new ArrayList<>();
 
     private OutputBuilder(R result) {
         this.result = result;
@@ -43,12 +43,12 @@ public class OutputBuilder<R> {
     }
 
     /**
-     * Add {@link Event} to the set of generated events.
+     * Add events to the set of generated events.
      *
      * @param events a list of events
      * @return the builder
      */
-    public OutputBuilder<R> add(Event... events) {
+    public OutputBuilder<R> add(Object... events) {
         this.events.addAll(Arrays.asList(events));
         return this;
     }
@@ -66,7 +66,7 @@ public class OutputBuilder<R> {
             }
 
             @Override
-            public List<Event> getEvents() {
+            public List<Object> getEvents() {
                 return events;
             }
         };

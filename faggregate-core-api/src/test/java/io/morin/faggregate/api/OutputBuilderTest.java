@@ -2,6 +2,7 @@ package io.morin.faggregate.api;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.Serializable;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,13 +13,13 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class OutputBuilderTest {
 
     @Mock
-    Event event0;
+    Serializable event0;
 
     @Mock
-    Event event1;
+    Serializable event1;
 
     @Mock
-    Event event2;
+    Serializable event2;
 
     @Test
     void shouldHaveEmptyResult() {

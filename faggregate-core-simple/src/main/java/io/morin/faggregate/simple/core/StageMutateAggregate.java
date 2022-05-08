@@ -18,11 +18,11 @@ class StageMutateAggregate<I, S, C, R> {
     ExecutionContext<I, S, C, R> context;
 
     @NonNull
-    Map<Class<?>, List<Mutator<S, ?>>> mutators;
+    Map<Class<?>, List<Mutator<S, Object>>> mutators;
 
     static <I, S, C, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
         @NonNull ExecutionContext<I, S, C, R> context,
-        @NonNull Map<Class<?>, List<Mutator<S, ?>>> mutators
+        @NonNull Map<Class<?>, List<Mutator<S, Object>>> mutators
     ) {
         return new StageMutateAggregate<I, S, C, R>(context, mutators).execute();
     }

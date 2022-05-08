@@ -20,5 +20,5 @@ public interface Persister<I, S> {
      * @param <E>        the type of the events
      * @return nothing
      */
-    <E extends Event> CompletableFuture<Void> persist(I identifier, S state, List<E> events);
+    <E> CompletableFuture<Void> persist(I identifier, S state, List<E> events);
 }

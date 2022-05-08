@@ -3,7 +3,7 @@ package io.morin.faggregate.api;
 import java.util.concurrent.CompletableFuture;
 
 /**
- * An handler handles a command to generate a set of {@link Event}.
+ * An handler handles a command to generate a set of events.
  *
  * @param <S> the type of the state
  * @param <C> the type of the command
@@ -12,7 +12,7 @@ import java.util.concurrent.CompletableFuture;
 @FunctionalInterface
 public interface Handler<S, C, R> {
     /**
-     * Handle a command inspecting the aggregate state to generate a set side effects, i.e. {@link Event}.
+     * Handle a command inspecting the aggregate state to generate a set side effects, i.e. events.
      *
      * @param state   the current state of the aggregate
      * @param command the command

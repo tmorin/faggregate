@@ -2,7 +2,7 @@ package io.morin.faggregate.simple.core;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import io.morin.faggregate.api.Event;
+import java.io.Serializable;
 import lombok.val;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,11 +13,11 @@ import org.mockito.junit.jupiter.MockitoExtension;
 class MutatorExecutorTest {
 
     @Mock
-    Event event;
+    Serializable event;
 
     @Test
     void shouldExecute() {
-        val mutatorExecutor = new MutatorExecutor<String, Event>(
+        val mutatorExecutor = new MutatorExecutor<String, Serializable>(
             event,
             (state, event) -> String.format("%s - %s", state, event)
         );

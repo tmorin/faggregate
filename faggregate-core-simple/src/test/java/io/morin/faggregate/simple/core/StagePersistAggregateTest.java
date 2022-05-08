@@ -1,6 +1,5 @@
 package io.morin.faggregate.simple.core;
 
-import io.morin.faggregate.api.Event;
 import io.morin.faggregate.api.Output;
 import io.morin.faggregate.api.OutputBuilder;
 import io.morin.faggregate.api.Persister;
@@ -27,7 +26,7 @@ class StagePersistAggregateTest {
     ExecutionRequest<String, String, Serializable> request;
 
     @Mock
-    Event event0;
+    Serializable event0;
 
     String result = "result";
 

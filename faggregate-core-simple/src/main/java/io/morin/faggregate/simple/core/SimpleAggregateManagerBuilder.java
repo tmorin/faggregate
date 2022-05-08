@@ -21,7 +21,7 @@ import lombok.experimental.FieldDefaults;
 public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuilder<I, S> {
 
     final Map<Class<?>, Handler<S, ?, ?>> handlers = new HashMap<>();
-    final Map<Class<?>, List<Mutator<S, ?>>> mutators = new HashMap<>();
+    final Map<Class<?>, List<Mutator<S, Object>>> mutators = new HashMap<>();
     Initializer<S> initializer;
     Loader<I, S> loader;
     Persister<I, S> persister;
@@ -69,11 +69,11 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
     }
 
     @Override
-    public <E extends Event> AggregateManagerBuilder<I, S> add(@NonNull Class<E> type, @NonNull Mutator<S, E> mutator) {
+    public <E> AggregateManagerBuilder<I, S> add(@NonNull Class<E> type, @NonNull Mutator<S, E> mutator) {
         if (!this.mutators.containsKey(type)) {
             this.mutators.put(type, new ArrayList<>());
         }
-        this.mutators.get(type).add(mutator);
+        this.mutators.get(type).add((Mutator<S, Object>) mutator);
         return this;
     }
 

@@ -1,6 +1,5 @@
 package todo.quarkus.repository;
 
-import io.morin.faggregate.api.Event;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
@@ -15,7 +14,7 @@ public class InMemoryTodoListCommandRepository implements TodoListRepository {
 
     Map<TodoListId, TodoList> snapshots = new HashMap<>();
 
-    Map<TodoListId, List<Event>> events = new HashMap<>();
+    Map<TodoListId, List> events = new HashMap<>();
 
     @Override
     public CompletableFuture<Optional<TodoList>> load(TodoListId identifier) {
@@ -23,7 +22,7 @@ public class InMemoryTodoListCommandRepository implements TodoListRepository {
     }
 
     @Override
-    public <E extends Event> CompletableFuture<Void> persist(TodoListId identifier, TodoList state, List<E> events) {
+    public <E> CompletableFuture<Void> persist(TodoListId identifier, TodoList state, List<E> events) {
         this.snapshots.put(identifier, state);
         if (!this.events.containsKey(identifier)) {
             this.events.put(identifier, new ArrayList<>());
@@ -33,7 +32,7 @@ public class InMemoryTodoListCommandRepository implements TodoListRepository {
     }
 
     @Override
-    public <E extends Event> CompletableFuture<Void> destroy(TodoListId identifier, TodoList state, List<E> events) {
+    public <E> CompletableFuture<Void> destroy(TodoListId identifier, TodoList state, List<E> events) {
         this.snapshots.remove(identifier);
         this.events.remove(identifier);
         return CompletableFuture.completedFuture(null);

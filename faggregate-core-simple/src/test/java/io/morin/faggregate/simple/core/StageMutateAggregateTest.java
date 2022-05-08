@@ -3,7 +3,6 @@ package io.morin.faggregate.simple.core;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import io.morin.faggregate.api.Event;
 import io.morin.faggregate.api.Mutator;
 import io.morin.faggregate.api.OutputBuilder;
 import java.io.Serializable;
@@ -32,11 +31,11 @@ class StageMutateAggregateTest {
     ExecutionRequest<String, String, Serializable> request;
 
     @Mock
-    Event event;
+    Serializable event;
 
     String result = "result";
 
-    Map<Class<?>, List<Mutator<String, ?>>> mutators = new HashMap<>();
+    Map<Class<?>, List<Mutator<String, Object>>> mutators = new HashMap<>();
 
     @BeforeEach
     void beforeEach() {

@@ -58,7 +58,7 @@ public interface AggregateManagerBuilder<I, S> {
      * @param <E>     the type of the event
      * @return the builder
      */
-    <E extends Event> AggregateManagerBuilder<I, S> add(Class<E> type, Mutator<S, E> mutator);
+    <E> AggregateManagerBuilder<I, S> add(Class<E> type, Mutator<S, E> mutator);
 
     /**
      * Build and return a new {@link AggregateManager} instance.

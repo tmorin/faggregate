@@ -73,6 +73,15 @@ public interface AggregateManagerBuilder<I, S> {
     <E> AggregateManagerBuilder<I, S> add(Class<E> type, Mutator<S, E> mutator);
 
     /**
+     * Register a new middleware.
+     *
+     * @param middleware the middleware
+     * @param <R>        the type of the result
+     * @return the builder
+     */
+    <R> AggregateManagerBuilder<I, S> add(Middleware<R> middleware);
+
+    /**
      * Build and return a new {@link AggregateManager} instance.
      *
      * @return the instance

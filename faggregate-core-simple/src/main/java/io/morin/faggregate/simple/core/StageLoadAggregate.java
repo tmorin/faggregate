@@ -9,29 +9,25 @@ import lombok.RequiredArgsConstructor;
 class StageLoadAggregate<I, S, C> {
 
     @NonNull
-    I identifier;
-
-    @NonNull
-    C command;
+    ExecutionContext<I, C> context;
 
     @NonNull
     Loader<I, S> loader;
 
     static <I, S, C> CompletableFuture<ExecutionRequest<I, S, C>> execute(
-        @NonNull I identifier,
-        @NonNull C command,
+        @NonNull ExecutionContext<I, C> context,
         @NonNull Loader<I, S> loader
     ) {
-        return new StageLoadAggregate<I, S, C>(identifier, command, loader).execute();
+        return new StageLoadAggregate<I, S, C>(context, loader).execute();
     }
 
     CompletableFuture<ExecutionRequest<I, S, C>> execute() {
         return loader
-            .load(identifier)
-            .thenComposeAsync(o ->
-                o
-                    .map(state -> CompletableFuture.completedFuture(new ExecutionRequest<>(identifier, state, command)))
-                    .orElseGet(() -> CompletableFuture.failedFuture(new AggregateNotFound(identifier)))
+            .load(context)
+            .thenComposeAsync(output ->
+                output
+                    .map(state -> CompletableFuture.completedFuture(ExecutionRequest.create(context, state)))
+                    .orElseGet(() -> CompletableFuture.failedFuture(new AggregateNotFound(context.getIdentifier())))
             );
     }
 }

@@ -13,7 +13,16 @@ import java.util.concurrent.CompletionStage;
  * @param <R> the type of the result
  */
 @FunctionalInterface
-public interface Middleware<R> {
+public interface Middleware<I, C, R> {
+    /**
+     * A middleware.
+     *
+     * @param next    the next
+     * @param context the context
+     * @return the output
+     */
+    CompletionStage<Output<R>> wrap(Next<R> next, Context<I, C> context);
+
     /**
      * A pointer to next middleware of the stack.
      *
@@ -28,12 +37,4 @@ public interface Middleware<R> {
          */
         CompletionStage<Output<R>> invoke();
     }
-
-    /**
-     * A middleware.
-     *
-     * @param next the next
-     * @return the output
-     */
-    CompletionStage<Output<R>> wrap(Next<R> next);
 }

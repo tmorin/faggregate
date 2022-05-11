@@ -1,5 +1,7 @@
 package todo.model.command;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import java.util.List;
 import java.util.Optional;
 import org.immutables.value.Value;
@@ -10,6 +12,8 @@ import todo.model.TodoListId;
  * The root aggregate.
  */
 @Value.Immutable
+@JsonSerialize
+@JsonDeserialize
 public interface TodoList {
     /**
      * The identifier of the TodoList.

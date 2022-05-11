@@ -19,6 +19,7 @@ class StageDestroyAggregateTest {
     final String identifier = "identifier";
 
     final String state = "initial";
+    final String result = "result";
 
     @Mock
     Serializable command;
@@ -28,20 +29,18 @@ class StageDestroyAggregateTest {
     @Mock
     Serializable event0;
 
-    final String result = "result";
-
     Output<String> output;
 
-    ExecutionContext<String, String, Serializable, String> context;
+    ExecutionResponse<String, String, Serializable, String> response;
 
     @Mock
     Destroyer<String, String> destroyer;
 
     @BeforeEach
     void beforeEach() {
-        request = ExecutionRequest.create(identifier, state, command);
+        request = ExecutionRequest.create(ExecutionContext.create(identifier, command), state);
         output = OutputBuilder.get(result).add(event0).build();
-        context = ExecutionContext.create(request, output);
+        response = ExecutionResponse.create(request, output);
     }
 
     @Test
@@ -51,7 +50,7 @@ class StageDestroyAggregateTest {
             .when(destroyer.destroy(Mockito.any(), Mockito.any(), Mockito.any()))
             .thenReturn(CompletableFuture.completedFuture(null));
 
-        StageDestroyAggregate.execute(context, destroyer).get();
+        StageDestroyAggregate.execute(response, destroyer).get();
 
         Mockito.verify(destroyer, Mockito.only()).destroy(Mockito.any(), Mockito.any(), Mockito.any());
     }

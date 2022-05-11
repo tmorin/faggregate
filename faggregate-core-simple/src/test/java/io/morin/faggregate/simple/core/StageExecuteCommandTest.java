@@ -29,7 +29,7 @@ class StageExecuteCommandTest {
 
     @BeforeEach
     void beforeEach() {
-        request = ExecutionRequest.create(identifier, state, command);
+        request = ExecutionRequest.create(ExecutionContext.create(identifier, command), state);
     }
 
     @Test

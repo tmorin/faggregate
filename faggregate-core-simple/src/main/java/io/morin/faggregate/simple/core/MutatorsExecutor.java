@@ -12,7 +12,7 @@ import lombok.experimental.FieldDefaults;
 class MutatorsExecutor<I, S, C, R> {
 
     @NonNull
-    ExecutionContext<I, S, C, R> context;
+    ExecutionResponse<I, S, C, R> context;
 
     @NonNull
     List<MutatorExecutor<S, Object>> executors;

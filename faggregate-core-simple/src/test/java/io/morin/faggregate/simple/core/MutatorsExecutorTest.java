@@ -20,6 +20,7 @@ class MutatorsExecutorTest {
     final String identifier = "identifier";
 
     final String state = "initial";
+    final String result = "result";
 
     @Mock
     Serializable command;
@@ -35,17 +36,15 @@ class MutatorsExecutorTest {
     @Mock
     Serializable event2;
 
-    final String result = "result";
-
     Output<String> output;
 
-    ExecutionContext<String, String, Serializable, String> context;
+    ExecutionResponse<String, String, Serializable, String> response;
 
     @BeforeEach
     void beforeEach() {
-        request = ExecutionRequest.create(identifier, state, command);
+        request = ExecutionRequest.create(ExecutionContext.create(identifier, command), state);
         output = OutputBuilder.get(result).add(event0, event1, event2).build();
-        context = ExecutionContext.create(request, output);
+        response = ExecutionResponse.create(request, output);
     }
 
     @Test
@@ -57,7 +56,7 @@ class MutatorsExecutorTest {
             new MutatorExecutor<String, Object>(event2, (state, event) -> String.format("%s - %s", state, event))
         );
 
-        val mutatorsExecutor = new MutatorsExecutor<>(context, list);
+        val mutatorsExecutor = new MutatorsExecutor<>(response, list);
         val newState = mutatorsExecutor.execute().get();
         assertEquals("initial - event0 - event1 - event2", newState);
     }

@@ -24,6 +24,8 @@ class StageMutateAggregateTest {
     final String identifier = "identifier";
 
     final String state = "initial";
+    final String result = "result";
+    final Map<Class<?>, List<Mutator<String, Object>>> mutators = new HashMap<>();
 
     @Mock
     Serializable command;
@@ -33,13 +35,9 @@ class StageMutateAggregateTest {
     @Mock
     Serializable event;
 
-    final String result = "result";
-
-    final Map<Class<?>, List<Mutator<String, Object>>> mutators = new HashMap<>();
-
     @BeforeEach
     void beforeEach() {
-        request = ExecutionRequest.create(identifier, state, command);
+        request = ExecutionRequest.create(ExecutionContext.create(identifier, command), state);
     }
 
     @Test
@@ -50,7 +48,7 @@ class StageMutateAggregateTest {
             Collections.singletonList((state, event) -> String.format("%s - %s", state, event))
         );
         val context = StageMutateAggregate
-            .execute(ExecutionContext.create(request, OutputBuilder.get(result).add(event).build()), mutators)
+            .execute(ExecutionResponse.create(request, OutputBuilder.get(result).add(event).build()), mutators)
             .get();
         assertFalse(context.getOutput().getResult().isEmpty());
         assertEquals(result, context.getOutput().getResult().get());

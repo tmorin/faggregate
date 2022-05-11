@@ -9,21 +9,21 @@ import lombok.RequiredArgsConstructor;
 class StagePersistAggregate<I, S, C, R> {
 
     @NonNull
-    ExecutionContext<I, S, C, R> response;
+    ExecutionResponse<I, S, C, R> response;
 
     @NonNull
     Persister<I, S> persister;
 
-    static <I, S, C, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
-        @NonNull ExecutionContext<I, S, C, R> response,
+    static <I, S, C, R> CompletableFuture<ExecutionResponse<I, S, C, R>> execute(
+        @NonNull ExecutionResponse<I, S, C, R> response,
         @NonNull Persister<I, S> persister
     ) {
         return new StagePersistAggregate<I, S, C, R>(response, persister).execute();
     }
 
-    CompletableFuture<ExecutionContext<I, S, C, R>> execute() {
+    CompletableFuture<ExecutionResponse<I, S, C, R>> execute() {
         return persister
-            .persist(response.getIdentifier(), response.getState(), response.getOutput().getEvents())
+            .persist(response, response.getState(), response.getOutput().getEvents())
             .thenApplyAsync(v -> response);
     }
 }

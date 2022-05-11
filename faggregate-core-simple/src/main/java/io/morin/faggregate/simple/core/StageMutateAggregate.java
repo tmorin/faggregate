@@ -15,19 +15,19 @@ import lombok.val;
 class StageMutateAggregate<I, S, C, R> {
 
     @NonNull
-    ExecutionContext<I, S, C, R> context;
+    ExecutionResponse<I, S, C, R> context;
 
     @NonNull
     Map<Class<?>, List<Mutator<S, Object>>> mutators;
 
-    static <I, S, C, R> CompletableFuture<ExecutionContext<I, S, C, R>> execute(
-        @NonNull ExecutionContext<I, S, C, R> context,
+    static <I, S, C, R> CompletableFuture<ExecutionResponse<I, S, C, R>> execute(
+        @NonNull ExecutionResponse<I, S, C, R> context,
         @NonNull Map<Class<?>, List<Mutator<S, Object>>> mutators
     ) {
         return new StageMutateAggregate<I, S, C, R>(context, mutators).execute();
     }
 
-    CompletableFuture<ExecutionContext<I, S, C, R>> execute() {
+    CompletableFuture<ExecutionResponse<I, S, C, R>> execute() {
         val list = context
             .getOutput()
             .getEvents()

@@ -14,11 +14,11 @@ public interface Destroyer<I, S> {
     /**
      * Destroy the stateful data of an aggregate
      *
-     * @param identifier the identifier
-     * @param state      the latest state
-     * @param events     the events generated during the command handling
-     * @param <E>        the type of the event
+     * @param context the context of the execution
+     * @param state   the latest state
+     * @param events  the events generated during the command handling
+     * @param <E>     the type of the event
      * @return nothing
      */
-    <E> CompletableFuture<Void> destroy(I identifier, S state, List<E> events);
+    <E> CompletableFuture<Void> destroy(Context<I, ?> context, S state, List<E> events);
 }

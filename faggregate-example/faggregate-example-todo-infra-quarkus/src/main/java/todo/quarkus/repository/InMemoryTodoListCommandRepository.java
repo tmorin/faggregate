@@ -1,10 +1,12 @@
 package todo.quarkus.repository;
 
+import io.morin.faggregate.api.Context;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import javax.inject.Singleton;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
+import lombok.val;
 import todo.model.TodoListId;
 import todo.model.command.TodoList;
 
@@ -17,12 +19,13 @@ public class InMemoryTodoListCommandRepository implements TodoListRepository {
     Map<TodoListId, List<Object>> events = new HashMap<>();
 
     @Override
-    public CompletableFuture<Optional<TodoList>> load(TodoListId identifier) {
-        return CompletableFuture.completedFuture(Optional.ofNullable(snapshots.get(identifier)));
+    public CompletableFuture<Optional<TodoList>> load(Context<TodoListId, ?> context) {
+        return CompletableFuture.completedFuture(Optional.ofNullable(snapshots.get(context.getIdentifier())));
     }
 
     @Override
-    public <E> CompletableFuture<Void> persist(TodoListId identifier, TodoList state, List<E> events) {
+    public <E> CompletableFuture<Void> persist(Context<TodoListId, ?> context, TodoList state, List<E> events) {
+        val identifier = context.getIdentifier();
         this.snapshots.put(identifier, state);
         if (!this.events.containsKey(identifier)) {
             this.events.put(identifier, new ArrayList<>());
@@ -32,9 +35,9 @@ public class InMemoryTodoListCommandRepository implements TodoListRepository {
     }
 
     @Override
-    public <E> CompletableFuture<Void> destroy(TodoListId identifier, TodoList state, List<E> events) {
-        this.snapshots.remove(identifier);
-        this.events.remove(identifier);
+    public <E> CompletableFuture<Void> destroy(Context<TodoListId, ?> context, TodoList state, List<E> events) {
+        this.snapshots.remove(context.getIdentifier());
+        this.events.remove(context.getIdentifier());
         return CompletableFuture.completedFuture(null);
     }
 }

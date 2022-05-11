@@ -31,7 +31,7 @@ class StageLoadAggregateTest {
     @SneakyThrows
     void shouldExecute() {
         Mockito.when(loader.load(Mockito.any())).thenReturn(CompletableFuture.completedFuture(Optional.of(state)));
-        StageLoadAggregate.execute(identifier, command, loader).get();
+        StageLoadAggregate.execute(ExecutionContext.create(identifier, command), loader).get();
         Mockito.verify(loader, Mockito.only()).load(Mockito.any());
     }
 
@@ -39,6 +39,9 @@ class StageLoadAggregateTest {
     @SneakyThrows
     void shouldFailed() {
         Mockito.when(loader.load(Mockito.any())).thenReturn(CompletableFuture.completedFuture(Optional.empty()));
-        assertThrows(ExecutionException.class, () -> StageLoadAggregate.execute(identifier, command, loader).get());
+        assertThrows(
+            ExecutionException.class,
+            () -> StageLoadAggregate.execute(ExecutionContext.create(identifier, command), loader).get()
+        );
     }
 }

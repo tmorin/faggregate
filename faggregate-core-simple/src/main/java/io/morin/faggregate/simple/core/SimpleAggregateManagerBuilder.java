@@ -22,7 +22,7 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
 
     final Map<Class<?>, HandlerEntry<S>> handlers = new HashMap<>();
     final Map<Class<?>, List<Mutator<S, Object>>> mutators = new HashMap<>();
-    final List<Middleware<?>> middlewares = new ArrayList<>();
+    final List<Middleware<I, ?, ?>> middlewares = new ArrayList<>();
     Initializer<I, S> initializer;
     Loader<I, S> loader;
     Persister<I, S> persister;
@@ -89,7 +89,7 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
     }
 
     @Override
-    public <R> AggregateManagerBuilder<I, S> add(Middleware<R> middleware) {
+    public <C, R> AggregateManagerBuilder<I, S> add(Middleware<I, C, R> middleware) {
         this.middlewares.add(middleware);
         return this;
     }

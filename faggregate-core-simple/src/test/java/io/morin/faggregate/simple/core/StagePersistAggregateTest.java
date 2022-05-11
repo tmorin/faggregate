@@ -19,6 +19,7 @@ class StagePersistAggregateTest {
     final String identifier = "identifier";
 
     final String state = "initial";
+    final String result = "result";
 
     @Mock
     Serializable command;
@@ -28,20 +29,18 @@ class StagePersistAggregateTest {
     @Mock
     Serializable event0;
 
-    final String result = "result";
-
     Output<String> output;
 
-    ExecutionContext<String, String, Serializable, String> context;
+    ExecutionResponse<String, String, Serializable, String> context;
 
     @Mock
     Persister<String, String> persister;
 
     @BeforeEach
     void beforeEach() {
-        request = ExecutionRequest.create(identifier, state, command);
+        request = ExecutionRequest.create(ExecutionContext.create(identifier, command), state);
         output = OutputBuilder.get(result).add(event0).build();
-        context = ExecutionContext.create(request, output);
+        context = ExecutionResponse.create(request, output);
     }
 
     @Test

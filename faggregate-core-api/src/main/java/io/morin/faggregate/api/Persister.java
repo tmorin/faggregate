@@ -14,11 +14,11 @@ public interface Persister<I, S> {
     /**
      * Persist the state and/or the generate events of an aggregate.
      *
-     * @param identifier the identifier
-     * @param state      the mutated state
-     * @param events     the set of generated events
-     * @param <E>        the type of the events
+     * @param <E>     the type of the events
+     * @param context the context of the execution
+     * @param state   the mutated state
+     * @param events  the set of generated events
      * @return nothing
      */
-    <E> CompletableFuture<Void> persist(I identifier, S state, List<E> events);
+    <E> CompletableFuture<Void> persist(Context<I, ?> context, S state, List<E> events);
 }

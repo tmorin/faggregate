@@ -79,7 +79,7 @@ public interface AggregateManagerBuilder<I, S> {
      * @param <R>        the type of the result
      * @return the builder
      */
-    <R> AggregateManagerBuilder<I, S> add(Middleware<R> middleware);
+    <C, R> AggregateManagerBuilder<I, S> add(Middleware<I, C, R> middleware);
 
     /**
      * Build and return a new {@link AggregateManager} instance.

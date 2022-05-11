@@ -14,8 +14,8 @@ public interface Loader<I, S> {
     /**
      * Load the state of an aggregate.
      *
-     * @param identifier the identifier
+     * @param context the context of the execution
      * @return the state
      */
-    CompletableFuture<Optional<S>> load(I identifier);
+    CompletableFuture<Optional<S>> load(Context<I, ?> context);
 }

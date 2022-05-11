@@ -13,8 +13,8 @@ public interface Initializer<I, S> {
     /**
      * Provide the initial state of an aggregate.
      *
-     * @param identifier the identifier of the aggregate
+     * @param context the context of the execution
      * @return the state
      */
-    CompletableFuture<S> initialize(I identifier);
+    CompletableFuture<S> initialize(Context<I, ?> context);
 }

@@ -2,6 +2,7 @@ package todo.quarkus.repository;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import io.morin.faggregate.simple.core.ExecutionContext;
 import java.io.Serializable;
 import java.util.Collections;
 import lombok.SneakyThrows;
@@ -29,7 +30,8 @@ class InMemoryTodoListCommandRepositoryTest {
     void shouldLoad() {
         val repository = new InMemoryTodoListCommandRepository();
         repository.snapshots.put(todoListId, todoList);
-        val optional = repository.load(todoListId).get();
+        val context = ExecutionContext.create(todoListId, "load");
+        val optional = repository.load(context).get();
         assertTrue(optional.isPresent());
         assertEquals(todoList, optional.get());
     }
@@ -38,7 +40,9 @@ class InMemoryTodoListCommandRepositoryTest {
     @SneakyThrows
     void shouldPersist() {
         val repository = new InMemoryTodoListCommandRepository();
-        repository.persist(todoListId, todoList, Collections.singletonList(event)).get();
+        repository
+            .persist(ExecutionContext.create(todoListId, "persist"), todoList, Collections.singletonList(event))
+            .get();
         assertFalse(repository.snapshots.isEmpty());
         assertEquals(todoList, repository.snapshots.get(todoListId));
         assertFalse(repository.events.isEmpty());
@@ -50,7 +54,9 @@ class InMemoryTodoListCommandRepositoryTest {
     void shouldDestroy() {
         val repository = new InMemoryTodoListCommandRepository();
         repository.snapshots.put(todoListId, todoList);
-        repository.destroy(todoListId, todoList, Collections.singletonList(event)).get();
+        repository
+            .destroy(ExecutionContext.create(todoListId, "destroy"), todoList, Collections.singletonList(event))
+            .get();
         assertTrue(repository.snapshots.isEmpty());
         assertTrue(repository.events.isEmpty());
     }

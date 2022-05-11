@@ -33,7 +33,7 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
     Map<Class<?>, List<Mutator<S, Object>>> mutators;
 
     @NonNull
-    List<Middleware<?>> middlewares;
+    List<Middleware<I, ?, ?>> middlewares;
 
     private <C, R> CompletableFuture<Output<R>> mutate(
         @NonNull ExecutionRequest<I, S, C> request,
@@ -46,7 +46,7 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
             .thenComposeAsync(response -> StageMutateAggregate.execute(response, mutators))
             // persist state and events
             .thenComposeAsync(response -> StagePersistAggregate.execute(response, persister))
-            .thenApplyAsync(ExecutionContext::getOutput);
+            .thenApplyAsync(ExecutionResponse::getOutput);
     }
 
     private <C, R> CompletableFuture<Output<R>> destroy(
@@ -60,11 +60,12 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
             .thenComposeAsync(response -> StageMutateAggregate.execute(response, mutators))
             // persist state and events
             .thenComposeAsync(response -> StageDestroyAggregate.execute(response, destroyer))
-            .thenApplyAsync(ExecutionContext::getOutput);
+            .thenApplyAsync(ExecutionResponse::getOutput);
     }
 
     @Override
     public <C, R> CompletableFuture<Output<R>> execute(I identifier, C command) {
+        val context = ExecutionContext.create(identifier, command);
         return SimpleInvocation.execute(
             middlewares,
             () -> {
@@ -75,18 +76,19 @@ class SimpleAggregateManager<I, S> implements AggregateManager<I> {
                 val handlerEntry = this.handlers.get(handlerKey);
                 if (handlerEntry.getIntention().equals(Intention.INITIALIZATION)) {
                     return StageInitiateAggregate
-                        .execute(identifier, command, initializer)
+                        .execute(context, initializer)
                         .thenComposeAsync(request -> this.mutate(request, handlerEntry.getHandler()));
                 }
                 if (handlerEntry.getIntention().equals(Intention.DESTRUCTION)) {
                     return StageLoadAggregate
-                        .execute(identifier, command, loader)
+                        .execute(context, loader)
                         .thenComposeAsync(request -> this.destroy(request, handlerEntry.getHandler()));
                 }
                 return StageLoadAggregate
-                    .execute(identifier, command, loader)
+                    .execute(context, loader)
                     .thenComposeAsync(request -> this.mutate(request, handlerEntry.getHandler()));
-            }
+            },
+            context
         );
     }
 }

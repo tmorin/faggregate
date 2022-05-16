@@ -13,7 +13,7 @@ import todo.model.TodoListId;
  */
 @Value.Immutable
 @JsonSerialize
-@JsonDeserialize
+@JsonDeserialize(as = ImmutableTodoList.class)
 public interface TodoList {
     /**
      * The identifier of the TodoList.

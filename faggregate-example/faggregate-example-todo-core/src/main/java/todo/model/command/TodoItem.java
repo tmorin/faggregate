@@ -10,7 +10,7 @@ import todo.model.TodoItemId;
  */
 @Value.Immutable
 @JsonSerialize
-@JsonDeserialize
+@JsonDeserialize(as = ImmutableTodoItem.class)
 public interface TodoItem {
     /**
      * The identifier of the item.

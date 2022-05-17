@@ -10,6 +10,12 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
+/**
+ * The context of an execution.
+ *
+ * @param <I> the identifier type of the aggregate
+ * @param <C> the type of the command
+ */
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter(AccessLevel.PACKAGE)
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -19,12 +25,26 @@ public class ExecutionContext<I, C> implements Context<I, C> {
     C command;
     Map<Object, Object> map = new HashMap<>();
 
+    /**
+     * Create an {@link ExecutionContext} from an existing one.
+     *
+     * @param context the context
+     */
     protected ExecutionContext(@NonNull ExecutionContext<I, C> context) {
         identifier = context.identifier;
         command = context.command;
         map.putAll(context.map);
     }
 
+    /**
+     * A factory method for {@link ExecutionContext}.
+     *
+     * @param identifier the identifier
+     * @param command    the command
+     * @param <I>        the identifier type of the aggregate
+     * @param <C>        the type of the command
+     * @return the new instance
+     */
     public static <I, C> ExecutionContext<I, C> create(@NonNull I identifier, @NonNull C command) {
         return new ExecutionContext<>(identifier, command);
     }

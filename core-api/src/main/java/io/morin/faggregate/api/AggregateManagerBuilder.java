@@ -75,8 +75,9 @@ public interface AggregateManagerBuilder<I, S> {
     /**
      * Register a new middleware.
      *
-     * @param middleware the middleware
+     * @param <C>        the type of the command
      * @param <R>        the type of the result
+     * @param middleware the middleware
      * @return the builder
      */
     <C, R> AggregateManagerBuilder<I, S> add(Middleware<I, C, R> middleware);

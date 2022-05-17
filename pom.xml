@@ -48,11 +48,11 @@
     </distributionManagement>
 
     <modules>
-        <module>faggregate-core-api</module>
-        <module>faggregate-core-simple</module>
-        <module>faggregate-spi-api</module>
-        <module>faggregate-spi-simple</module>
-        <module>faggregate-example</module>
+        <module>core-api</module>
+        <module>core-simple</module>
+        <module>spi-api</module>
+        <module>spi-simple</module>
+        <module>examples</module>
     </modules>
 
     <properties>

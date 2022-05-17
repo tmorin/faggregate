@@ -4,12 +4,12 @@
          xmlns="http://maven.apache.org/POM/4.0.0">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>io.morin.faggregate</groupId>
-        <artifactId>faggregate-example</artifactId>
+        <groupId>io.morin.faggregate.examples</groupId>
+        <artifactId>faggregate-examples</artifactId>
         <version>1.0.0-SNAPSHOT</version>
     </parent>
-    <artifactId>faggregate-example-todo-infra-quarkus</artifactId>
-    <description>A simple implementation of the faggregate-example-todo-model module.</description>
+    <artifactId>examples-todo-infra-quarkus</artifactId>
+    <description>A simple implementation of the faggregate-examples-todo-model module.</description>
     <properties>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <failsafe.useModulePath>false</failsafe.useModulePath>
@@ -34,8 +34,8 @@
     </dependencyManagement>
     <dependencies>
         <dependency>
-            <groupId>io.morin.faggregate</groupId>
-            <artifactId>faggregate-example-todo-core</artifactId>
+            <groupId>io.morin.faggregate.examples</groupId>
+            <artifactId>examples-todo-core</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>

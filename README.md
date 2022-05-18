@@ -34,3 +34,12 @@ Therefore, a custom configuration is required to resolve the artifacts, please r
     <version>1.0.0-SNAPSHOT</version>
 </dependency>
 ```
+
+## Release
+
+```shell
+./mvnw --batch-mode release:clean \
+&& ./mvnw --batch-mode release:prepare \
+  -DreleaseVersion=X.Y.Z \
+  -DdevelopmentVersion=Y.X.Z-SNAPSHOT
+```

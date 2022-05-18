@@ -2,13 +2,19 @@
 
 [![Continuous Integration - Build](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml)
 
+> Unlock the Power of DDD Aggregates and Functional Programming with `faggregate`!
+> This Java Library simplifies the implementation of complex business systems by offering a set of tools and abstractions that make it easy to build robust and scalable software.
+> Whether you're a seasoned developer or just getting started, our library provides a powerful solution for leveraging the full potential of Domain Driven Design Aggregates and functional programming concepts.
+> Don't miss out on this opportunity to streamline your development process and build high-quality software - try our library today!
 
-> A Java library helping to implement DDD aggregates with a functional touch.
+The Value Stream is barely simple:
 
 1. define the data structure of the aggregate's state
-2. define the commands and events which mutates the state
+2. define the commands and events which change the state
 3. define the side effects : initialization, storing, loading, destroying
-4. and finally bundle everything with a builder
+4. and finally bundle everything with the help of a nice builder
+
+> Empower Your Development with DDD Aggregates & Functional Programming - Learn with this [Tutorial](https://tmorin.github.io/faggregate)!
 
 ## Features
 
@@ -23,6 +29,15 @@ The [todo-infra-quarkus](examples/todo-infra-quarkus) example demonstrates the u
 The library is designed to be integrated directly into a [Native Image](https://www.graalvm.org/latest/reference-manual/native-image/basics/).
 
 The [todo-infra-quarkus](examples/todo-infra-quarkus) example provides an E2E exemple leveraging on [Quarkus](https://quarkus.io).
+
+### Functional
+
+The library emphases some functional programing concepts like immutable structures.
+
+The [todo-core](examples/todo-core) example provides an implementation leveraging on the link:https://immutables.github.io[Immutables] Java library to easily and nicely force the immutable structures of the Aggregate state.
+
+The [todo-core](examples/todo-core) module is also used by [todo-infra-quarkus](examples/todo-infra-quarkus).
+Therefore, it demonstrates link:https://immutables.github.io[Immutables] can be used also into a Native Image.
 
 ## Installation
 

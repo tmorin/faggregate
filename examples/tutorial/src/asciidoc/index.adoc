@@ -1,0 +1,292 @@
+= Basic Tutorial for faggregate
+:author: Thibault Morin
+:docdatetime: 2023-02-10
+:revnumber: 1
+:toc:
+:source-highlighter: coderay
+:doctype: article
+:description: Elevate your DDD implementation with this tutorial on a Java library that blends Aggregates & functional programming. Gain hands-on expertise now!
+
+Unlock the full potential of Domain Driven Design implementation with this step-by-step tutorial focusing on `faggregate` that blends Aggregates and functional programming.
+This library provides developers with a powerful tool to simplify complex development tasks, and this tutorial will give you the hands-on experience and insights you need to effectively utilize its capabilities.
+Whether you're a seasoned Java developer or just starting out, this tutorial is the perfect resource for anyone looking to take their DDD implementation to the next level.
+
+== Introduction
+
+`faggregate` is a Java library helping to define Aggregate according to the _Domain Driven Design_ approach with a touch of _Functional Programming_. The source code of `faggregate` is available on link:https://github.com/tmorin/faggregate[github.com/tmorin/faggregate].
+
+By combining the strengths of Domain Driven Design Aggregates and functional programming, developers can achieve a powerful and streamlined development process.
+Domain Driven Design Aggregates provide a clear structure for managing complex business entities and enforcing transactional consistency, while functional programming promotes a declarative style of programming, making code easier to understand and maintain.
+Together, these approaches lead to more predictable and reliable code, with a reduced likelihood of bugs and easier maintenance.
+Additionally, the functional programming paradigm supports code modularity and easy refactoring, making it a great fit for large-scale software development projects.
+Put simply, developers can build maintainable and scalable systems that effectively meet the demands of their business domain.
+
+== The scope
+
+The purpose of this tutorial is to build from scratch the `Counter` aggregate.
+As its name suggests, the `Counter` aggregate is capable of tracking a value that is incremented.
+The counter is incremented when the `CounterIncremented` domain event is produced.
+The event is produced when the `IncrementCounter` command is invoked.
+
+.Modeling of the `IncrementCounter` command
+[plantuml,target=es_increment,format=svg]
+....
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/eventstorming/single.puml
+Aggregate('Counter')
+Command('IncrementCounter')
+DomainEvent('CounterIncremented')
+IncrementCounter .. Counter : 1. invoked on
+IncrementCounter -r-> CounterIncremented : 2. produces
+CounterIncremented .. Counter : 3. applied on
+....
+
+The source code of the tutorial is available on link:https://github.com/tmorin/faggregate/tree/main/examples/tutorial[github].
+
+== The Maven module
+
+The Maven module brings four dependencies.
+The first one, `faggregate-core-simple`, brings the `faggregate` library.
+The second one, link:https://logback.qos.ch/[`logback-classic`], is a logger compliant with link:https://www.slf4j.org/[SLF4J].
+The third one, link:https://junit.org/junit5/docs/current/user-guide/[`junit-jupiter`], provides a test framework.
+Finally, link:https://projectlombok.org/[`lombok`], _spices_ up java helping to save lines of codes.
+
+[source,xml,title=./pom.xml]
+----
+include::../../pom.example.xml[]
+----
+
+== The Aggregate
+
+The implementation of the Aggregate starts with the structural elements:
+
+- *Entity*: it's an object within the system that has a unique identity and attributes that describe its state.
+An entity's identity is typically represented by an ID or a key, and its state changes over time as it participates in the system's interactions.
+- *Command*: it's a request for the system to perform a specific action.
+Commands are often used to initiate changes in the state of the system.
+- *Domain Event*: it's a record of something that has occurred within the system.
+Domain events are used to capture the state changes that occur as a result of processing commands.
+
+=== The Root Aggregate
+
+a Root Aggregate is a cluster of related entities that are treated as a single unit with respect to transactions and consistency.
+The root aggregate defines a boundary around a set of related entities, and it is responsible for ensuring that changes to its entities are made in a consistent and valid state.
+
+In this tutorial, the Root Aggregate of the `Counter` Aggregate, is the `Counter` Entity.
+Usually, a Root Aggregate is an Entity which is mutable.
+However, `faggregate` emphasizes a functional approach, therefore the Root Aggregate is an immutable structure.
+
+[source,java,title=src/main/java/faggreat/tutorial/Counter.java]
+----
+include::../../src/main/java/faggreat/tutorial/Counter.java[]
+----
+
+The Root Aggregate is covered by the following unit test.
+
+[source,java,title=src/test/java/faggreat/tutorial/CounterTest.java]
+----
+include::../../src/test/java/faggreat/tutorial/CounterTest.java[]
+----
+
+=== The Command
+
+The `IncrementCounter` Command transfers the intention to increment the counter.
+
+[source,java,title=src/main/java/faggreat/tutorial/IncrementCounter.java]
+----
+include::../../src/main/java/faggreat/tutorial/IncrementCounter.java[]
+----
+
+=== The Domain Event
+
+The `CounterChanged` Domain Event states the value of a counter has been changed.
+
+[source,java,title=src/main/java/faggreat/tutorial/CounterChanged.java]
+----
+include::../../src/main/java/faggreat/tutorial/CounterChanged.java[]
+----
+
+== The Command Handler
+
+A Command Handler is a pure function which executes a Command according to the latest known state of an Aggregate.
+A Command Handler returns a Result which will be sent back to the initiator of the command as well as a set of Domain Events explaining the outcome of the Command execution.
+
+.Input and output of a command handler
+[plantuml,target=obj_command_handler,format=svg]
+....
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/eventstorming/single.puml
+rectangle "command" as command
+rectangle "result" as result
+rectangle "domain events" as domain_events
+rectangle "aggregate state" as aggregate
+rectangle "command handler" as command_handler
+command --> command_handler
+aggregate --> command_handler
+command_handler --> result
+command_handler --> domain_events
+....
+
+The `IncrementCounterHandler` Command Handler handles the `IncrementCounter` Command and produces the `CounterChanged` Domain Event based on the latest known state of the `Counter` Aggregate.
+
+[source,java,title=src/main/java/faggreat/tutorial/IncrementCounterHandler.java]
+----
+include::../../src/main/java/faggreat/tutorial/IncrementCounterHandler.java[]
+----
+
+The Command Handler is covered by the following unit test.
+
+[source,java,title=src/test/java/faggreat/tutorial/IncrementCounterHandlerTest.java]
+----
+include::../../src/test/java/faggreat/tutorial/IncrementCounterHandlerTest.java[]
+----
+
+== The Mutator
+
+A Mutator is a pure function which mutates the state of an Aggregate according to a Domain Event.
+A Mutator returns a new instance of the Aggregate state.
+
+.Input and output of a mutator
+[plantuml,target=obj_mutator,format=svg]
+....
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/eventstorming/single.puml
+rectangle "domain event" as domain_event
+rectangle "aggregate state" as aggregate
+rectangle "new aggregate state" as new_aggregate
+rectangle "mutator" as mutator
+domain_event --> mutator
+aggregate --> mutator
+mutator --> new_aggregate
+....
+
+The `CounterChangedMutator` Mutator mutates the state of the `Counter` Aggregate according to the `CounterChangedMutator` Domain Event.
+
+[source,java,title=src/main/java/faggreat/tutorial/CounterChangedMutator.java]
+----
+include::../../src/main/java/faggreat/tutorial/CounterChangedMutator.java[]
+----
+
+The Mutator is covered by the following unit test.
+
+[source,java,title=src/test/java/faggreat/tutorial/CounterChangedMutatorTest.java]
+----
+include::../../src/test/java/faggreat/tutorial/CounterChangedMutatorTest.java[]
+----
+
+== The Repository
+
+In this tutorial the Repository is responsible to apply the `faggregate` side effects
+
+- *initializer*: it initializes the state of an Aggregate
+- *loader*: it loads the latest known state of an Aggregate
+- *persister*: it persists the latest known state and/or the generated Domain Events of an Aggregate
+- *destroyer*: it destroys the persisted data related to an Aggregate
+
+The default implementation of `faggregate`, i.e. `faggregate-core-simple`, expects the definition of all side effects when an Aggregate Manager is configured.
+Therefore, the tutorial implements and registers all side effects even if only the *loader* and *persister* side effects are involved.
+
+=== The Initializer
+
+An initializer is executed when the type of the handled Command has been registered with the `INITIALIZATION` intention.
+
+.Input and output of an initializer
+[plantuml,target=obj_initializer,format=svg]
+....
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/eventstorming/single.puml
+rectangle "aggregate identifier" as aggregate_identifier
+rectangle "command" as command
+rectangle "aggregate state" as aggregate
+rectangle "initializer" as initializer
+aggregate_identifier --> initializer
+command --> initializer
+initializer --> aggregate
+....
+
+=== The Loader
+
+A loader is executed when the type of the handled Command has been registered with the `MUTATION` intention.
+
+.Input and output of a loader
+[plantuml,target=obj_loader,format=svg]
+....
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/eventstorming/single.puml
+rectangle "aggregate identifier" as aggregate_identifier
+rectangle "aggregate state" as aggregate
+rectangle "loader" as loader
+aggregate_identifier --> loader
+loader --> aggregate
+....
+
+=== The Persister
+
+A persister is executed when the type of the handled Command has been registered with the `INITIALIZATION` or `MUTATION` intentions.
+
+.Input and output of a persister
+[plantuml,target=obj_persister,format=svg]
+....
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/eventstorming/single.puml
+rectangle "aggregate identifier" as aggregate_identifier
+rectangle "aggregate state" as aggregate
+rectangle "persister" as persister
+rectangle "domain events" as events
+aggregate_identifier --> persister
+aggregate --> persister
+events --> persister
+....
+
+=== The Destroyer
+
+A destroyer is executed when the type of the handled command has been registered with the `DESTRUCTION` intention.
+
+.Input and output of a destroyer
+[plantuml,target=obj_destroyer,format=svg]
+....
+!include https://raw.githubusercontent.com/tmorin/plantuml-libs/master/distribution/eventstorming/single.puml
+rectangle "aggregate identifier" as aggregate_identifier
+rectangle "aggregate state" as aggregate
+rectangle "domain events" as events
+rectangle "destroyer" as destroyer
+aggregate_identifier --> destroyer
+aggregate --> destroyer
+events --> destroyer
+....
+
+=== The implementation
+
+[source,java,title=src/main/java/faggreat/tutorial/CounterRepository.java]
+----
+include::../../src/main/java/faggreat/tutorial/CounterRepository.java[]
+----
+
+The Repository is covered by the following unit test.
+
+[source,java,title=src/test/java/faggreat/tutorial/CounterRepositoryTest.java]
+----
+include::../../src/test/java/faggreat/tutorial/CounterRepositoryTest.java[]
+----
+
+== The Configurer
+
+A Configurer binds the handlers, mutators and all side effects of an Aggregate.
+For ease, there is only one Configurer of the Counter Aggregate.
+In fact, in production grade project, there is Configured for the core domain and also ones in infrastructure,
+e.g. one for a relational database, another one for an in memory storage ....
+
+[source,java,title=src/main/java/faggreat/tutorial/CounterConfigurer.java]
+----
+include::../../src/main/java/faggreat/tutorial/CounterConfigurer.java[]
+----
+
+The Configurer is covered by the following unit test.
+
+[source,java,title=src/test/java/faggreat/tutorial/CounterConfigurerTest.java]
+----
+include::../../src/test/java/faggreat/tutorial/CounterConfigurerTest.java[]
+----
+
+== Conclusion
+
+In conclusion, the tutorial provides an overview of the Java library that helps developers implement Domain Driven Design Aggregates and functional programming concepts.
+The library offers a set of tools and abstractions that make it easier to build complex software systems in a maintainable and scalable way.
+
+By following the guidelines and best practices outlined in the tutorial, developers can leverage the full potential of this library to build high-quality software that effectively meets the demands of their business domain.
+
+Overall, the tutorial serves as a valuable resource for those looking to gain a deeper understanding of DDD Aggregates and functional programming, and for those looking to build robust and scalable software systems.

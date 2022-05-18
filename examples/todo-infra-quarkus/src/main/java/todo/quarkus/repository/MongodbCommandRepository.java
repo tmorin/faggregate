@@ -16,15 +16,6 @@ import lombok.val;
 import todo.model.TodoListId;
 import todo.model.command.TodoList;
 
-/**
- * The implementation of the {@link TodoListRepository} for MongoDB.
- * <p>
- * The states are stored in the collection named {@link MongodbCommandRepository#COLLECTION_NAME_STATE}.
- * <p>
- * The events are stored in the collection named {@link MongodbCommandRepository#COLLECTION_NAME_EVENTS}.
- * <p>
- * A pessimist lock is implemented and rely on the document field named {@link MongodbCommandRepository#CONTEXT_KEY_VERSION}.
- */
 @ApplicationScoped
 @Slf4j
 public class MongodbCommandRepository implements TodoListRepository {

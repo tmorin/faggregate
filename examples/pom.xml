@@ -16,6 +16,7 @@
     <modules>
         <module>todo-core</module>
         <module>todo-infra-quarkus</module>
+        <module>tutorial</module>
     </modules>
 
     <build>

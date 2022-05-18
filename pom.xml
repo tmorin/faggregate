@@ -30,8 +30,8 @@
         <connection>scm:git:git@github.com:tmorin/faggregate.git</connection>
         <developerConnection>scm:git:git@github.com:tmorin/faggregate.git</developerConnection>
         <url>https://github.com/tmorin/faggregate</url>
-      <tag>HEAD</tag>
-  </scm>
+        <tag>HEAD</tag>
+    </scm>
 
     <ciManagement>
         <url>https://github.com/tmorin/faggregate/actions</url>

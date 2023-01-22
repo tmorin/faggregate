@@ -7,6 +7,17 @@
 3. define the side effects : initialization, storing, loading, destroying
 4. and finally bundle everything with a builder
 
+## Features
+
+### Native Image
+
+The library is designed to be integrated directly into a [Native Image](https://www.graalvm.org/latest/reference-manual/native-image/basics/).
+
+The Git repository provides an E2E exemple leveraging on [Quarkus](https://quarkus.io):
+
+- [The domain implementation](examples/todo-core)
+- [The Quarkus implementation](examples/todo-infra-quarkus)
+
 ## Installation
 
 The library provides an implementation: `faggregate-core-simple`.

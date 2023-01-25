@@ -2,18 +2,16 @@ package todo.quarkus.command;
 
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
+import io.restassured.response.ValidatableResponse;
 import todo.model.TodoItemId;
 import todo.model.TodoListId;
-import todo.model.command.AddTodoItemCmd;
-import todo.model.command.CreateTodoListCmd;
-import todo.model.command.RemoveTodoItemCmd;
-import todo.model.command.ToggleTodoItemCmd;
+import todo.model.command.*;
 import todo.model.view.TodoItemView;
 import todo.model.view.TodoListView;
 
 public class CommandRequests {
 
-    public static TodoListView createTodoList() {
+    public static TodoListView executeCreateTodoList() {
         return RestAssured
             .given()
             .when()
@@ -27,7 +25,21 @@ public class CommandRequests {
             .as(TodoListView.class);
     }
 
-    public static TodoItemView addTodoItem(TodoListId todoListId) {
+    public static TodoListView executeDeleteTodoList(TodoListId todoListId) {
+        return defineDeleteTodoList(todoListId).statusCode(200).extract().body().as(TodoListView.class);
+    }
+
+    public static ValidatableResponse defineDeleteTodoList(TodoListId todoListId) {
+        return RestAssured
+            .given()
+            .when()
+            .body(new DeleteTodoListCmd(todoListId))
+            .contentType(ContentType.JSON)
+            .post("/command/{name}", DeleteTodoListCmd.class.getName())
+            .then();
+    }
+
+    public static TodoItemView validateAddTodoItem(TodoListId todoListId) {
         return RestAssured
             .given()
             .when()
@@ -41,7 +53,7 @@ public class CommandRequests {
             .as(TodoItemView.class);
     }
 
-    public static TodoItemView toggleTodoItem(TodoListId todoListId, TodoItemId todoItemId) {
+    public static TodoItemView executeToggleTodoItem(TodoListId todoListId, TodoItemId todoItemId) {
         return RestAssured
             .given()
             .when()
@@ -55,7 +67,7 @@ public class CommandRequests {
             .as(TodoItemView.class);
     }
 
-    public static TodoItemView removeTodoItem(TodoListId todoListId, TodoItemId todoItemId) {
+    public static TodoItemView executeRemoveTodoItem(TodoListId todoListId, TodoItemId todoItemId) {
         return RestAssured
             .given()
             .when()

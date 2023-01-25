@@ -12,7 +12,7 @@ import todo.model.view.TodoListsView;
 
 public class QueryRequests {
 
-    public static TodoListsView listTodoLists() {
+    public static TodoListsView executeListTodoLists() {
         return RestAssured
             .given()
             .when()
@@ -26,7 +26,7 @@ public class QueryRequests {
             .as(TodoListsView.class);
     }
 
-    public static TodoListView getTodoList(TodoListId todoListId) {
+    public static TodoListView executeGetTodoList(TodoListId todoListId) {
         return RestAssured
             .given()
             .when()
@@ -40,7 +40,7 @@ public class QueryRequests {
             .as(TodoListView.class);
     }
 
-    public static TodoItemsView listTodoItems(TodoListId todoListId) {
+    public static TodoItemsView executeListTodoItems(TodoListId todoListId) {
         return RestAssured
             .given()
             .when()

@@ -12,7 +12,13 @@ import todo.model.event.TodoItemToggledEvt;
 import todo.model.event.TodoListCreatedEvt;
 
 /**
- * The factory creates {@link TodoList} aggregates.
+ * Configure the model part of the aggregate manager for {@link TodoList}.
+ *
+ * <ul>
+ *     <li>an initializer</li>
+ *     <li>handlers</li>
+ *     <li>mutators</li>
+ * </ul>
  */
 @ApplicationScoped
 @TodoListConfigurer
@@ -20,7 +26,9 @@ import todo.model.event.TodoListCreatedEvt;
 public class TodoListModelConfigurer implements Configurer<TodoListId, TodoList> {
 
     /**
-     * Create a {@link TodoList} aggregate.
+     * Configure the aggregate manager for {@link TodoList}.
+     *
+     * @param builder the builder.
      */
     public void configure(AggregateManagerBuilder<TodoListId, TodoList> builder) {
         // INITIALIZER
@@ -31,6 +39,7 @@ public class TodoListModelConfigurer implements Configurer<TodoListId, TodoList>
         builder.add(CreateTodoListCmd.class, new CreateTodoListHandler(), Intention.INITIALIZATION);
         builder.add(RemoveTodoItemCmd.class, new RemoveTodoItemHandler());
         builder.add(ToggleTodoItemCmd.class, new ToggleTodoItemHandler());
+        builder.add(DeleteTodoListCmd.class, new DeleteTodoListHandler(), Intention.DESTRUCTION);
 
         // MUTATORS
         builder.add(TodoItemAddedEvt.class, new TodoItemAddedMutator());

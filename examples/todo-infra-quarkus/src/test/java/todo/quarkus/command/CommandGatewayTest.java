@@ -9,26 +9,33 @@ class CommandGatewayTest {
 
     @Test
     void testCreateTodoList() {
-        CommandRequests.createTodoList();
+        CommandRequests.executeCreateTodoList();
+    }
+
+    @Test
+    void testDeleteTodoList() {
+        val todoListView = CommandRequests.executeCreateTodoList();
+        CommandRequests.executeDeleteTodoList(todoListView.getTodoListId());
+        CommandRequests.defineDeleteTodoList(todoListView.getTodoListId()).statusCode(404);
     }
 
     @Test
     void testAddTodoItem() {
-        val todoListView = CommandRequests.createTodoList();
-        CommandRequests.addTodoItem(todoListView.getTodoListId());
+        val todoListView = CommandRequests.executeCreateTodoList();
+        CommandRequests.validateAddTodoItem(todoListView.getTodoListId());
     }
 
     @Test
     void testToggleTodoItem() {
-        val todoListView = CommandRequests.createTodoList();
-        val todoItemView = CommandRequests.addTodoItem(todoListView.getTodoListId());
-        CommandRequests.toggleTodoItem(todoListView.getTodoListId(), todoItemView.getTodoItemId());
+        val todoListView = CommandRequests.executeCreateTodoList();
+        val todoItemView = CommandRequests.validateAddTodoItem(todoListView.getTodoListId());
+        CommandRequests.executeToggleTodoItem(todoListView.getTodoListId(), todoItemView.getTodoItemId());
     }
 
     @Test
     void testRemoveTodoItem() {
-        val todoListView = CommandRequests.createTodoList();
-        val todoItemView = CommandRequests.addTodoItem(todoListView.getTodoListId());
-        CommandRequests.removeTodoItem(todoListView.getTodoListId(), todoItemView.getTodoItemId());
+        val todoListView = CommandRequests.executeCreateTodoList();
+        val todoItemView = CommandRequests.validateAddTodoItem(todoListView.getTodoListId());
+        CommandRequests.executeRemoveTodoItem(todoListView.getTodoListId(), todoItemView.getTodoItemId());
     }
 }

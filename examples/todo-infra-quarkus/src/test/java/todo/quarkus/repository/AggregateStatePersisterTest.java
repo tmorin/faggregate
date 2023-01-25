@@ -8,6 +8,7 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import io.morin.faggregate.api.Context;
+import io.morin.faggregate.simple.core.AggregateNotFound;
 import io.morin.faggregate.simple.core.ExecutionContext;
 import io.quarkus.test.junit.QuarkusTest;
 import java.util.List;

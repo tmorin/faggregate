@@ -11,7 +11,7 @@ import todo.model.TodoListId;
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 @Builder
 @Jacksonized
-public class DeleteTodoListCmd {
+public class DeleteTodoListCmd implements TodoListCommand {
 
     /**
      * The identifier of the aggregate.

@@ -21,7 +21,7 @@ class MongodbQueryRepositoryTest {
     MongodbCommandRepository mongodbCommandRepository;
 
     @Inject
-    MongodbQueryRepository mongodbQueryRepository;
+    MongodbViewRepository mongodbQueryRepository;
 
     String label;
     TodoListId todoListIdA;

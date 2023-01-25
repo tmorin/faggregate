@@ -5,6 +5,9 @@ import lombok.extern.jackson.Jacksonized;
 import todo.model.TodoItemId;
 import todo.model.TodoListId;
 
+/**
+ * The view represents the item of a TodoList.
+ */
 @Value
 @Builder
 @Jacksonized

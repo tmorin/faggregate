@@ -7,6 +7,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.ReplaceOptions;
 import io.morin.faggregate.api.Context;
+import io.morin.faggregate.simple.core.AggregateNotFound;
 import java.util.concurrent.CompletableFuture;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,9 @@ import lombok.val;
 import todo.model.TodoListId;
 import todo.model.command.TodoList;
 
+/**
+ * The persister persists the state of the aggregate.
+ */
 @Slf4j
 @RequiredArgsConstructor
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
@@ -51,9 +55,7 @@ class AggregateStatePersister {
 
         if (!options.isUpsert()) {
             if (updateResult.getMatchedCount() < 1) {
-                return CompletableFuture.failedFuture(
-                    new AggregateNotFound(state.getClass(), state.todoListId().toString())
-                );
+                return CompletableFuture.failedFuture(new AggregateNotFound(state.todoListId().toString()));
             }
         }
 

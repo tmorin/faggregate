@@ -1,9 +1,5 @@
 package todo.quarkus.repository;
 
-import com.mongodb.ClientSessionOptions;
-import com.mongodb.ReadConcern;
-import com.mongodb.ReadPreference;
-import com.mongodb.TransactionOptions;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.Filters;
@@ -20,6 +16,15 @@ import lombok.val;
 import todo.model.TodoListId;
 import todo.model.command.TodoList;
 
+/**
+ * The implementation of the {@link TodoListRepository} for MongoDB.
+ * <p>
+ * The states are stored in the collection named {@link MongodbCommandRepository#COLLECTION_NAME_STATE}.
+ * <p>
+ * The events are stored in the collection named {@link MongodbCommandRepository#COLLECTION_NAME_EVENTS}.
+ * <p>
+ * A pessimist lock is implemented and rely on the document field named {@link MongodbCommandRepository#CONTEXT_KEY_VERSION}.
+ */
 @ApplicationScoped
 @Slf4j
 public class MongodbCommandRepository implements TodoListRepository {
@@ -52,18 +57,6 @@ public class MongodbCommandRepository implements TodoListRepository {
         List<E> events,
         boolean deletion
     ) {
-        val options = ClientSessionOptions
-            .builder()
-            .defaultTransactionOptions(
-                TransactionOptions
-                    .builder()
-                    //.writeConcern(WriteConcern.JOURNALED)
-                    .readConcern(ReadConcern.LOCAL)
-                    .readPreference(ReadPreference.primary())
-                    .build()
-            )
-            .build();
-
         val session = client.startSession();
 
         session.startTransaction();

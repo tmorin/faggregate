@@ -5,13 +5,17 @@ import java.util.concurrent.CompletionStage;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import todo.model.view.TodoItemsView;
+import todo.model.view.TodoListViewRepository;
 
+/**
+ * Handle the {@link ListTodoItemsQry} query.
+ */
 @ApplicationScoped
 @QueryHandler.Handle(ListTodoItemsQry.class)
-public class ListTodoItemsHandler implements QueryHandler<ListTodoItemsQry, Optional<TodoItemsView>> {
+class ListTodoItemsHandler implements QueryHandler<ListTodoItemsQry, Optional<TodoItemsView>> {
 
     @Inject
-    TodoListQueryRepository repository;
+    TodoListViewRepository repository;
 
     public CompletionStage<Optional<TodoItemsView>> execute(ListTodoItemsQry query) {
         return repository.loadItems(query.getTodoListId());

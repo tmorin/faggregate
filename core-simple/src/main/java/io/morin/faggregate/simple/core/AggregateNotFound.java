@@ -7,6 +7,12 @@ import lombok.NonNull;
  */
 public class AggregateNotFound extends Exception {
 
+    /**
+     * Create a new instance.
+     *
+     * @param identifier the identifier of the aggregate
+     * @param <I>        the type of the identifier
+     */
     public <I> AggregateNotFound(@NonNull I identifier) {
         super(String.format("unable to load the aggregate %s", identifier));
     }

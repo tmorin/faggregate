@@ -7,13 +7,17 @@ import org.bson.codecs.Codec;
 import org.bson.codecs.configuration.CodecProvider;
 import org.bson.codecs.configuration.CodecRegistry;
 
+/**
+ * Providers of codecs to help the MongoDB client to process {@link EventRecord} and {@link EventRecord}.
+ */
 @ApplicationScoped
-public class TodoCodecProvider implements CodecProvider {
+class TodoCodecProvider implements CodecProvider {
 
     @Inject
     ObjectMapper objectMapper;
 
     @Override
+    @SuppressWarnings("unchecked")
     public <T> Codec<T> get(Class<T> clazz, CodecRegistry registry) {
         if (clazz.equals(StateRecord.class)) {
             return (Codec<T>) new StateRecordCodec(objectMapper);

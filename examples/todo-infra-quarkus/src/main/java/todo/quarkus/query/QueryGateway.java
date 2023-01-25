@@ -14,6 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import todo.model.query.QueryHandler;
 
+/**
+ * The gateway process the queries.
+ */
 @Slf4j
 @Path("/query")
 public class QueryGateway {
@@ -47,15 +50,20 @@ public class QueryGateway {
         }
     }
 
+    /**
+     * @param name       the name of the query
+     * @param queryAsMap the query
+     * @return the result of the query
+     */
     @POST
     @Path("/{name}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Uni<Response> execute(@PathParam("name") String name, Object queryAsMap) {
         val response = resolveQueryType(name)
-            .map(type -> {
-                val query = objectMapper.convertValue(queryAsMap, type);
-                val selectedHandlers = queryHandlers.select(new HandleQualifier(type));
+            .map(queryType -> {
+                val query = objectMapper.convertValue(queryAsMap, queryType);
+                val selectedHandlers = queryHandlers.select(new HandleQualifier(queryType));
 
                 if (selectedHandlers.isAmbiguous()) {
                     log.debug("unable to select a query handler for {}", name);

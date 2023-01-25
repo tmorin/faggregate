@@ -6,6 +6,9 @@ import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import todo.model.TodoListId;
 
+/**
+ * The view represents a list of {@link TodoItemView}.
+ */
 @Value
 @Builder
 @Jacksonized
@@ -28,7 +31,7 @@ public class TodoItemsView {
      * The number of completed items.
      */
     @JsonIgnore
-    public long getCompleted() {
+    public long getCompletedCounter() {
         return items.stream().filter(TodoItemView::isCompleted).count();
     }
 
@@ -36,7 +39,7 @@ public class TodoItemsView {
      * The number of uncompleted items.
      */
     @JsonIgnore
-    public long getUncompleted() {
-        return items.size() - getCompleted();
+    public long getUncompletedCounter() {
+        return items.size() - getCompletedCounter();
     }
 }

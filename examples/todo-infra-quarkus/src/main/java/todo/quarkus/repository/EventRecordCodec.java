@@ -14,6 +14,9 @@ import org.bson.codecs.Codec;
 import org.bson.codecs.DecoderContext;
 import org.bson.codecs.EncoderContext;
 
+/**
+ * The codec transform {@link EventRecord} instances.
+ */
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 class EventRecordCodec implements Codec<EventRecord> {

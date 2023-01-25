@@ -4,6 +4,9 @@ import java.util.List;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
+/**
+ * The view presents a list of {@link TodoListView}.
+ */
 @Value
 @Builder
 @Jacksonized

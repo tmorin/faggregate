@@ -4,6 +4,9 @@ import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 import todo.model.TodoListId;
 
+/**
+ * Get a TodoList.
+ */
 @Value
 @RequiredArgsConstructor(access = AccessLevel.PUBLIC)
 @Builder

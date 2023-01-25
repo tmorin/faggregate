@@ -3,6 +3,7 @@ package todo.quarkus.command;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.morin.faggregate.api.AggregateManager;
 import io.morin.faggregate.api.Output;
+import io.morin.faggregate.simple.core.AggregateNotFound;
 import io.smallrye.mutiny.Uni;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
@@ -13,9 +14,14 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
+import org.jboss.resteasy.reactive.RestResponse;
+import org.jboss.resteasy.reactive.server.ServerExceptionMapper;
 import todo.model.TodoListId;
 import todo.model.command.TodoListCommand;
 
+/**
+ * The gateway process the commands.
+ */
 @Slf4j
 @Path("/command")
 public class CommandGateway {
@@ -41,14 +47,24 @@ public class CommandGateway {
         );
     }
 
+    @ServerExceptionMapper
+    public RestResponse<String> mapAggregateNotFound(AggregateNotFound exception) {
+        return RestResponse.status(Response.Status.NOT_FOUND, exception.getMessage());
+    }
+
+    /**
+     * @param name         the name of the command
+     * @param commandAsMap the command
+     * @return the result of the command
+     */
     @POST
     @Path("/{name}")
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Uni<Response> executeAlt(@PathParam("name") String name, Object queryAsMap) {
+    public Uni<Response> executeAlt(@PathParam("name") String name, Object commandAsMap) {
         val response = resolveCommandType(name)
-            .map(type -> {
-                val command = objectMapper.convertValue(queryAsMap, type);
+            .map(commandType -> {
+                val command = objectMapper.convertValue(commandAsMap, commandType);
                 if (command instanceof TodoListCommand) {
                     log.info("handle {} / {}", name, command);
                     return aggregateManager

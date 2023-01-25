@@ -11,14 +11,17 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import todo.model.TodoListId;
 import todo.model.mapper.TodoMappers;
-import todo.model.query.TodoListQueryRepository;
 import todo.model.view.TodoItemsView;
 import todo.model.view.TodoListView;
+import todo.model.view.TodoListViewRepository;
 import todo.model.view.TodoListsView;
 
+/**
+ * The implementation of the {@link TodoListViewRepository} for MongoDB.
+ */
 @Slf4j
 @ApplicationScoped
-public class MongodbQueryRepository implements TodoListQueryRepository {
+public class MongodbViewRepository implements TodoListViewRepository {
 
     @Inject
     MongodbCommandRepository mongodbCommandRepository;

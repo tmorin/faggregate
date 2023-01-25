@@ -13,6 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import todo.model.TodoListId;
 
+/**
+ * The persister persists a list of domain events.
+ *
+ * @param <E> the type of the events
+ */
 @RequiredArgsConstructor
 @Slf4j
 @FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)

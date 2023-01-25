@@ -15,15 +15,23 @@ import todo.model.TodoListId;
 import todo.model.command.TodoList;
 import todo.model.command.TodoListConfigurer;
 
+/**
+ * The producer produces an {@link AggregateManager} for the {@link TodoList} aggregate.
+ */
 @Slf4j
 @ApplicationScoped
-public class TodoListAggregateManagerProducer implements Supplier<AggregateManager<TodoListId>> {
+class TodoListAggregateManagerProducer implements Supplier<AggregateManager<TodoListId>> {
 
     @Inject
     @Any
     @TodoListConfigurer
     Instance<Configurer<TodoListId, TodoList>> configurers;
 
+    /**
+     * Produce an aggregate manager for the {@link TodoList} aggregate.
+     *
+     * @return the aggregate manager
+     */
     @Override
     @Produces
     public AggregateManager<TodoListId> get() {

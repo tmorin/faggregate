@@ -3,16 +3,19 @@ package todo.quarkus.query;
 import javax.enterprise.util.AnnotationLiteral;
 import todo.model.query.QueryHandler;
 
+/**
+ * An implementation of the {@link QueryHandler.Handle} qualifier.
+ */
 class HandleQualifier extends AnnotationLiteral<QueryHandler.Handle> implements QueryHandler.Handle {
 
-    final Class<?> name;
+    final Class<?> type;
 
-    HandleQualifier(Class<?> name) {
-        this.name = name;
+    HandleQualifier(Class<?> type) {
+        this.type = type;
     }
 
     @Override
     public Class<?> value() {
-        return name;
+        return type;
     }
 }

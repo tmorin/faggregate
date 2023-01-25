@@ -5,6 +5,9 @@ import lombok.experimental.NonFinal;
 import lombok.extern.jackson.Jacksonized;
 import todo.model.TodoListId;
 
+/**
+ * The view represents a TodoList.
+ */
 @Value
 @NonFinal
 @Builder

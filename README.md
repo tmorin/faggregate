@@ -9,6 +9,12 @@
 
 ## Features
 
+### Outbox Pattern
+
+The library handle the transactional part of the [Outbox Pattern](https://microservices.io/patterns/data/transactional-outbox.html).
+
+The [todo-infra-quarkus](examples/todo-infra-quarkus) example demonstrates the usage of MongoDB to store the state and the domain events of an Aggregate.
+
 ### Native Image
 
 The library is designed to be integrated directly into a [Native Image](https://www.graalvm.org/latest/reference-manual/native-image/basics/).

@@ -10,6 +10,7 @@
     <groupId>io.morin.faggregate.examples</groupId>
     <artifactId>faggregate-examples</artifactId>
     <packaging>pom</packaging>
+
     <description>A parent POM grouping packages related to example.</description>
 
     <modules>

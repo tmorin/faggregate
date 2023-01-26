@@ -6,8 +6,11 @@
         <artifactId>faggregate-examples</artifactId>
         <version>1.1.0-SNAPSHOT</version>
     </parent>
+
     <artifactId>examples-todo-infra-quarkus</artifactId>
+
     <description>A simple implementation of the faggregate-examples-todo-model module.</description>
+
     <properties>
         <compiler-plugin.version>3.8.1</compiler-plugin.version>
         <failsafe.useModulePath>false</failsafe.useModulePath>
@@ -19,6 +22,7 @@
         <quarkus.platform.version>2.15.3.Final</quarkus.platform.version>
         <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
     </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -30,6 +34,7 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
     <dependencies>
         <dependency>
             <groupId>io.morin.faggregate.examples</groupId>
@@ -72,6 +77,7 @@
             <artifactId>mockito-junit-jupiter</artifactId>
         </dependency>
     </dependencies>
+
     <build>
         <plugins>
             <plugin>
@@ -110,6 +116,7 @@
             </plugin>
         </plugins>
     </build>
+
     <profiles>
         <profile>
             <id>native</id>

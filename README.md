@@ -2,6 +2,7 @@
 
 [![Continuous Integration - Build](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml)
 
+
 > A Java library helping to implement DDD aggregates with a functional touch.
 
 1. define the data structure of the aggregate's state
@@ -33,21 +34,25 @@ Therefore, a custom configuration is required to resolve the artifacts, please r
 
 ### Manual integration
 
+[The GitHub Package](https://github.com/tmorin/faggregate/packages/1453016)
+
 ```xml
 <dependency>
     <groupId>io.morin.faggregate</groupId>
     <artifactId>faggregate-core-simple</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 
 ### Service Loader integration
 
+[The GitHub Package](https://github.com/tmorin/faggregate/packages/1453021)
+
 ```xml
 <dependency>
     <groupId>io.morin.faggregate</groupId>
     <artifactId>faggregate-spi-simple</artifactId>
-    <version>1.0.0-SNAPSHOT</version>
+    <version>1.0.0</version>
 </dependency>
 ```
 

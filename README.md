@@ -1,5 +1,7 @@
 # faggregate
 
+[![Continuous Integration - Build](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml)
+
 > A Java library helping to implement DDD aggregates with a functional touch.
 
 1. define the data structure of the aggregate's state
@@ -19,10 +21,7 @@ The [todo-infra-quarkus](examples/todo-infra-quarkus) example demonstrates the u
 
 The library is designed to be integrated directly into a [Native Image](https://www.graalvm.org/latest/reference-manual/native-image/basics/).
 
-The Git repository provides an E2E exemple leveraging on [Quarkus](https://quarkus.io):
-
-- [The domain implementation](examples/todo-core)
-- [The Quarkus implementation](examples/todo-infra-quarkus)
+The [todo-infra-quarkus](examples/todo-infra-quarkus) example provides an E2E exemple leveraging on [Quarkus](https://quarkus.io).
 
 ## Installation
 

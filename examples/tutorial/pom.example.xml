@@ -6,7 +6,7 @@
     <groupId>io.morin.faggregate</groupId>
     <artifactId>examples-tutorial</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <description>This Maven module is the implementation of the tutorial.</description>
+    <description>Elevate your DDD implementation with this Tutorial on a Java library that blends Aggregates and functional programming.</description>
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
@@ -18,7 +18,7 @@
         <dependency>
             <artifactId>faggregate-core-simple</artifactId>
             <groupId>io.morin.faggregate</groupId>
-            <version>1.1.0-SNAPSHOT</version>
+            <version>1.1.1</version>
         </dependency>
         <!-- EXTERNAL -->
         <dependency>

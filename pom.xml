@@ -4,7 +4,7 @@
 
     <groupId>io.morin.faggregate</groupId>
     <artifactId>faggregate</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.1.1</version>
     <packaging>pom</packaging>
 
     <name>faggregate</name>
@@ -30,7 +30,7 @@
         <connection>scm:git:git@github.com:tmorin/faggregate.git</connection>
         <developerConnection>scm:git:git@github.com:tmorin/faggregate.git</developerConnection>
         <url>https://github.com/tmorin/faggregate</url>
-        <tag>HEAD</tag>
+        <tag>faggregate-1.1.1</tag>
     </scm>
 
     <ciManagement>

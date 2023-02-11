@@ -3,13 +3,13 @@ package io.morin.faggregate.spi;
 import io.morin.faggregate.api.AggregateManagerBuilder;
 import java.util.Iterator;
 import java.util.ServiceLoader;
-import lombok.extern.slf4j.Slf4j;
+import lombok.extern.java.Log;
 import lombok.val;
 
 /**
  * The factory creates {@link AggregateManagerBuilder} leveraging on the {@link ServiceLoader} mechanism.
  */
-@Slf4j
+@Log
 public class SpiAggregateBuilderFactory {
 
     /**
@@ -41,7 +41,7 @@ public class SpiAggregateBuilderFactory {
         val provider = iterator.next();
 
         if (iterator.hasNext()) {
-            log.warn("More than one ContainerProvider are defined!");
+            log.warning("More than one ContainerProvider are defined!");
         }
 
         return provider.get();

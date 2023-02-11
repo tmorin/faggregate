@@ -71,8 +71,14 @@ Therefore, a custom configuration is required to resolve the artifacts, please r
 </dependency>
 ```
 
-## Release
+## Maintenance
 
+**Dependencies upgrade**
+```shell
+./mvnw versions:display-dependency-updates
+```
+
+**Release**
 ```shell
 ./mvnw --batch-mode release:clean \
 && ./mvnw --batch-mode release:prepare \

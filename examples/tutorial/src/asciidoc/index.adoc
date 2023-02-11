@@ -46,8 +46,7 @@ The source code of the tutorial is available on link:https://github.com/tmorin/f
 
 The Maven module brings four dependencies.
 The first one, `faggregate-core-simple`, brings the `faggregate` library.
-The second one, link:https://logback.qos.ch/[`logback-classic`], is a logger compliant with link:https://www.slf4j.org/[SLF4J].
-The third one, link:https://junit.org/junit5/docs/current/user-guide/[`junit-jupiter`], provides a test framework.
+The second one, link:https://junit.org/junit5/docs/current/user-guide/[`junit-jupiter`], provides a test framework.
 Finally, link:https://projectlombok.org/[`lombok`], _spices_ up java helping to save lines of codes.
 
 [source,xml,title=./pom.xml]

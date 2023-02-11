@@ -34,10 +34,10 @@ The [todo-infra-quarkus](examples/todo-infra-quarkus) example provides an E2E ex
 
 The library emphases some functional programing concepts like immutable structures.
 
-The [todo-core](examples/todo-core) example provides an implementation leveraging on the link:https://immutables.github.io[Immutables] Java library to easily and nicely force the immutable structures of the Aggregate state.
+The [todo-core](examples/todo-core) example provides an implementation leveraging on the [Immutables](https://immutables.github.io) Java library to easily and nicely force the immutable structures of the Aggregate state.
 
 The [todo-core](examples/todo-core) module is also used by [todo-infra-quarkus](examples/todo-infra-quarkus).
-Therefore, it demonstrates link:https://immutables.github.io[Immutables] can be used also into a Native Image.
+Therefore, it demonstrates [Immutables](https://immutables.github.io) can be used also into a Native Image.
 
 ## Installation
 

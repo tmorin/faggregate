@@ -16,7 +16,7 @@ class Counter {
     /**
      * The default value.
      */
-    static int DEFAULT_VALUE = 0;
+    static final int DEFAULT_VALUE = 0;
     /**
      * The identifier of the counter.
      */

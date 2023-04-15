@@ -48,15 +48,13 @@ class AggregateStatePersister {
         val deletionFilter = Filters.eq("deleted", false);
         val filter = Filters.and(idFilter, versionFilter, deletionFilter);
 
-        val record = new StateRecord(newSnapshotVersion, deletion, state);
-        log.debug("persist {}", record);
+        val stateRecord = new StateRecord(newSnapshotVersion, deletion, state);
+        log.debug("persist {}", stateRecord);
 
-        val updateResult = collection.replaceOne(session, filter, record, options);
+        val updateResult = collection.replaceOne(session, filter, stateRecord, options);
 
-        if (!options.isUpsert()) {
-            if (updateResult.getMatchedCount() < 1) {
-                return CompletableFuture.failedFuture(new AggregateNotFound(state.todoListId().toString()));
-            }
+        if (!options.isUpsert() && (updateResult.getMatchedCount() < 1)) {
+            return CompletableFuture.failedFuture(new AggregateNotFound(state.todoListId().toString()));
         }
 
         return CompletableFuture.completedFuture(null);

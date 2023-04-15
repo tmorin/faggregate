@@ -19,6 +19,11 @@
         <module>tutorial</module>
     </modules>
 
+    <properties>
+        <sonar.skip>true</sonar.skip>
+        <jacoco.skip>true</jacoco.skip>
+    </properties>
+
     <build>
         <pluginManagement>
             <plugins>

@@ -66,7 +66,7 @@ class MongodbQueryRepositoryTest {
         val nbrBefore = mongodbQueryRepository.loadLists().toCompletableFuture().get().getLists().size();
         createFixture();
         val nbrAfter = mongodbQueryRepository.loadLists().toCompletableFuture().get().getLists().size();
-        Assertions.assertEquals(nbrAfter - nbrBefore, 2);
+        Assertions.assertEquals(2, nbrAfter - nbrBefore);
     }
 
     @SneakyThrows

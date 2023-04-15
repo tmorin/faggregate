@@ -11,6 +11,7 @@ import lombok.val;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -48,6 +49,9 @@ class SimpleAggregateTest {
     @Mock
     Mutator<String, EmptyEvent> mutator;
 
+    @Mock
+    Middleware<String, EmptyCommandC, String> middleware;
+
     AggregateManager<String> aggregateManager;
 
     @BeforeEach
@@ -61,6 +65,12 @@ class SimpleAggregateTest {
             .when(destroyer.destroy(Mockito.any(), Mockito.any(), Mockito.any()))
             .thenReturn(CompletableFuture.completedFuture(null));
         Mockito.when(mutator.mutate(Mockito.any(), Mockito.any())).thenReturn("mutated state");
+        Mockito
+            .when(middleware.wrap(ArgumentMatchers.any(), ArgumentMatchers.any()))
+            .thenAnswer(invocation -> {
+                Middleware.Next<?> next = (Middleware.Next<?>) invocation.getArguments()[0];
+                return next.invoke();
+            });
 
         aggregateManager =
             SimpleAggregateManagerBuilder
@@ -73,6 +83,7 @@ class SimpleAggregateTest {
                 .add(EmptyCommandB.class, handlerB)
                 .add(EmptyCommandC.class, handlerC, Intention.DESTRUCTION)
                 .add(EmptyEvent.class, mutator)
+                .add(middleware)
                 .build();
     }
 

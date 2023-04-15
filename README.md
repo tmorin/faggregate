@@ -1,6 +1,7 @@
 # faggregate
 
 [![Continuous Integration - Build](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tmorin_faggregate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tmorin_faggregate)
 
 > Unlock the Power of DDD Aggregates and Functional Programming with `faggregate`!
 > This Java Library simplifies the implementation of complex business systems by offering a set of tools and abstractions that make it easy to build robust and scalable software.

@@ -19,7 +19,7 @@ class EventRecord {
     /**
      * The identifier of the TodoList.
      */
-    TodoListId TodoList;
+    TodoListId todoList;
 
     /**
      *

@@ -2,6 +2,7 @@ package todo.quarkus.command;
 
 import io.quarkus.test.junit.QuarkusTest;
 import lombok.val;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 @QuarkusTest
@@ -9,7 +10,7 @@ class CommandGatewayTest {
 
     @Test
     void testCreateTodoList() {
-        CommandRequests.executeCreateTodoList();
+        Assertions.assertDoesNotThrow(CommandRequests::executeCreateTodoList);
     }
 
     @Test

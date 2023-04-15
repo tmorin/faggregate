@@ -76,9 +76,7 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
     @Override
     @SuppressWarnings("unchecked")
     public <E> AggregateManagerBuilder<I, S> add(@NonNull Class<E> type, @NonNull Mutator<S, E> mutator) {
-        if (!this.mutators.containsKey(type)) {
-            this.mutators.put(type, new ArrayList<>());
-        }
+        this.mutators.computeIfAbsent(type, aClass -> new ArrayList<>());
         this.mutators.get(type).add((Mutator<S, Object>) mutator);
         return this;
     }

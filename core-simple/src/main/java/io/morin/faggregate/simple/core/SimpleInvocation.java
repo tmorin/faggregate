@@ -16,7 +16,7 @@ import lombok.val;
 
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-class SimpleInvocation<I, C, R> implements Middleware.Next<R> {
+class SimpleInvocation<R> implements Middleware.Next<R> {
 
     Middleware.Next<R> next;
 
@@ -36,25 +36,31 @@ class SimpleInvocation<I, C, R> implements Middleware.Next<R> {
         return (Middleware<I, C, R>) handler;
     }
 
-    static <I, C, R> CompletableFuture<Output<R>> execute(
+    static <I, C, O> CompletableFuture<Output<O>> execute(
         final List<Middleware<I, ?, ?>> middlewares,
-        final Middleware.Next<R> commandInvocation,
+        final Middleware.Next<O> commandInvocation,
         final Context<I, C> context
     ) {
         if (!middlewares.isEmpty()) {
-            final List<Middleware<I, C, R>> reversedMiddlewares = reverse(middlewares);
+            final List<Middleware<I, C, O>> reversedMiddlewares = reverse(middlewares);
             var descendantInvocation = new SimpleInvocation<>(() ->
                 reversedMiddlewares.get(0).wrap(commandInvocation, context)
             );
-            val otherMiddlewares = reversedMiddlewares.stream().skip(1).collect(Collectors.toList());
-            for (val parentMiddleware : otherMiddlewares) {
-                val nextInvocation = descendantInvocation;
-                descendantInvocation = new SimpleInvocation<>(() -> parentMiddleware.wrap(nextInvocation, context));
+            for (val parentMiddleware : reversedMiddlewares.stream().skip(1).collect(Collectors.toList())) {
+                descendantInvocation = wrap(parentMiddleware, context, descendantInvocation);
             }
             return descendantInvocation.invoke().toCompletableFuture();
         }
 
         return commandInvocation.invoke().toCompletableFuture();
+    }
+
+    private static <I, C, O> SimpleInvocation<O> wrap(
+        final Middleware<I, C, O> parentMiddleware,
+        final Context<I, C> context,
+        final SimpleInvocation<O> descendantInvocation
+    ) {
+        return new SimpleInvocation<>(() -> parentMiddleware.wrap(descendantInvocation, context));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package todo.model.mapper;
 
+import lombok.experimental.UtilityClass;
 import todo.model.command.TodoItem;
 import todo.model.command.TodoList;
 import todo.model.view.TodoItemView;
@@ -8,6 +9,7 @@ import todo.model.view.TodoListView;
 /**
  * Map entities to views.
  */
+@UtilityClass
 public class TodoMappers {
 
     /**

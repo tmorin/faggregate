@@ -29,7 +29,7 @@ class CounterRepositoryTest {
         val context = ExecutionContext.create(identifier, "command");
         val counter = counterRepository.initialize(context).get();
         assertEquals(counter.getCounterId(), identifier);
-        assertEquals(counter.getValue(), Counter.DEFAULT_VALUE);
+        assertEquals(Counter.DEFAULT_VALUE, counter.getValue());
     }
 
     @Test

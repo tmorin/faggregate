@@ -20,10 +20,10 @@ import todo.model.command.TodoList;
 @Slf4j
 public class MongodbCommandRepository implements TodoListRepository {
 
-    static String DATABASE_NAME = "todo";
-    static String COLLECTION_NAME_STATE = "state";
-    static String COLLECTION_NAME_EVENTS = "events";
-    static String CONTEXT_KEY_VERSION = "version";
+    static final String DATABASE_NAME = "todo";
+    static final String COLLECTION_NAME_STATE = "state";
+    static final String COLLECTION_NAME_EVENTS = "events";
+    static final String CONTEXT_KEY_VERSION = "version";
 
     @Inject
     MongoClient client;
@@ -71,9 +71,7 @@ public class MongodbCommandRepository implements TodoListRepository {
                     session.commitTransaction();
                 }
             })
-            .whenComplete((unused, throwable) -> {
-                session.close();
-            });
+            .whenComplete((unused, throwable) -> session.close());
     }
 
     @Override
@@ -86,8 +84,8 @@ public class MongodbCommandRepository implements TodoListRepository {
         val idFilter = Filters.eq("body.todoListId.uuid", todoListId.getUuid().toString());
         val deletionFilter = Filters.eq("deleted", false);
         val filter = Filters.and(idFilter, deletionFilter);
-        val record = getStateCollection().find().skip(0).limit(1).filter(filter).first();
-        return CompletableFuture.completedFuture(Optional.ofNullable(record));
+        val stateRecord = getStateCollection().find().skip(0).limit(1).filter(filter).first();
+        return CompletableFuture.completedFuture(Optional.ofNullable(stateRecord));
     }
 
     @Override

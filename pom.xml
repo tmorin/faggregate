@@ -49,6 +49,7 @@
 
     <modules>
         <module>core-api</module>
+        <module>core-scenario</module>
         <module>core-simple</module>
         <module>spi-api</module>
         <module>spi-simple</module>

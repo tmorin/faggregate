@@ -40,6 +40,10 @@ The [todo-core](examples/todo-core) example provides an implementation leveragin
 The [todo-core](examples/todo-core) module is also used by [todo-infra-quarkus](examples/todo-infra-quarkus).
 Therefore, it demonstrates [Immutables](https://immutables.github.io) can be used also into a Native Image.
 
+### Validation framework
+
+The library provides a tiny framework ([core-scenario](core-scenario)) to drive and validate the implementation of side effects.
+
 ## Installation
 
 The library provides an implementation: `faggregate-core-simple`.
@@ -68,6 +72,16 @@ Therefore, a custom configuration is required to resolve the artifacts, please r
 <dependency>
     <groupId>io.morin.faggregate</groupId>
     <artifactId>faggregate-spi-simple</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### The validation framework
+
+```xml
+<dependency>
+    <groupId>io.morin.faggregate</groupId>
+    <artifactId>faggregate-core-validation</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```

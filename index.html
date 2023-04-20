@@ -716,7 +716,7 @@ However, <code>faggregate</code> emphasizes a functional approach, therefore the
     <span class="comment">/**
      * The default value.
      */</span>
-    <span class="directive">static</span> <span class="type">int</span> DEFAULT_VALUE = <span class="integer">0</span>;
+    <span class="directive">static</span> <span class="directive">final</span> <span class="type">int</span> DEFAULT_VALUE = <span class="integer">0</span>;
     <span class="comment">/**
      * The identifier of the counter.
      */</span>
@@ -1202,7 +1202,7 @@ Therefore, the tutorial implements and registers all side effects even if only t
         val context = ExecutionContext.create(identifier, <span class="string"><span class="delimiter">&quot;</span><span class="content">command</span><span class="delimiter">&quot;</span></span>);
         val counter = counterRepository.initialize(context).get();
         assertEquals(counter.getCounterId(), identifier);
-        assertEquals(counter.getValue(), Counter.DEFAULT_VALUE);
+        assertEquals(Counter.DEFAULT_VALUE, counter.getValue());
     }
 
     <span class="annotation">@Test</span>

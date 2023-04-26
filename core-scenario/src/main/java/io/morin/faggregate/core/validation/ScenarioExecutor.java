@@ -65,7 +65,8 @@ public class ScenarioExecutor {
                         .ofNullable(scenario.getThen().getState())
                         .ifPresent(expectedState -> {
                             assert currentState.equals(expectedState) : String.format(
-                                "the expected state doesn't match the current one:%n%s%n%s",
+                                "%s - the expected state doesn't match the current one:%n%s%n%s",
+                                scenario.getName(),
                                 expectedState,
                                 currentState
                             );
@@ -74,7 +75,8 @@ public class ScenarioExecutor {
                     val currentEvents = output.getEvents();
                     val expectedEvents = scenario.getThen().getEvents();
                     assert expectedEvents.size() == currentEvents.size() : String.format(
-                        "the number of expected events (%s) doesn't match the current ones (%s)",
+                        "%s - the number of expected events (%s) doesn't match the current ones (%s)",
+                        scenario.getName(),
                         expectedEvents.size(),
                         currentEvents.size()
                     );
@@ -83,7 +85,8 @@ public class ScenarioExecutor {
                     for (val expectedEvent : expectedEvents) {
                         val currentEvent = currentEvents.get(index);
                         assert expectedEvent.equals(currentEvent) : String.format(
-                            "the expected event (%s) doesn't match the current one (%s):%n%s%n%s",
+                            "%s - the expected event (%s) doesn't match the current one (%s):%n%s%n%s",
+                            scenario.getName(),
                             index,
                             index,
                             expectedEvent,

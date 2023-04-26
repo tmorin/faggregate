@@ -27,14 +27,23 @@ public class Suite {
      * @param after  the after lambda
      */
     @SneakyThrows
-    public CompletableFuture<Void> execute(
-        @NonNull AggregateManager<Object> am,
+    @SuppressWarnings("unchecked")
+    public <I> CompletableFuture<Void> execute(
+        @NonNull AggregateManager<I> am,
         @NonNull ScenarioExecutor.Before before,
         @NonNull ScenarioExecutor.After after
     ) {
         val executors = scenarios
             .stream()
-            .map(scenario -> ScenarioExecutor.builder().scenario(scenario).am(am).before(before).after(after).build())
+            .map(scenario ->
+                ScenarioExecutor
+                    .builder()
+                    .scenario(scenario)
+                    .am((AggregateManager<Object>) am)
+                    .before(before)
+                    .after(after)
+                    .build()
+            )
             .collect(Collectors.toList());
 
         for (val executor : executors) {

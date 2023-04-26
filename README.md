@@ -44,6 +44,10 @@ Therefore, it demonstrates [Immutables](https://immutables.github.io) can be use
 
 The library provides a tiny framework ([core-scenario](core-scenario)) to drive and validate the implementation of side effects.
 
+The [todo-core](examples/todo-core) example provides an implementation of scenarios suite.
+
+The [todo-infra-quarkus](examples/todo-infra-quarkus) example proves its correctness executing the scenarios suite as an Integration Test.
+
 ## Installation
 
 The library provides an implementation: `faggregate-core-simple`.

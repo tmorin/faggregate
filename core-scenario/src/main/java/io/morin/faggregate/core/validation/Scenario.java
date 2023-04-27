@@ -60,6 +60,12 @@ public class Scenario {
          */
         @Singular
         List<?> events;
+
+        /**
+         * A set of initial commands.
+         */
+        @Singular
+        List<?> commands;
     }
 
     /**

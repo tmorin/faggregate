@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
+import java.util.concurrent.ExecutionException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.NonNull;
@@ -56,6 +57,16 @@ public class ScenarioExecutor {
             .ofNullable(scenario.getGiven().getState())
             .map(state -> before.invoke(scenario.getGiven().getIdentifier(), state, scenario.getGiven().getEvents()))
             .orElseGet(() -> CompletableFuture.completedStage(null))
+            .thenAccept(unused -> {
+                try {
+                    for (Object command : scenario.getGiven().getCommands()) {
+                        am.execute(scenario.getGiven().getIdentifier(), command).get();
+                    }
+                } catch (InterruptedException | ExecutionException e) {
+                    Thread.currentThread().interrupt();
+                    throw new IllegalStateException(e);
+                }
+            })
             .thenCompose(unused -> am.execute(scenario.getGiven().getIdentifier(), scenario.getWhen().getCommand()))
             .thenCombine(
                 after.invoke(scenario.getGiven().getIdentifier()),

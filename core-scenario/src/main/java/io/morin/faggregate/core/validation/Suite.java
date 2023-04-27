@@ -2,6 +2,7 @@ package io.morin.faggregate.core.validation;
 
 import io.morin.faggregate.api.AggregateManager;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 import lombok.*;
@@ -23,6 +24,16 @@ public class Suite {
      * Execute the scenarios sequentially.
      *
      * @param am     the Aggregate Manager
+     */
+    @SneakyThrows
+    public <I> CompletableFuture<Void> execute(@NonNull AggregateManager<I> am) {
+        return execute(am, null, null);
+    }
+
+    /**
+     * Execute the scenarios sequentially.
+     *
+     * @param am     the Aggregate Manager
      * @param before the before lambda
      * @param after  the after lambda
      */
@@ -30,8 +41,8 @@ public class Suite {
     @SuppressWarnings("unchecked")
     public <I> CompletableFuture<Void> execute(
         @NonNull AggregateManager<I> am,
-        @NonNull ScenarioExecutor.Before before,
-        @NonNull ScenarioExecutor.After after
+        ScenarioExecutor.Before before,
+        ScenarioExecutor.After after
     ) {
         val executors = scenarios
             .stream()
@@ -40,8 +51,12 @@ public class Suite {
                     .builder()
                     .scenario(scenario)
                     .am((AggregateManager<Object>) am)
-                    .before(before)
-                    .after(after)
+                    .before(
+                        Optional
+                            .ofNullable(before)
+                            .orElse((identifier, state, events) -> CompletableFuture.completedStage(null))
+                    )
+                    .after(Optional.ofNullable(after).orElse(identifier -> CompletableFuture.completedStage(null)))
                     .build()
             )
             .collect(Collectors.toList());

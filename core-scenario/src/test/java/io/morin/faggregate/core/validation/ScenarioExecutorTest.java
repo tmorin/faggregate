@@ -1,6 +1,6 @@
 package io.morin.faggregate.core.validation;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -15,6 +15,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.internal.verification.NoInteractions;
 import org.mockito.internal.verification.Only;
+import org.mockito.internal.verification.Times;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -33,6 +34,8 @@ class ScenarioExecutorTest {
     String expectedState = "JOHN DOE";
     UppercaseApplied expectedEvent = new UppercaseApplied(initialState, expectedState);
     UppercaseApplied wrongExpectedEvent = new UppercaseApplied(initialState, initialState);
+    String commandA = "commandA";
+    String commandB = "commandB";
 
     Scenario scenario;
     Scenario scenarioAlt;
@@ -46,7 +49,15 @@ class ScenarioExecutorTest {
             Scenario
                 .builder()
                 .name("scenario #1")
-                .given(Scenario.Given.builder().identifier("id").state(initialState).build())
+                .given(
+                    Scenario.Given
+                        .builder()
+                        .identifier("id")
+                        .state(initialState)
+                        .command(commandA)
+                        .command(commandB)
+                        .build()
+                )
                 .when(Scenario.When.builder().command(new ApplyUppercase()).build())
                 .then(Scenario.Then.builder().state(expectedState).event(expectedEvent).build())
                 .build();
@@ -64,20 +75,24 @@ class ScenarioExecutorTest {
 
     @Test
     void shouldSuccess() {
-        when(am.execute(any(), any()))
+        when(am.execute(eq("id"), any(ApplyUppercase.class)))
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).add(expectedEvent).build()));
+        when(am.execute(eq("id"), any(String.class)))
+            .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).build()));
         when(after.invoke(any())).thenReturn(CompletableFuture.completedStage(expectedState));
         Assertions.assertDoesNotThrow(() -> executor.execute().toCompletableFuture().get());
-        verify(before, new Only()).invoke(any(), any(), any());
+        verify(before, new Only()).invoke(eq("id"), eq(initialState), anyList());
+        verify(am, new Times(2)).execute(eq("id"), any(String.class));
     }
 
     @Test
     void shouldSuccessWhenInitialState() {
-        when(am.execute(any(), any()))
+        when(am.execute(eq("id"), any(ApplyUppercase.class)))
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).add(expectedEvent).build()));
         when(after.invoke(any())).thenReturn(CompletableFuture.completedStage(expectedState));
         Assertions.assertDoesNotThrow(() -> executorAlt.execute().toCompletableFuture().get());
         verify(before, new NoInteractions()).invoke(any(), any(), any());
+        verify(am, new Only()).execute(eq("id"), any(ApplyUppercase.class));
     }
 
     @Test
@@ -108,6 +123,13 @@ class ScenarioExecutorTest {
             );
         when(after.invoke(any())).thenReturn(CompletableFuture.completedStage(expectedState));
 
+        Assertions.assertThrows(ExecutionException.class, () -> executor.execute().toCompletableFuture().get());
+    }
+
+    @Test
+    void shouldFailedWhenTooGivenCommandFailed() {
+        when(am.execute(eq("id"), any(String.class))).thenThrow(new RuntimeException("an exception"));
+        when(after.invoke(any())).thenReturn(CompletableFuture.completedStage(expectedState));
         Assertions.assertThrows(ExecutionException.class, () -> executor.execute().toCompletableFuture().get());
     }
 }

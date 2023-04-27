@@ -78,7 +78,7 @@ class SuiteTest {
 
         verify(am, Mockito.times(3)).execute(any(), any());
         verify(after, Mockito.times(3)).invoke(any());
-        verify(scenarioA, Mockito.times(3)).getGiven();
+        verify(scenarioA, Mockito.times(4)).getGiven();
         verify(scenarioB, Mockito.times(1)).getWhen();
         verify(scenarioC, Mockito.times(2)).getThen();
     }

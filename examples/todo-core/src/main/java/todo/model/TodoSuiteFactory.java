@@ -1,11 +1,10 @@
-package todo.model.command;
+package todo.model;
 
 import io.morin.faggregate.core.validation.Scenario;
 import io.morin.faggregate.core.validation.Suite;
 import lombok.experimental.UtilityClass;
 import lombok.val;
-import todo.model.TodoItemId;
-import todo.model.TodoListId;
+import todo.model.command.*;
 import todo.model.event.*;
 
 @UtilityClass
@@ -41,13 +40,7 @@ public class TodoSuiteFactory {
                 Scenario
                     .builder()
                     .name("Add a new Item")
-                    .given(
-                        Scenario.Given
-                            .builder()
-                            .identifier(todoListId)
-                            .event(TodoListCreatedEvt.builder().todoListId(todoListId).label(todoListLabel).build())
-                            .build()
-                    )
+                    .given(Scenario.Given.builder().identifier(todoListId).build())
                     .when(
                         Scenario.When
                             .builder()
@@ -80,21 +73,7 @@ public class TodoSuiteFactory {
                 Scenario
                     .builder()
                     .name("Toggle an existing Item")
-                    .given(
-                        Scenario.Given
-                            .builder()
-                            .identifier(todoListId)
-                            .event(TodoListCreatedEvt.builder().todoListId(todoListId).label(todoListLabel).build())
-                            .event(
-                                TodoItemAddedEvt
-                                    .builder()
-                                    .todoListId(todoListId)
-                                    .todoItemId(todoItemIdA)
-                                    .label(todoListLabel)
-                                    .build()
-                            )
-                            .build()
-                    )
+                    .given(Scenario.Given.builder().identifier(todoListId).build())
                     .when(
                         Scenario.When
                             .builder()
@@ -120,29 +99,7 @@ public class TodoSuiteFactory {
                 Scenario
                     .builder()
                     .name("Toggle an existing Item")
-                    .given(
-                        Scenario.Given
-                            .builder()
-                            .identifier(todoListId)
-                            .event(TodoListCreatedEvt.builder().todoListId(todoListId).label(todoListLabel).build())
-                            .event(
-                                TodoItemAddedEvt
-                                    .builder()
-                                    .todoListId(todoListId)
-                                    .todoItemId(todoItemIdA)
-                                    .label(todoListLabel)
-                                    .build()
-                            )
-                            .event(
-                                TodoItemToggledEvt
-                                    .builder()
-                                    .todoListId(todoListId)
-                                    .todoItemId(todoItemIdA)
-                                    .completed(true)
-                                    .build()
-                            )
-                            .build()
-                    )
+                    .given(Scenario.Given.builder().identifier(todoListId).build())
                     .when(
                         Scenario.When
                             .builder()
@@ -168,21 +125,7 @@ public class TodoSuiteFactory {
                 Scenario
                     .builder()
                     .name("Remove an existing Item")
-                    .given(
-                        Scenario.Given
-                            .builder()
-                            .identifier(todoListId)
-                            .event(TodoListCreatedEvt.builder().todoListId(todoListId).label(todoListLabel).build())
-                            .event(
-                                TodoItemAddedEvt
-                                    .builder()
-                                    .todoListId(todoListId)
-                                    .todoItemId(todoItemIdA)
-                                    .label(todoListLabel)
-                                    .build()
-                            )
-                            .build()
-                    )
+                    .given(Scenario.Given.builder().identifier(todoListId).build())
                     .when(
                         Scenario.When
                             .builder()
@@ -201,21 +144,7 @@ public class TodoSuiteFactory {
                 Scenario
                     .builder()
                     .name("Delete an existing List")
-                    .given(
-                        Scenario.Given
-                            .builder()
-                            .identifier(todoListId)
-                            .event(TodoListCreatedEvt.builder().todoListId(todoListId).label(todoListLabel).build())
-                            .event(
-                                TodoItemAddedEvt
-                                    .builder()
-                                    .todoListId(todoListId)
-                                    .todoItemId(todoItemIdA)
-                                    .label(todoListLabel)
-                                    .build()
-                            )
-                            .build()
-                    )
+                    .given(Scenario.Given.builder().identifier(todoListId).build())
                     .when(
                         Scenario.When
                             .builder()

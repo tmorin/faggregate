@@ -89,11 +89,10 @@ class SuiteTest {
         when(scenarioA.getWhen()).thenReturn(when);
 
         when(am.execute(any(), any())).thenReturn(CompletableFuture.failedFuture(new Exception("exception")));
-        when(after.invoke(any())).thenReturn(CompletableFuture.completedFuture(null));
 
         assertThrows(
             ExecutionException.class,
-            () -> Suite.builder().scenario(scenarioA).build().execute(am, before, after).toCompletableFuture().get()
+            () -> Suite.builder().scenario(scenarioA).build().execute(am).toCompletableFuture().get()
         );
     }
 }

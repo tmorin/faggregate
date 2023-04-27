@@ -127,8 +127,8 @@ class ScenarioExecutorTest {
     }
 
     @Test
-    void shouldFailedWhenTooGivenCommandFailed() {
-        when(am.execute(eq("id"), any(String.class))).thenThrow(new RuntimeException("an exception"));
+    void shouldFailedWhenGivenCommandFailed() {
+        when(am.execute("id", commandA)).thenReturn(CompletableFuture.failedFuture(new Exception()));
         when(after.invoke(any())).thenReturn(CompletableFuture.completedStage(expectedState));
         Assertions.assertThrows(ExecutionException.class, () -> executor.execute().toCompletableFuture().get());
     }

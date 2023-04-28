@@ -51,6 +51,8 @@ public class ScenarioExecutor {
      *     <li>Fetch the aggregate state invoking {@link ScenarioExecutor#before}</li>
      *     <li>Assert the expectation</li>
      * </ul>
+     *
+     * @return a completion stage
      */
     public CompletionStage<Void> execute() {
         return Optional
@@ -121,6 +123,7 @@ public class ScenarioExecutor {
          * @param identifier the identifier of the aggregate
          * @param state      the initial state of the aggregate
          * @param events     a set of initial domain events
+         * @return a completion stage
          */
         CompletionStage<Void> invoke(@NonNull Object identifier, @NonNull Object state, @NonNull List<?> events);
     }
@@ -134,6 +137,7 @@ public class ScenarioExecutor {
          * Fetch the state of the aggregate.
          *
          * @param identifier the identifier of the aggregate
+         * @return a completion stage
          */
         CompletionStage<Object> invoke(@NonNull Object identifier);
     }

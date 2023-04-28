@@ -23,7 +23,9 @@ public class Suite {
     /**
      * Execute the scenarios sequentially.
      *
-     * @param am     the Aggregate Manager
+     * @param am the Aggregate Manager
+     * @return a completion stage
+     * @param <I> The type of the identifier
      */
     @SneakyThrows
     public <I> CompletableFuture<Void> execute(@NonNull AggregateManager<I> am) {
@@ -36,6 +38,8 @@ public class Suite {
      * @param am     the Aggregate Manager
      * @param before the before lambda
      * @param after  the after lambda
+     * @return a completion stage
+     * @param <I> The type of the identifier
      */
     @SneakyThrows
     @SuppressWarnings("unchecked")

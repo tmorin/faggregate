@@ -7,6 +7,9 @@
 :doctype: article
 :description: Elevate your DDD implementation with this tutorial on a Java library that blends Aggregates & functional programming. Gain hands-on expertise now!
 
+[abstract]
+== Abstract
+
 Unlock the full potential of Domain Driven Design implementation with this step-by-step tutorial focusing on `faggregate` that blends Aggregates and functional programming.
 This library provides developers with a powerful tool to simplify complex development tasks, and this tutorial will give you the hands-on experience and insights you need to effectively utilize its capabilities.
 Whether you're a seasoned Java developer or just starting out, this tutorial is the perfect resource for anyone looking to take their DDD implementation to the next level.

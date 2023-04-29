@@ -1,4 +1,4 @@
-package faggreat.tutorial;
+package faggregate.tutorial;
 
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;

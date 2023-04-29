@@ -1,7 +1,6 @@
-package faggreat.tutorial;
+package faggregate.tutorial;
 
 import io.morin.faggregate.api.Mutator;
-import lombok.val;
 
 /**
  * The ${@link CounterChangedMutator} Mutator mutates the state of the {@link Counter} Aggregate according to

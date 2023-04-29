@@ -1,4 +1,4 @@
-package faggreat.tutorial;
+package faggregate.tutorial;
 
 import io.morin.faggregate.api.*;
 import java.util.*;

@@ -67,41 +67,41 @@ Domain events are used to capture the state changes that occur as a result of pr
 
 === The Root Aggregate
 
-a Root Aggregate is a cluster of related entities that are treated as a single unit with respect to transactions and consistency.
+A Root Aggregate is a cluster of related entities that are treated as a single unit with respect to transactions and consistency.
 The root aggregate defines a boundary around a set of related entities, and it is responsible for ensuring that changes to its entities are made in a consistent and valid state.
 
 In this tutorial, the Root Aggregate of the `Counter` Aggregate, is the `Counter` Entity.
 Usually, a Root Aggregate is an Entity which is mutable.
 However, `faggregate` emphasizes a functional approach, therefore the Root Aggregate is an immutable structure.
 
-[source,java,title=src/main/java/faggreat/tutorial/Counter.java]
+[source,java,title=src/main/java/faggregate/tutorial/Counter.java]
 ----
-include::../../src/main/java/faggreat/tutorial/Counter.java[]
+include::../../src/main/java/faggregate/tutorial/Counter.java[]
 ----
 
 The Root Aggregate is covered by the following unit test.
 
-[source,java,title=src/test/java/faggreat/tutorial/CounterTest.java]
+[source,java,title=src/test/java/faggregate/tutorial/CounterTest.java]
 ----
-include::../../src/test/java/faggreat/tutorial/CounterTest.java[]
+include::../../src/test/java/faggregate/tutorial/CounterTest.java[]
 ----
 
 === The Command
 
 The `IncrementCounter` Command transfers the intention to increment the counter.
 
-[source,java,title=src/main/java/faggreat/tutorial/IncrementCounter.java]
+[source,java,title=src/main/java/faggregate/tutorial/IncrementCounter.java]
 ----
-include::../../src/main/java/faggreat/tutorial/IncrementCounter.java[]
+include::../../src/main/java/faggregate/tutorial/IncrementCounter.java[]
 ----
 
 === The Domain Event
 
 The `CounterChanged` Domain Event states the value of a counter has been changed.
 
-[source,java,title=src/main/java/faggreat/tutorial/CounterChanged.java]
+[source,java,title=src/main/java/faggregate/tutorial/CounterChanged.java]
 ----
-include::../../src/main/java/faggreat/tutorial/CounterChanged.java[]
+include::../../src/main/java/faggregate/tutorial/CounterChanged.java[]
 ----
 
 == The Command Handler
@@ -126,16 +126,16 @@ command_handler --> domain_events
 
 The `IncrementCounterHandler` Command Handler handles the `IncrementCounter` Command and produces the `CounterChanged` Domain Event based on the latest known state of the `Counter` Aggregate.
 
-[source,java,title=src/main/java/faggreat/tutorial/IncrementCounterHandler.java]
+[source,java,title=src/main/java/faggregate/tutorial/IncrementCounterHandler.java]
 ----
-include::../../src/main/java/faggreat/tutorial/IncrementCounterHandler.java[]
+include::../../src/main/java/faggregate/tutorial/IncrementCounterHandler.java[]
 ----
 
 The Command Handler is covered by the following unit test.
 
-[source,java,title=src/test/java/faggreat/tutorial/IncrementCounterHandlerTest.java]
+[source,java,title=src/test/java/faggregate/tutorial/IncrementCounterHandlerTest.java]
 ----
-include::../../src/test/java/faggreat/tutorial/IncrementCounterHandlerTest.java[]
+include::../../src/test/java/faggregate/tutorial/IncrementCounterHandlerTest.java[]
 ----
 
 == The Mutator
@@ -158,16 +158,16 @@ mutator --> new_aggregate
 
 The `CounterChangedMutator` Mutator mutates the state of the `Counter` Aggregate according to the `CounterChangedMutator` Domain Event.
 
-[source,java,title=src/main/java/faggreat/tutorial/CounterChangedMutator.java]
+[source,java,title=src/main/java/faggregate/tutorial/CounterChangedMutator.java]
 ----
-include::../../src/main/java/faggreat/tutorial/CounterChangedMutator.java[]
+include::../../src/main/java/faggregate/tutorial/CounterChangedMutator.java[]
 ----
 
 The Mutator is covered by the following unit test.
 
-[source,java,title=src/test/java/faggreat/tutorial/CounterChangedMutatorTest.java]
+[source,java,title=src/test/java/faggregate/tutorial/CounterChangedMutatorTest.java]
 ----
-include::../../src/test/java/faggreat/tutorial/CounterChangedMutatorTest.java[]
+include::../../src/test/java/faggregate/tutorial/CounterChangedMutatorTest.java[]
 ----
 
 == The Repository
@@ -250,16 +250,16 @@ events --> destroyer
 
 === The implementation
 
-[source,java,title=src/main/java/faggreat/tutorial/CounterRepository.java]
+[source,java,title=src/main/java/faggregate/tutorial/CounterRepository.java]
 ----
-include::../../src/main/java/faggreat/tutorial/CounterRepository.java[]
+include::../../src/main/java/faggregate/tutorial/CounterRepository.java[]
 ----
 
 The Repository is covered by the following unit test.
 
-[source,java,title=src/test/java/faggreat/tutorial/CounterRepositoryTest.java]
+[source,java,title=src/test/java/faggregate/tutorial/CounterRepositoryTest.java]
 ----
-include::../../src/test/java/faggreat/tutorial/CounterRepositoryTest.java[]
+include::../../src/test/java/faggregate/tutorial/CounterRepositoryTest.java[]
 ----
 
 == The Configurer
@@ -269,16 +269,16 @@ For ease, there is only one Configurer of the Counter Aggregate.
 In fact, in production grade project, there is Configured for the core domain and also ones in infrastructure,
 e.g. one for a relational database, another one for an in memory storage ....
 
-[source,java,title=src/main/java/faggreat/tutorial/CounterConfigurer.java]
+[source,java,title=src/main/java/faggregate/tutorial/CounterConfigurer.java]
 ----
-include::../../src/main/java/faggreat/tutorial/CounterConfigurer.java[]
+include::../../src/main/java/faggregate/tutorial/CounterConfigurer.java[]
 ----
 
 The Configurer is covered by the following unit test.
 
-[source,java,title=src/test/java/faggreat/tutorial/CounterConfigurerTest.java]
+[source,java,title=src/test/java/faggregate/tutorial/CounterConfigurerTest.java]
 ----
-include::../../src/test/java/faggreat/tutorial/CounterConfigurerTest.java[]
+include::../../src/test/java/faggregate/tutorial/CounterConfigurerTest.java[]
 ----
 
 == Conclusion

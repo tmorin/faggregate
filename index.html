@@ -537,6 +537,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
+<li><a href="#_abstract">Abstract</a></li>
 <li><a href="#_introduction">Introduction</a></li>
 <li><a href="#_the_scope">The scope</a></li>
 <li><a href="#_the_maven_module">The Maven module</a></li>
@@ -564,7 +565,8 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_abstract">Abstract</h2>
 <div class="sectionbody">
 <div class="paragraph">
 <p>Unlock the full potential of Domain Driven Design implementation with this step-by-step tutorial focusing on <code>faggregate</code> that blends Aggregates and functional programming.
@@ -640,7 +642,7 @@ Finally, <a href="https://projectlombok.org/"><code>lombok</code></a>, <em>spice
         <span class="tag">&lt;dependency&gt;</span>
             <span class="tag">&lt;artifactId&gt;</span>faggregate-core-simple<span class="tag">&lt;/artifactId&gt;</span>
             <span class="tag">&lt;groupId&gt;</span>io.morin.faggregate<span class="tag">&lt;/groupId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>1.1.1<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;version&gt;</span>1.4.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
         <span class="tag">&lt;/dependency&gt;</span>
         <span class="comment">&lt;!-- TEST --&gt;</span>
         <span class="tag">&lt;dependency&gt;</span>
@@ -687,7 +689,7 @@ Domain events are used to capture the state changes that occur as a result of pr
 <div class="sect2">
 <h3 id="_the_root_aggregate">The Root Aggregate</h3>
 <div class="paragraph">
-<p>a Root Aggregate is a cluster of related entities that are treated as a single unit with respect to transactions and consistency.
+<p>A Root Aggregate is a cluster of related entities that are treated as a single unit with respect to transactions and consistency.
 The root aggregate defines a boundary around a set of related entities, and it is responsible for ensuring that changes to its entities are made in a consistent and valid state.</p>
 </div>
 <div class="paragraph">
@@ -696,9 +698,9 @@ Usually, a Root Aggregate is an Entity which is mutable.
 However, <code>faggregate</code> emphasizes a functional approach, therefore the Root Aggregate is an immutable structure.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/main/java/faggreat/tutorial/Counter.java</div>
+<div class="title">src/main/java/faggregate/tutorial/Counter.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">lombok.AccessLevel</span>;
 <span class="keyword">import</span> <span class="include">lombok.RequiredArgsConstructor</span>;
@@ -752,9 +754,9 @@ However, <code>faggregate</code> emphasizes a functional approach, therefore the
 <p>The Root Aggregate is covered by the following unit test.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/java/faggreat/tutorial/CounterTest.java</div>
+<div class="title">src/test/java/faggregate/tutorial/CounterTest.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions.assertEquals</span>;
 
@@ -794,9 +796,9 @@ However, <code>faggregate</code> emphasizes a functional approach, therefore the
 <p>The <code>IncrementCounter</code> Command transfers the intention to increment the counter.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/main/java/faggreat/tutorial/IncrementCounter.java</div>
+<div class="title">src/main/java/faggregate/tutorial/IncrementCounter.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">lombok.Value</span>;
 
@@ -820,9 +822,9 @@ However, <code>faggregate</code> emphasizes a functional approach, therefore the
 <p>The <code>CounterChanged</code> Domain Event states the value of a counter has been changed.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/main/java/faggreat/tutorial/CounterChanged.java</div>
+<div class="title">src/main/java/faggregate/tutorial/CounterChanged.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">lombok.Value</span>;
 
@@ -869,9 +871,9 @@ A Command Handler returns a Result which will be sent back to the initiator of t
 <p>The <code>IncrementCounterHandler</code> Command Handler handles the <code>IncrementCounter</code> Command and produces the <code>CounterChanged</code> Domain Event based on the latest known state of the <code>Counter</code> Aggregate.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/main/java/faggreat/tutorial/IncrementCounterHandler.java</div>
+<div class="title">src/main/java/faggregate/tutorial/IncrementCounterHandler.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Handler</span>;
 <span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Output</span>;
@@ -907,9 +909,9 @@ A Command Handler returns a Result which will be sent back to the initiator of t
 <p>The Command Handler is covered by the following unit test.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/java/faggreat/tutorial/IncrementCounterHandlerTest.java</div>
+<div class="title">src/test/java/faggregate/tutorial/IncrementCounterHandlerTest.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions.assertEquals</span>;
 
@@ -961,12 +963,11 @@ A Mutator returns a new instance of the Aggregate state.</p>
 <p>The <code>CounterChangedMutator</code> Mutator mutates the state of the <code>Counter</code> Aggregate according to the <code>CounterChangedMutator</code> Domain Event.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/main/java/faggreat/tutorial/CounterChangedMutator.java</div>
+<div class="title">src/main/java/faggregate/tutorial/CounterChangedMutator.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Mutator</span>;
-<span class="keyword">import</span> <span class="include">lombok.val</span>;
 
 <span class="comment">/**
  * The ${@link CounterChangedMutator} Mutator mutates the state of the {@link Counter} Aggregate according to
@@ -992,9 +993,9 @@ A Mutator returns a new instance of the Aggregate state.</p>
 <p>The Mutator is covered by the following unit test.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/java/faggreat/tutorial/CounterChangedMutatorTest.java</div>
+<div class="title">src/test/java/faggregate/tutorial/CounterChangedMutatorTest.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions.assertEquals</span>;
 
@@ -1102,9 +1103,9 @@ Therefore, the tutorial implements and registers all side effects even if only t
 <div class="sect2">
 <h3 id="_the_implementation">The implementation</h3>
 <div class="listingblock">
-<div class="title">src/main/java/faggreat/tutorial/CounterRepository.java</div>
+<div class="title">src/main/java/faggregate/tutorial/CounterRepository.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">io.morin.faggregate.api</span>.*;
 <span class="keyword">import</span> <span class="include">java.util</span>.*;
@@ -1169,9 +1170,9 @@ Therefore, the tutorial implements and registers all side effects even if only t
 <p>The Repository is covered by the following unit test.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/java/faggreat/tutorial/CounterRepositoryTest.java</div>
+<div class="title">src/test/java/faggregate/tutorial/CounterRepositoryTest.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions</span>.*;
 
@@ -1266,9 +1267,9 @@ In fact, in production grade project, there is Configured for the core domain an
 e.g. one for a relational database, another one for an in memory storage &#8230;&#8203;.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/main/java/faggreat/tutorial/CounterConfigurer.java</div>
+<div class="title">src/main/java/faggregate/tutorial/CounterConfigurer.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">io.morin.faggregate.api</span>.*;
 <span class="keyword">import</span> <span class="include">lombok.RequiredArgsConstructor</span>;
@@ -1303,9 +1304,9 @@ e.g. one for a relational database, another one for an in memory storage &#8230;
 <p>The Configurer is covered by the following unit test.</p>
 </div>
 <div class="listingblock">
-<div class="title">src/test/java/faggreat/tutorial/CounterConfigurerTest.java</div>
+<div class="title">src/test/java/faggregate/tutorial/CounterConfigurerTest.java</div>
 <div class="content">
-<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggreat.tutorial</span>;
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
 <span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions.assertEquals</span>;
 

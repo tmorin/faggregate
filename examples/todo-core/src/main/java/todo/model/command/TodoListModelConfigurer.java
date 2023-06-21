@@ -3,7 +3,7 @@ package todo.model.command;
 import io.morin.faggregate.api.AggregateManagerBuilder;
 import io.morin.faggregate.api.Configurer;
 import io.morin.faggregate.api.Intention;
-import javax.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.ApplicationScoped;
 import lombok.ToString;
 import todo.model.TodoListId;
 import todo.model.event.TodoItemAddedEvt;

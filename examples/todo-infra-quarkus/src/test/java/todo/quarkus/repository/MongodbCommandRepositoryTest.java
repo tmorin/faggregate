@@ -8,7 +8,7 @@ import io.morin.faggregate.simple.core.ExecutionContext;
 import io.quarkus.test.junit.QuarkusTest;
 import java.util.Collections;
 import java.util.List;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import lombok.SneakyThrows;
 import lombok.val;
 import org.junit.jupiter.api.Assertions;

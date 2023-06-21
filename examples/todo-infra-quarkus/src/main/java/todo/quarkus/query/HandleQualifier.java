@@ -1,6 +1,6 @@
 package todo.quarkus.query;
 
-import javax.enterprise.util.AnnotationLiteral;
+import jakarta.enterprise.util.AnnotationLiteral;
 import lombok.EqualsAndHashCode;
 import todo.model.query.QueryHandler;
 

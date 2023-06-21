@@ -1,11 +1,11 @@
 package todo.model.query;
 
+import jakarta.inject.Qualifier;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.util.concurrent.CompletionStage;
-import javax.inject.Qualifier;
 
 /**
  * A query handler process a query and provide a result.

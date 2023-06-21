@@ -1,9 +1,9 @@
 package todo.model.query;
 
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.inject.Inject;
 import java.util.Optional;
 import java.util.concurrent.CompletionStage;
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
 import todo.model.view.TodoListView;
 import todo.model.view.TodoListViewRepository;
 

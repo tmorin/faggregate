@@ -1,10 +1,10 @@
 package todo.model.command;
 
+import jakarta.inject.Qualifier;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
-import javax.inject.Qualifier;
 
 /**
  * The qualifier is used to discover the configurers for the TodoList.

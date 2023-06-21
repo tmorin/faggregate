@@ -10,7 +10,7 @@ import io.morin.faggregate.simple.core.ExecutionContext;
 import io.quarkus.test.junit.QuarkusTest;
 import java.util.List;
 import java.util.Objects;
-import javax.inject.Inject;
+import jakarta.inject.Inject;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;

@@ -10,7 +10,7 @@ import todo.model.event.*;
 @UtilityClass
 public class TodoSuiteFactory {
 
-    public static Suite create() {
+    public Suite create() {
         val todoListId = TodoListId.generate();
         val todoListLabel = "a simple todo list";
         val todoItemIdA = TodoItemId.generate();

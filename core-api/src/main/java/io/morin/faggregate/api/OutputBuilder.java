@@ -54,6 +54,17 @@ public class OutputBuilder<R> {
     }
 
     /**
+     * Add events to the set of generated events.
+     *
+     * @param events a list of events
+     * @return the builder
+     */
+    public OutputBuilder<R> add(List<Object> events) {
+        this.events.addAll(events);
+        return this;
+    }
+
+    /**
      * Build the {@link Output}.
      *
      * @return the output

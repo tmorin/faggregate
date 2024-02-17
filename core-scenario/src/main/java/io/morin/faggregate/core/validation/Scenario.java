@@ -1,6 +1,7 @@
 package io.morin.faggregate.core.validation;
 
 import java.util.List;
+import java.util.function.BiConsumer;
 import lombok.Builder;
 import lombok.NonNull;
 import lombok.Singular;
@@ -91,13 +92,27 @@ public class Scenario {
 
         /**
          * The expected state.
+         * <p>
+         * When null, the state is not checked.
          */
         Object state;
 
         /**
          * The expected set of events.
+         * <p>
+         * When empty, the events are checked to be empty.
+         * <p>
+         * When null, the events are not checked.
          */
         @Singular
         List<?> events;
+
+        /**
+         * A list of asserters.
+         * <p>
+         * Where the first argument is the final State and the second argument is the list of produced Events.
+         */
+        @Singular
+        List<BiConsumer<Object, List<?>>> asserters;
     }
 }

@@ -62,7 +62,7 @@ class SuiteTest {
         when(scenarioC.getThen()).thenReturn(then);
 
         when(am.execute(any(), any())).thenReturn(CompletableFuture.completedFuture(output));
-        when(after.fetch(any())).thenReturn(CompletableFuture.completedFuture(null));
+        when(after.load(any())).thenReturn(CompletableFuture.completedFuture(null));
 
         assertDoesNotThrow(() ->
             Suite
@@ -77,7 +77,7 @@ class SuiteTest {
         );
 
         verify(am, Mockito.times(3)).execute(any(), any());
-        verify(after, Mockito.times(3)).fetch(any());
+        verify(after, Mockito.times(3)).load(any());
 
         verify(scenarioA, Mockito.times(4)).getGiven();
         verify(scenarioA, Mockito.times(1)).getWhen();

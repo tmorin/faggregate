@@ -3,6 +3,7 @@ package io.morin.faggregate.core.validation;
 import io.morin.faggregate.api.AggregateManager;
 import io.morin.faggregate.api.Output;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionStage;
@@ -75,8 +76,7 @@ public class ScenarioExecutor {
         return Optional
             // GIVEN STEP - initialize the state of the aggregate with a given state
             .ofNullable(scenario.getGiven().getState())
-            .map(state -> before.initialize(scenario.getGiven().getIdentifier(), state, scenario.getGiven().getEvents())
-            )
+            .map(state -> before.store(scenario.getGiven().getIdentifier(), state, scenario.getGiven().getEvents()))
             .orElseGet(() -> CompletableFuture.completedStage(null))
             // GIVEN STEP - mutate the aggregate with given commands
             .thenAccept(unused -> {
@@ -94,7 +94,7 @@ public class ScenarioExecutor {
             // WHEN - create the outcome based on the fetch aggregate state and the output of the command
             .thenCompose(output ->
                 after
-                    .fetch(scenario.getGiven().getIdentifier())
+                    .load(scenario.getGiven().getIdentifier())
                     .thenApply(currentState -> new Outcome(output, currentState))
             )
             // THEN - assert the outcome
@@ -102,7 +102,16 @@ public class ScenarioExecutor {
                 // THEN - check actual state with the expected one
                 Optional
                     .ofNullable(scenario.getThen().getState())
-                    .ifPresent(expectedState -> stateAsserter.process(scenario, outcome.state, expectedState));
+                    .ifPresent(expectedState ->
+                        stateAsserter.process(
+                            scenario,
+                            Objects.requireNonNull(
+                                outcome.state,
+                                "The after lambda of the suite execution is not implemented!"
+                            ),
+                            expectedState
+                        )
+                    );
                 // THEN - check actual events with the expected ones
                 Optional
                     .ofNullable(scenario.getThen().getEvents())
@@ -123,14 +132,14 @@ public class ScenarioExecutor {
     @FunctionalInterface
     public interface Before {
         /**
-         * Initialize the state of the aggregate.
+         * Store the state of the aggregate.
          *
          * @param identifier the identifier of the aggregate
          * @param state      the initial state of the aggregate
          * @param events     a set of initial domain events
          * @return a completion stage
          */
-        CompletionStage<Void> initialize(@NonNull Object identifier, @NonNull Object state, @NonNull List<?> events);
+        CompletionStage<Void> store(@NonNull Object identifier, @NonNull Object state, @NonNull List<?> events);
     }
 
     /**
@@ -139,12 +148,12 @@ public class ScenarioExecutor {
     @FunctionalInterface
     public interface After {
         /**
-         * Fetch the state of the aggregate.
+         * Load the state of the aggregate.
          *
          * @param identifier the identifier of the aggregate
-         * @return the embedded in a CompletionStage
+         * @return the state of the aggregate as a completion stage
          */
-        CompletionStage<Object> fetch(@NonNull Object identifier);
+        CompletionStage<Object> load(@NonNull Object identifier);
     }
 
     /**
@@ -159,7 +168,7 @@ public class ScenarioExecutor {
         final Output<?> output;
 
         /**
-         * The state fetched using {@link After#fetch(Object)}.
+         * The state fetched using {@link After#load(Object)}.
          */
         final Object state;
     }

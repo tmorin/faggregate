@@ -23,9 +23,9 @@ public class Suite {
     /**
      * Execute the scenarios sequentially.
      *
-     * @param am the Aggregate Manager
-     * @return a completion stage
+     * @param am  the Aggregate Manager
      * @param <I> The type of the identifier
+     * @return a completion stage
      */
     @SneakyThrows
     public <I> CompletableFuture<Void> execute(@NonNull AggregateManager<I> am) {
@@ -34,12 +34,20 @@ public class Suite {
 
     /**
      * Execute the scenarios sequentially.
+     * <p>
+     * The before lambda is executed before the _Given_ phase.
+     * Its purpose is to store the state of the aggregate.
+     * As long as the state of the artifact is not provided during the _Given_ phase, the before lambda is not mandatory.
+     * <p>
+     * The after lambda is executed after the _Then_ phase.
+     * Its purpose is to load the state of the aggregate.
+     * As long as the state of the artifact is not validated during the _Then_ phase, the after lambda is not mandatory.
      *
      * @param am     the Aggregate Manager
-     * @param before the before lambda
-     * @param after  the after lambda
+     * @param before the optional before lambda
+     * @param after  the optional after lambda
+     * @param <I>    The type of the identifier
      * @return a completion stage
-     * @param <I> The type of the identifier
      */
     @SneakyThrows
     @SuppressWarnings("unchecked")
@@ -58,7 +66,11 @@ public class Suite {
                     .before(
                         Optional
                             .ofNullable(before)
-                            .orElse((identifier, state, events) -> CompletableFuture.completedStage(null))
+                            .orElse((identifier, state, events) ->
+                                CompletableFuture.failedFuture(
+                                    new UnsupportedOperationException("No state storing is implemented.")
+                                )
+                            )
                     )
                     .after(Optional.ofNullable(after).orElse(identifier -> CompletableFuture.completedStage(null)))
                     .build()

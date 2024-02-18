@@ -3,10 +3,10 @@
 [![Continuous Integration - Build](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml/badge.svg)](https://github.com/tmorin/faggregate/actions/workflows/ci-build.yaml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tmorin_faggregate&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tmorin_faggregate)
 
-> Unlock the Power of DDD Aggregates and Functional Programming with `faggregate`!
-> This Java Library simplifies the implementation of complex business systems by offering a set of tools and abstractions that make it easy to build robust and scalable software.
-> Whether you're a seasoned developer or just getting started, our library provides a powerful solution for leveraging the full potential of Domain Driven Design Aggregates and functional programming concepts.
-> Don't miss out on this opportunity to streamline your development process and build high-quality software - try our library today!
+> Enhance DDD and Functional Programming with `faggregate`.
+>
+> `faggregate` offers Java developers tools and abstractions to streamline building scalable, robust software.
+> Ideal for any developer level, it maximizes Domain Driven Design Aggregates and functional programming.
 
 The Value Stream is barely simple:
 
@@ -29,7 +29,7 @@ The [todo-infra-quarkus](examples/todo-infra-quarkus) example demonstrates the u
 
 The library is designed to be integrated directly into a [Native Image](https://www.graalvm.org/latest/reference-manual/native-image/basics/).
 
-The [todo-infra-quarkus](examples/todo-infra-quarkus) example provides an E2E exemple leveraging on [Quarkus](https://quarkus.io).
+The [todo-infra-quarkus](examples/todo-infra-quarkus) example provides an E2E example leveraging on [Quarkus](https://quarkus.io).
 
 ### Functional
 

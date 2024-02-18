@@ -532,7 +532,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h1>Basic Tutorial for faggregate</h1>
 <div class="details">
 <span id="author" class="author">Thibault Morin</span><br>
-<span id="revnumber">version 1</span>
+<span id="revnumber">version 2</span>
 </div>
 <div id="toc" class="toc">
 <div id="toctitle">Table of Contents</div>
@@ -552,6 +552,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <li><a href="#_the_mutator">The Mutator</a></li>
 <li><a href="#_the_repository">The Repository</a>
 <ul class="sectlevel2">
+<li><a href="#_side_effects">Side effects</a></li>
 <li><a href="#_the_initializer">The Initializer</a></li>
 <li><a href="#_the_loader">The Loader</a></li>
 <li><a href="#_the_persister">The Persister</a></li>
@@ -560,6 +561,7 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 </ul>
 </li>
 <li><a href="#_the_configurer">The Configurer</a></li>
+<li><a href="#_the_validation">The validation</a></li>
 <li><a href="#_conclusion">Conclusion</a></li>
 </ul>
 </div>
@@ -569,9 +571,9 @@ table.CodeRay td.code{padding:0 0 0 .75em}
 <h2 id="_abstract">Abstract</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Unlock the full potential of Domain Driven Design implementation with this step-by-step tutorial focusing on <code>faggregate</code> that blends Aggregates and functional programming.
-This library provides developers with a powerful tool to simplify complex development tasks, and this tutorial will give you the hands-on experience and insights you need to effectively utilize its capabilities.
-Whether you&#8217;re a seasoned Java developer or just starting out, this tutorial is the perfect resource for anyone looking to take their DDD implementation to the next level.</p>
+<p>This document presents a comprehensive guide aimed at facilitating the implementation of Domain Driven Design (DDD) by integrating the <code>faggregate</code> library, which harmoniously combines the concepts of Aggregates with functional programming paradigms.
+The library is designed to offer developers an efficient means to navigate and simplify intricate development challenges.
+Through practical exercises and detailed explanations, this tutorial aims to equip readers with the necessary skills and knowledge to adeptly apply the library&#8217;s functionalities.</p>
 </div>
 </div>
 </div>
@@ -582,11 +584,18 @@ Whether you&#8217;re a seasoned Java developer or just starting out, this tutori
 <p><code>faggregate</code> is a Java library helping to define Aggregate according to the <em>Domain Driven Design</em> approach with a touch of <em>Functional Programming</em>. The source code of <code>faggregate</code> is available on <a href="https://github.com/tmorin/faggregate">github.com/tmorin/faggregate</a>.</p>
 </div>
 <div class="paragraph">
-<p>By combining the strengths of Domain Driven Design Aggregates and functional programming, developers can achieve a powerful and streamlined development process.
-Domain Driven Design Aggregates provide a clear structure for managing complex business entities and enforcing transactional consistency, while functional programming promotes a declarative style of programming, making code easier to understand and maintain.
-Together, these approaches lead to more predictable and reliable code, with a reduced likelihood of bugs and easier maintenance.
-Additionally, the functional programming paradigm supports code modularity and easy refactoring, making it a great fit for large-scale software development projects.
-Put simply, developers can build maintainable and scalable systems that effectively meet the demands of their business domain.</p>
+<p><code>faggregate</code> synthesizes the robust methodologies of DDD Aggregates and functional programming to streamline the software development process.</p>
+</div>
+<div class="paragraph">
+<p>DDD Aggregates offer a structured approach to managing complex domain entities and ensuring transactional consistency.
+In parallel, functional programming emphasizes a declarative coding style, enhancing code clarity and simplifying maintenance efforts.
+The amalgamation of these methodologies not only fosters more stable and reliable software but also minimizes the incidence of defects.</p>
+</div>
+<div class="paragraph">
+<p>Furthermore, the emphasis on functional programming augments code modularity and facilitates straightforward refactoring, attributes highly beneficial in the context of extensive software development endeavors.</p>
+</div>
+<div class="paragraph">
+<p>In essence, <code>faggregate</code> empowers developers to create systems that are both scalable and maintainable, adeptly addressing the needs of their specific business domains.</p>
 </div>
 </div>
 </div>
@@ -606,7 +615,17 @@ The event is produced when the <code>IncrementCounter</code> command is invoked.
 <div class="title">Figure 1. Modeling of the <code>IncrementCounter</code> command</div>
 </div>
 <div class="paragraph">
-<p>The source code of the tutorial is available on <a href="https://github.com/tmorin/faggregate/tree/main/examples/tutorial">github</a>.</p>
+<p>In this tutorial, we will cover a series of foundational steps necessary for building a robust application using the framework.
+This journey will begin with bootstrapping a Maven project, setting the groundwork for our development process.
+We will then delve into defining the Counter aggregate, a core component of our application&#8217;s domain model.
+Following this, we&#8217;ll tackle implementing the command handler for the IncrementCounter command, allowing us to interact with our aggregate.
+We&#8217;ll also implement the mutator for the CounterIncremented domain event to handle state changes.
+The creation of the repository for the Counter aggregate will be our next step, ensuring we have a solid persistence mechanism.
+We&#8217;ll continue with implementing the configurer of the Counter aggregate, tying all components together for a cohesive application configuration.
+Finally, we&#8217;ll explore the validation of the Counter aggregate, ensuring that our implementation meets the requirements of our business domain.</p>
+</div>
+<div class="paragraph">
+<p>The source code of the tutorial is available on <a href="https://github.com/tmorin/faggregate/tree/main/examples/tutorial">github.com/tmorin/faggregate</a>.</p>
 </div>
 </div>
 </div>
@@ -616,7 +635,8 @@ The event is produced when the <code>IncrementCounter</code> command is invoked.
 <div class="paragraph">
 <p>The Maven module brings four dependencies.
 The first one, <code>faggregate-core-simple</code>, brings the <code>faggregate</code> library.
-The second one, <a href="https://junit.org/junit5/docs/current/user-guide/"><code>junit-jupiter</code></a>, provides a test framework.
+The second one, <code>faggregate-core-scenario</code>, brings an extension of <code>faggregate</code> library to implement acceptance tests.
+The third one, <a href="https://junit.org/junit5/docs/current/user-guide/"><code>junit-jupiter</code></a>, provides a test framework.
 Finally, <a href="https://projectlombok.org/"><code>lombok</code></a>, <em>spices</em> up java helping to save lines of codes.</p>
 </div>
 <div class="listingblock">
@@ -642,7 +662,12 @@ Finally, <a href="https://projectlombok.org/"><code>lombok</code></a>, <em>spice
         <span class="tag">&lt;dependency&gt;</span>
             <span class="tag">&lt;artifactId&gt;</span>faggregate-core-simple<span class="tag">&lt;/artifactId&gt;</span>
             <span class="tag">&lt;groupId&gt;</span>io.morin.faggregate<span class="tag">&lt;/groupId&gt;</span>
-            <span class="tag">&lt;version&gt;</span>1.4.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
+            <span class="tag">&lt;version&gt;</span>1.5.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
+        <span class="tag">&lt;/dependency&gt;</span>
+        <span class="tag">&lt;dependency&gt;</span>
+            <span class="tag">&lt;artifactId&gt;</span>faggregate-core-scenario<span class="tag">&lt;/artifactId&gt;</span>
+            <span class="tag">&lt;groupId&gt;</span>io.morin.faggregate<span class="tag">&lt;/groupId&gt;</span>
+            <span class="tag">&lt;version&gt;</span>1.5.0-SNAPSHOT<span class="tag">&lt;/version&gt;</span>
         <span class="tag">&lt;/dependency&gt;</span>
         <span class="comment">&lt;!-- TEST --&gt;</span>
         <span class="tag">&lt;dependency&gt;</span>
@@ -713,7 +738,7 @@ However, <code>faggregate</code> emphasizes a functional approach, therefore the
  */</span>
 <span class="annotation">@Value</span>
 <span class="annotation">@RequiredArgsConstructor</span>(access = AccessLevel.PRIVATE)
-<span class="type">class</span> <span class="class">Counter</span> {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">Counter</span> {
 
     <span class="comment">/**
      * The default value.
@@ -889,7 +914,7 @@ A Command Handler returns a Result which will be sent back to the initiator of t
 
     <span class="comment">/**
      * There is no special business logic leading to the publication of the {@link CounterChanged} domain event.
-     * Therefore, the implementation of the handle is straightforward.
+     * Therefore, the implementation of the handle method is straightforward.
      *
      * @param state   the current state of the aggregate
      * @param command the command
@@ -1030,7 +1055,12 @@ A Mutator returns a new instance of the Aggregate state.</p>
 <h2 id="_the_repository">The Repository</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In this tutorial the Repository is responsible to apply the <code>faggregate</code> side effects</p>
+<p>A repository is a set of functions which initiates, loads, persists and destroys the state of an Aggregate.</p>
+</div>
+<div class="sect2">
+<h3 id="_side_effects">Side effects</h3>
+<div class="paragraph">
+<p>In <code>faggregate</code>, we define those functions as side effects:</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1049,8 +1079,13 @@ A Mutator returns a new instance of the Aggregate state.</p>
 </ul>
 </div>
 <div class="paragraph">
-<p>The default implementation of <code>faggregate</code>, i.e. <code>faggregate-core-simple</code>, expects the definition of all side effects when an Aggregate Manager is configured.
-Therefore, the tutorial implements and registers all side effects even if only the <strong>loader</strong> and <strong>persister</strong> side effects are involved.</p>
+<p>The side effects are applied according to the intention of the handled command.
+For instance, the <strong>initializer</strong> is executed when a Command Handler has been registered with the <code>INITIALIZATION</code> intention. The details of the intentions are explained in the following sections.</p>
+</div>
+<div class="paragraph">
+<p>The default implementation of <code>faggregate</code>, i.e. <code>faggregate-core-simple</code>, provides default implementation throwing an <code>UnsupportedOperationException</code>.
+Therefore, according to your context, you have to implement and register the side effects.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_the_initializer">The Initializer</h3>
@@ -1062,6 +1097,9 @@ Therefore, the tutorial implements and registers all side effects even if only t
 <img src="obj_initializer.svg" alt="obj initializer" width="274" height="234">
 </div>
 <div class="title">Figure 4. Input and output of an initializer</div>
+</div>
+<div class="paragraph">
+<p>In this tutorial, the initializer is not implemented because there is no command handled with the <code>INITIALIZATION</code> intention.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1075,6 +1113,9 @@ Therefore, the tutorial implements and registers all side effects even if only t
 </div>
 <div class="title">Figure 5. Input and output of a loader</div>
 </div>
+<div class="paragraph">
+<p>In this tutorial, the loader is implemented because the <code>IncrementCounter</code> command is handled with the <code>MUTATION</code> intention.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_the_persister">The Persister</h3>
@@ -1086,6 +1127,9 @@ Therefore, the tutorial implements and registers all side effects even if only t
 <img src="obj_persister.svg" alt="obj persister" width="463" height="140">
 </div>
 <div class="title">Figure 6. Input and output of a persister</div>
+</div>
+<div class="paragraph">
+<p>In this tutorial, the persister is implemented because the <code>IncrementCounter</code> command is handled with the <code>MUTATION</code> intention.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1099,6 +1143,9 @@ Therefore, the tutorial implements and registers all side effects even if only t
 </div>
 <div class="title">Figure 7. Input and output of a destroyer</div>
 </div>
+<div class="paragraph">
+<p>In this tutorial, the destroyer is not implemented because there is no command handled with the <code>DESTRUCTION</code> intention.</p>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_the_implementation">The implementation</h3>
@@ -1107,7 +1154,9 @@ Therefore, the tutorial implements and registers all side effects even if only t
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
-<span class="keyword">import</span> <span class="include">io.morin.faggregate.api</span>.*;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Context</span>;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Loader</span>;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Persister</span>;
 <span class="keyword">import</span> <span class="include">java.util</span>.*;
 <span class="keyword">import</span> <span class="include">java.util.concurrent.CompletableFuture</span>;
 <span class="keyword">import</span> <span class="include">lombok.RequiredArgsConstructor</span>;
@@ -1117,9 +1166,7 @@ Therefore, the tutorial implements and registers all side effects even if only t
  * An in memory implementation of both side effects Loader and Persister.
  */</span>
 <span class="annotation">@RequiredArgsConstructor</span>
-<span class="type">class</span> <span class="class">CounterRepository</span>
-    <span class="directive">implements</span>
-        Initializer&lt;<span class="predefined-type">String</span>, Counter&gt;, Loader&lt;<span class="predefined-type">String</span>, Counter&gt;, Persister&lt;<span class="predefined-type">String</span>, Counter&gt;, Destroyer&lt;<span class="predefined-type">String</span>, Counter&gt; {
+<span class="type">class</span> <span class="class">CounterRepository</span> <span class="directive">implements</span> Loader&lt;<span class="predefined-type">String</span>, Counter&gt;, Persister&lt;<span class="predefined-type">String</span>, Counter&gt; {
 
     <span class="comment">/**
      * The map stores the states of the aggregates.
@@ -1133,12 +1180,6 @@ Therefore, the tutorial implements and registers all side effects even if only t
 
     <span class="directive">static</span> CounterRepository create() {
         <span class="keyword">return</span> <span class="keyword">new</span> CounterRepository(<span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;(), <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;());
-    }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> CompletableFuture&lt;Counter&gt; initialize(<span class="predefined-type">Context</span>&lt;<span class="predefined-type">String</span>, ?&gt; context) {
-        val counter = Counter.create(context.getIdentifier());
-        <span class="keyword">return</span> CompletableFuture.completedFuture(counter);
     }
 
     <span class="annotation">@Override</span>
@@ -1156,13 +1197,6 @@ Therefore, the tutorial implements and registers all side effects even if only t
         eventsByIdentifier.get(context.getIdentifier()).addAll(events);
         <span class="keyword">return</span> CompletableFuture.completedFuture(<span class="predefined-constant">null</span>);
     }
-
-    <span class="annotation">@Override</span>
-    <span class="directive">public</span> &lt;E&gt; CompletableFuture&lt;<span class="predefined-type">Void</span>&gt; destroy(<span class="predefined-type">Context</span>&lt;<span class="predefined-type">String</span>, ?&gt; context, Counter state, <span class="predefined-type">List</span>&lt;E&gt; events) {
-        statesByIdentifier.remove(context.getIdentifier());
-        eventsByIdentifier.remove(context.getIdentifier());
-        <span class="keyword">return</span> CompletableFuture.completedFuture(<span class="predefined-constant">null</span>);
-    }
 }</code></pre>
 </div>
 </div>
@@ -1174,10 +1208,14 @@ Therefore, the tutorial implements and registers all side effects even if only t
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
-<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions</span>.*;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions.assertEquals</span>;
+<span class="keyword">import</span> <span class="include">static</span> <span class="include">org.junit.jupiter.api.Assertions.assertFalse</span>;
 
 <span class="keyword">import</span> <span class="include">io.morin.faggregate.simple.core.ExecutionContext</span>;
-<span class="keyword">import</span> <span class="include">java.util</span>.*;
+<span class="keyword">import</span> <span class="include">java.util.HashMap</span>;
+<span class="keyword">import</span> <span class="include">java.util.List</span>;
+<span class="keyword">import</span> <span class="include">java.util.Map</span>;
+<span class="keyword">import</span> <span class="include">java.util.UUID</span>;
 <span class="keyword">import</span> <span class="include">lombok.SneakyThrows</span>;
 <span class="keyword">import</span> <span class="include">lombok.val</span>;
 <span class="keyword">import</span> <span class="include">org.junit.jupiter.api.BeforeEach</span>;
@@ -1194,16 +1232,6 @@ Therefore, the tutorial implements and registers all side effects even if only t
         states = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
         events = <span class="keyword">new</span> <span class="predefined-type">HashMap</span>&lt;&gt;();
         counterRepository = <span class="keyword">new</span> CounterRepository(states, events);
-    }
-
-    <span class="annotation">@Test</span>
-    <span class="annotation">@SneakyThrows</span>
-    <span class="type">void</span> shouldInitialize() {
-        val identifier = <span class="predefined-type">UUID</span>.randomUUID().toString();
-        val context = ExecutionContext.create(identifier, <span class="string"><span class="delimiter">&quot;</span><span class="content">command</span><span class="delimiter">&quot;</span></span>);
-        val counter = counterRepository.initialize(context).get();
-        assertEquals(counter.getCounterId(), identifier);
-        assertEquals(Counter.DEFAULT_VALUE, counter.getValue());
     }
 
     <span class="annotation">@Test</span>
@@ -1238,19 +1266,6 @@ Therefore, the tutorial implements and registers all side effects even if only t
         assertEquals(states.get(identifier), counter);
         assertEquals(events.get(identifier).get(<span class="integer">0</span>), event);
     }
-
-    <span class="annotation">@Test</span>
-    <span class="annotation">@SneakyThrows</span>
-    <span class="type">void</span> shouldDestroy() {
-        val identifier = <span class="predefined-type">UUID</span>.randomUUID().toString();
-        val counter = Counter.create(identifier);
-        states.put(identifier, counter);
-        events.put(identifier, <span class="predefined-type">Collections</span>.emptyList());
-        val context = ExecutionContext.create(identifier, <span class="string"><span class="delimiter">&quot;</span><span class="content">command</span><span class="delimiter">&quot;</span></span>);
-        counterRepository.destroy(context, counter, <span class="predefined-type">Collections</span>.emptyList()).get();
-        assertTrue(states.isEmpty());
-        assertTrue(events.isEmpty());
-    }
 }</code></pre>
 </div>
 </div>
@@ -1271,27 +1286,37 @@ e.g. one for a relational database, another one for an in memory storage &#8230;
 <div class="content">
 <pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
 
-<span class="keyword">import</span> <span class="include">io.morin.faggregate.api</span>.*;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.api.AggregateManagerBuilder</span>;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Configurer</span>;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Loader</span>;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.api.Persister</span>;
+<span class="keyword">import</span> <span class="include">lombok.NonNull</span>;
 <span class="keyword">import</span> <span class="include">lombok.RequiredArgsConstructor</span>;
 
 <span class="comment">/**
  * The configurer binds the handlers, mutator as well as side effects.
  */</span>
 <span class="annotation">@RequiredArgsConstructor</span>
-<span class="type">class</span> <span class="class">CounterConfigurer</span> <span class="directive">implements</span> Configurer&lt;<span class="predefined-type">String</span>, Counter&gt; {
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CounterConfigurer</span> <span class="directive">implements</span> Configurer&lt;<span class="predefined-type">String</span>, Counter&gt; {
 
     <span class="directive">private</span> <span class="directive">final</span> CounterRepository repository;
 
+    <span class="comment">/**
+     * Create a new instance of the configurer.
+     *
+     * @param repository the repository to use
+     * @return the configurer
+     */</span>
+    <span class="directive">public</span> <span class="directive">static</span> CounterConfigurer create(<span class="annotation">@NonNull</span> CounterRepository repository) {
+        <span class="keyword">return</span> <span class="keyword">new</span> CounterConfigurer(repository);
+    }
+
     <span class="annotation">@Override</span>
     <span class="directive">public</span> <span class="type">void</span> configure(AggregateManagerBuilder&lt;<span class="predefined-type">String</span>, Counter&gt; builder) {
-        <span class="comment">// set the initializer</span>
-        builder.set((Initializer&lt;<span class="predefined-type">String</span>, Counter&gt;) repository);
         <span class="comment">// set the loader</span>
         builder.set((Loader&lt;<span class="predefined-type">String</span>, Counter&gt;) repository);
         <span class="comment">// set the persister</span>
         builder.set((Persister&lt;<span class="predefined-type">String</span>, Counter&gt;) repository);
-        <span class="comment">// set the destroyer</span>
-        builder.set((Destroyer&lt;<span class="predefined-type">String</span>, Counter&gt;) repository);
         <span class="comment">// add the command handler</span>
         builder.add(IncrementCounter.class, <span class="keyword">new</span> IncrementCounterHandler());
         <span class="comment">// add the mutator</span>
@@ -1345,25 +1370,179 @@ e.g. one for a relational database, another one for an in memory storage &#8230;
 </div>
 </div>
 <div class="sect1">
+<h2 id="_the_validation">The validation</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The building blocks offered by <code>faggregate</code> facilitate the separation of the API, core, and side effects layers.
+This architecture allows the core to define acceptance scenarios with commands, events, and states, essential for validating the implementations of side effects.
+Consequently, side effects are testable from the core&#8217;s perspective, which is crucial for ensuring that business rules are correctly implemented and accepted.
+This design principle underpins the framework&#8217;s approach to robust, domain-driven application development.</p>
+</div>
+<div class="paragraph">
+<p>In this tutorial, we explore two key scenarios using <code>faggregate</code>: the creation and the incrementation of a counter, both of which are organized within the same suite. In the context of <code>faggregate</code>, a suite refers to a collection of acceptance scenarios.</p>
+</div>
+<div class="paragraph">
+<p>A scenario follows the <em>Given-When-Then</em> pattern, which is a widely used format for writing acceptance tests. It consists of three parts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Given</strong>: the initial state of the system</p>
+</li>
+<li>
+<p><strong>When</strong>: the action that triggers the change in the system</p>
+</li>
+<li>
+<p><strong>Then</strong>: the expected outcome of the action</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The acceptance suite of the Counter aggregate is provided by the following factory.</p>
+</div>
+<div class="listingblock">
+<div class="title">src/main/java/faggregate/tutorial/CounterSuiteFactory.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
+
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.core.validation.Scenario</span>;
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.core.validation.Suite</span>;
+<span class="keyword">import</span> <span class="include">lombok.experimental.UtilityClass</span>;
+<span class="keyword">import</span> <span class="include">lombok.val</span>;
+
+<span class="comment">/**
+ * The {@link CounterSuiteFactory} class is a factory class that creates a suite of scenarios to validate the
+ * behavior of the {@link Counter} Aggregate.
+ */</span>
+<span class="annotation">@UtilityClass</span>
+<span class="directive">public</span> <span class="type">class</span> <span class="class">CounterSuiteFactory</span> {
+
+    <span class="comment">/**
+     * Creates a suite of scenarios to validate the behavior of the {@link Counter} Aggregate.
+     *
+     * @return the suite of scenarios
+     */</span>
+    <span class="directive">public</span> Suite create() {
+        <span class="comment">// Define a scenario validating the creation of a counter</span>
+        val scenarioAId = <span class="string"><span class="delimiter">&quot;</span><span class="content">counter#a</span><span class="delimiter">&quot;</span></span>;
+        val scenarioA = Scenario
+            .builder()
+            .name(<span class="string"><span class="delimiter">&quot;</span><span class="content">Counter Creation</span><span class="delimiter">&quot;</span></span>)
+            <span class="comment">// no state initialization is required for the Counter Creation scenario</span>
+            .given(Scenario.Given.builder().identifier(scenarioAId).build())
+            <span class="comment">// trigger the increment of the counter</span>
+            .when(Scenario.When.builder().command(<span class="keyword">new</span> IncrementCounter(scenarioAId)).build())
+            .then(
+                Scenario.Then
+                    .builder()
+                    <span class="comment">// validate the state of the aggregate has been incremented</span>
+                    .state(Counter.create(scenarioAId).updateValue(<span class="integer">1</span>))
+                    <span class="comment">// validate the right event has been published</span>
+                    .event(<span class="keyword">new</span> CounterChanged(scenarioAId, <span class="integer">0</span>, <span class="integer">1</span>))
+                    .build()
+            )
+            .build();
+
+        <span class="comment">// Define a scenario validating the increment of a counter</span>
+        val scenarioBId = <span class="string"><span class="delimiter">&quot;</span><span class="content">counter#b</span><span class="delimiter">&quot;</span></span>;
+        val scenarioB = Scenario
+            .builder()
+            .name(<span class="string"><span class="delimiter">&quot;</span><span class="content">Counter Creation</span><span class="delimiter">&quot;</span></span>)
+            <span class="comment">// initialize the state of the aggregate with a value of 1 for the Counter Increment scenario</span>
+            .given(Scenario.Given.builder().identifier(scenarioBId).command(<span class="keyword">new</span> IncrementCounter(scenarioBId)).build())
+            <span class="comment">// trigger the increment of the counter</span>
+            .when(Scenario.When.builder().command(<span class="keyword">new</span> IncrementCounter(scenarioBId)).build())
+            .then(
+                Scenario.Then
+                    .builder()
+                    <span class="comment">// validate the state of the aggregate has been incremented</span>
+                    .state(Counter.create(scenarioBId).updateValue(<span class="integer">2</span>))
+                    <span class="comment">// validate the right event has been published</span>
+                    .event(<span class="keyword">new</span> CounterChanged(scenarioBId, <span class="integer">1</span>, <span class="integer">2</span>))
+                    .build()
+            )
+            .build();
+
+        <span class="comment">// Create and return a suite containing the two scenarios</span>
+        <span class="keyword">return</span> Suite.builder().scenario(scenarioA).scenario(scenarioB).build();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The execution of the acceptance suite is handled by a usual JUnit test.</p>
+</div>
+<div class="listingblock">
+<div class="title">src/main/java/faggregate/tutorial/CounterSuiteFactory.java</div>
+<div class="content">
+<pre class="CodeRay highlight"><code data-lang="java"><span class="keyword">package</span> <span class="namespace">faggregate.tutorial</span>;
+
+<span class="keyword">import</span> <span class="include">io.morin.faggregate.simple.core.SimpleAggregateManagerBuilder</span>;
+<span class="keyword">import</span> <span class="include">java.util.concurrent.CompletableFuture</span>;
+<span class="keyword">import</span> <span class="include">lombok.val</span>;
+<span class="keyword">import</span> <span class="include">org.junit.jupiter.api.Test</span>;
+
+<span class="comment">/**
+ * This JUnit test validates the side effect implementation executing the CounterSuite.
+ */</span>
+<span class="type">class</span> <span class="class">CounterSuiteTest</span> {
+
+    <span class="annotation">@Test</span>
+    <span class="type">void</span> shouldValidateSideEffects() {
+        <span class="comment">// create the repository</span>
+        val counterRepository = CounterRepository.create();
+
+        <span class="comment">// create the builder for the aggregate manager</span>
+        val counterManagerBuilder = SimpleAggregateManagerBuilder.&lt;<span class="predefined-type">String</span>, Counter&gt;get();
+
+        <span class="comment">// create the configurer and configure the aggregate manager</span>
+        <span class="comment">// i.e. register the handlers, mutators and side effects</span>
+        CounterConfigurer.create(counterRepository).configure(counterManagerBuilder);
+
+        <span class="comment">// build the aggregate manager</span>
+        val counterManager = counterManagerBuilder.build();
+
+        <span class="comment">// execute the suite providing the aggregate manager</span>
+        CounterSuiteFactory
+            .create()
+            .execute(
+                <span class="comment">// the aggregate manager to test</span>
+                counterManager,
+                <span class="comment">// an optional lambda to store the initialize state of the aggregate before the _Given_ phase</span>
+                <span class="comment">// this functionality is not required for the CounterSuite, so the implementation is null</span>
+                <span class="predefined-constant">null</span>,
+                <span class="comment">// an optional lambda to load the state of the aggregate before the _Then_ phase</span>
+                identifier -&gt; CompletableFuture.completedFuture(counterRepository.statesByIdentifier.get(identifier))
+            );
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
 <h2 id="_conclusion">Conclusion</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>In conclusion, the tutorial provides an overview of the Java library that helps developers implement Domain Driven Design Aggregates and functional programming concepts.
-The library offers a set of tools and abstractions that make it easier to build complex software systems in a maintainable and scalable way.</p>
+<p>In conclusion, this tutorial offers a comprehensive exploration of the <code>faggregate</code> Java library, a potent resource for developers aiming to integrate Domain Driven Design Aggregates with functional programming principles.
+Through the meticulous construction of the Counter aggregate example, it showcases how <code>faggregate</code> simplifies the development of complex, domain-centric software systems, promoting maintainability and scalability.</p>
 </div>
 <div class="paragraph">
-<p>By following the guidelines and best practices outlined in the tutorial, developers can leverage the full potential of this library to build high-quality software that effectively meets the demands of their business domain.</p>
+<p>The step-by-step guidance provided throughout the tutorial, from setting up a Maven project to implementing domain-specific logic and persistence mechanisms, equips developers with the tools and knowledge needed to fully harness the capabilities of <code>faggregate</code>.
+This approach not only facilitates the building of high-quality software that aligns with business requirements but also enhances the overall development experience by leveraging functional programming&#8217;s strengths in clarity, modularity, and immutability.</p>
 </div>
 <div class="paragraph">
-<p>Overall, the tutorial serves as a valuable resource for those looking to gain a deeper understanding of DDD Aggregates and functional programming, and for those looking to build robust and scalable software systems.</p>
+<p>As a valuable educational resource, the tutorial underscores the significance of adopting DDD Aggregates and functional programming in modern software development.
+It empowers developers to create software systems that are not only robust and scalable but also aligned with the strategic goals of their business domains.
+Thus, for those seeking to deepen their understanding of DDD and functional programming or to elevate the quality of their software projects, this tutorial proves to be an indispensable guide.</p>
 </div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
-Version 1<br>
-Last updated 2023-02-10
+Version 2<br>
+Last updated 2024-02-18
 </div>
 </div>
 </body>

@@ -3,7 +3,7 @@
     <parent>
         <artifactId>faggregate-examples</artifactId>
         <groupId>io.morin.faggregate.examples</groupId>
-        <version>1.5.0</version>
+        <version>1.6.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -41,12 +41,12 @@
         <dependency>
             <artifactId>faggregate-core-api</artifactId>
             <groupId>io.morin.faggregate</groupId>
-            <version>1.5.0</version>
+            <version>1.6.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <artifactId>faggregate-core-scenario</artifactId>
             <groupId>io.morin.faggregate</groupId>
-            <version>1.5.0</version>
+            <version>1.6.0-SNAPSHOT</version>
         </dependency>
         <!-- SERIALIZATION / DESERIALIZATION -->
         <dependency>
@@ -67,12 +67,8 @@
         <dependency>
             <artifactId>faggregate-core-simple</artifactId>
             <groupId>io.morin.faggregate</groupId>
-            <version>1.5.0</version>
+            <version>1.6.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-  <scm>
-    <tag>faggregate-1.5.0</tag>
-  </scm>
 </project>

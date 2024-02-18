@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 import lombok.AccessLevel;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +24,24 @@ public class SimpleAggregateManagerBuilder<I, S> implements AggregateManagerBuil
     final Map<Class<?>, HandlerEntry<S>> handlers = new HashMap<>();
     final Map<Class<?>, List<Mutator<S, Object>>> mutators = new HashMap<>();
     final List<Middleware<I, ?, ?>> middlewares = new ArrayList<>();
-    Initializer<I, S> initializer;
-    Loader<I, S> loader;
-    Persister<I, S> persister;
-    Destroyer<I, S> destroyer;
+    Initializer<I, S> initializer = context -> {
+        throw new UnsupportedOperationException("Initializer not set");
+    };
+    Loader<I, S> loader = context -> {
+        throw new UnsupportedOperationException("Loader not set");
+    };
+    Persister<I, S> persister = new Persister<>() {
+        @Override
+        public <E> CompletableFuture<Void> persist(Context<I, ?> context, S state, List<E> events) {
+            throw new UnsupportedOperationException("Persister not set");
+        }
+    };
+    Destroyer<I, S> destroyer = new Destroyer<>() {
+        @Override
+        public <E> CompletableFuture<Void> destroy(Context<I, ?> context, S state, List<E> events) {
+            throw new UnsupportedOperationException("Destroyer not set");
+        }
+    };
 
     /**
      * Create and get a new builder.

@@ -14,7 +14,7 @@ class IncrementCounterHandler implements Handler<Counter, IncrementCounter, Void
 
     /**
      * There is no special business logic leading to the publication of the {@link CounterChanged} domain event.
-     * Therefore, the implementation of the handle is straightforward.
+     * Therefore, the implementation of the handle method is straightforward.
      *
      * @param state   the current state of the aggregate
      * @param command the command

@@ -43,7 +43,15 @@ IncrementCounter -r-> CounterIncremented : 2. produces
 CounterIncremented .. Counter : 3. applied on
 ....
 
-The source code of the tutorial is available on link:https://github.com/tmorin/faggregate/tree/main/examples/tutorial[github].
+In this tutorial, we will cover a series of foundational steps necessary for building a robust application using the framework.
+This journey will begin with bootstrapping a Maven project, setting the groundwork for our development process.
+We will then delve into defining the Counter aggregate, a core component of our application's domain model.
+Following this, we'll tackle implementing the command handler for the IncrementCounter command, allowing us to interact with our aggregate.
+We'll also implement the mutator for the CounterIncremented domain event to handle state changes.
+The creation of the repository for the Counter aggregate will be our next step, ensuring we have a solid persistence mechanism.
+Finally, we'll conclude with implementing the configurer of the Counter aggregate, tying all components together for a cohesive application configuration.
+
+The source code of the tutorial is available on link:https://github.com/tmorin/faggregate/tree/main/examples/tutorial[github.com/tmorin/faggregate].
 
 == The Maven module
 
@@ -175,15 +183,22 @@ include::../../src/test/java/faggregate/tutorial/CounterChangedMutatorTest.java[
 
 == The Repository
 
-In this tutorial the Repository is responsible to apply the `faggregate` side effects
+A repository is a set of functions which initiates, loads, persists and destroys the state of an Aggregate.
+
+=== Side effects
+
+In `faggregate`, we define those functions as side effects:
 
 - *initializer*: it initializes the state of an Aggregate
 - *loader*: it loads the latest known state of an Aggregate
 - *persister*: it persists the latest known state and/or the generated Domain Events of an Aggregate
 - *destroyer*: it destroys the persisted data related to an Aggregate
 
-The default implementation of `faggregate`, i.e. `faggregate-core-simple`, expects the definition of all side effects when an Aggregate Manager is configured.
-Therefore, the tutorial implements and registers all side effects even if only the *loader* and *persister* side effects are involved.
+The side effects are applied according to the intention of the handled command.
+For instance, the *initializer* is executed when a Command Handler has been registered with the `INITIALIZATION` intention. The details of the intentions are explained in the following sections.
+
+The default implementation of `faggregate`, i.e. `faggregate-core-simple`, provides default implementation throwing an `UnsupportedOperationException`.
+Therefore, according to your context, you have to implement and register the side effects.
 
 === The Initializer
 
@@ -202,6 +217,8 @@ command --> initializer
 initializer --> aggregate
 ....
 
+In this tutorial, the initializer is not implemented because there is no command handled with the `INITIALIZATION` intention.
+
 === The Loader
 
 A loader is executed when the type of the handled Command has been registered with the `MUTATION` intention.
@@ -216,6 +233,8 @@ rectangle "loader" as loader
 aggregate_identifier --> loader
 loader --> aggregate
 ....
+
+In this tutorial, the loader is implemented because the `IncrementCounter` command is handled with the `MUTATION` intention.
 
 === The Persister
 
@@ -234,6 +253,8 @@ aggregate --> persister
 events --> persister
 ....
 
+In this tutorial, the persister is implemented because the `IncrementCounter` command is handled with the `MUTATION` intention.
+
 === The Destroyer
 
 A destroyer is executed when the type of the handled command has been registered with the `DESTRUCTION` intention.
@@ -250,6 +271,8 @@ aggregate_identifier --> destroyer
 aggregate --> destroyer
 events --> destroyer
 ....
+
+In this tutorial, the destroyer is not implemented because there is no command handled with the `DESTRUCTION` intention.
 
 === The implementation
 

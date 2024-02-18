@@ -1,6 +1,8 @@
 package faggregate.tutorial;
 
-import io.morin.faggregate.api.*;
+import io.morin.faggregate.api.Context;
+import io.morin.faggregate.api.Loader;
+import io.morin.faggregate.api.Persister;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +12,7 @@ import lombok.val;
  * An in memory implementation of both side effects Loader and Persister.
  */
 @RequiredArgsConstructor
-class CounterRepository
-    implements
-        Initializer<String, Counter>, Loader<String, Counter>, Persister<String, Counter>, Destroyer<String, Counter> {
+class CounterRepository implements Loader<String, Counter>, Persister<String, Counter> {
 
     /**
      * The map stores the states of the aggregates.
@@ -29,12 +29,6 @@ class CounterRepository
     }
 
     @Override
-    public CompletableFuture<Counter> initialize(Context<String, ?> context) {
-        val counter = Counter.create(context.getIdentifier());
-        return CompletableFuture.completedFuture(counter);
-    }
-
-    @Override
     public CompletableFuture<Optional<Counter>> load(Context<String, ?> context) {
         val counter = statesByIdentifier.getOrDefault(context.getIdentifier(), Counter.create(context.getIdentifier()));
         return CompletableFuture.completedFuture(Optional.of(counter));
@@ -47,13 +41,6 @@ class CounterRepository
             eventsByIdentifier.put(context.getIdentifier(), new ArrayList<>());
         }
         eventsByIdentifier.get(context.getIdentifier()).addAll(events);
-        return CompletableFuture.completedFuture(null);
-    }
-
-    @Override
-    public <E> CompletableFuture<Void> destroy(Context<String, ?> context, Counter state, List<E> events) {
-        statesByIdentifier.remove(context.getIdentifier());
-        eventsByIdentifier.remove(context.getIdentifier());
         return CompletableFuture.completedFuture(null);
     }
 }

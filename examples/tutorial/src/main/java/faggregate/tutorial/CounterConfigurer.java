@@ -1,6 +1,9 @@
 package faggregate.tutorial;
 
-import io.morin.faggregate.api.*;
+import io.morin.faggregate.api.AggregateManagerBuilder;
+import io.morin.faggregate.api.Configurer;
+import io.morin.faggregate.api.Loader;
+import io.morin.faggregate.api.Persister;
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -13,14 +16,10 @@ class CounterConfigurer implements Configurer<String, Counter> {
 
     @Override
     public void configure(AggregateManagerBuilder<String, Counter> builder) {
-        // set the initializer
-        builder.set((Initializer<String, Counter>) repository);
         // set the loader
         builder.set((Loader<String, Counter>) repository);
         // set the persister
         builder.set((Persister<String, Counter>) repository);
-        // set the destroyer
-        builder.set((Destroyer<String, Counter>) repository);
         // add the command handler
         builder.add(IncrementCounter.class, new IncrementCounterHandler());
         // add the mutator

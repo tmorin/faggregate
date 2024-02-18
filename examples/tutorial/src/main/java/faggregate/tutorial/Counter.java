@@ -11,7 +11,7 @@ import lombok.Value;
  */
 @Value
 @RequiredArgsConstructor(access = AccessLevel.PRIVATE)
-class Counter {
+public class Counter {
 
     /**
      * The default value.

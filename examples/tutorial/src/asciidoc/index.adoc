@@ -1,7 +1,7 @@
 = Basic Tutorial for faggregate
 :author: Thibault Morin
-:docdatetime: 2023-02-10
-:revnumber: 1
+:docdatetime: 2024-02-18
+:revnumber: 2
 :toc:
 :source-highlighter: coderay
 :doctype: article
@@ -10,19 +10,25 @@
 [abstract]
 == Abstract
 
-Unlock the full potential of Domain Driven Design implementation with this step-by-step tutorial focusing on `faggregate` that blends Aggregates and functional programming.
-This library provides developers with a powerful tool to simplify complex development tasks, and this tutorial will give you the hands-on experience and insights you need to effectively utilize its capabilities.
-Whether you're a seasoned Java developer or just starting out, this tutorial is the perfect resource for anyone looking to take their DDD implementation to the next level.
+[Abstract]
+
+This document presents a comprehensive guide aimed at facilitating the implementation of Domain Driven Design (DDD) by integrating the `faggregate` library, which harmoniously combines the concepts of Aggregates with functional programming paradigms.
+The library is designed to offer developers an efficient means to navigate and simplify intricate development challenges.
+Through practical exercises and detailed explanations, this tutorial aims to equip readers with the necessary skills and knowledge to adeptly apply the library's functionalities.
 
 == Introduction
 
 `faggregate` is a Java library helping to define Aggregate according to the _Domain Driven Design_ approach with a touch of _Functional Programming_. The source code of `faggregate` is available on link:https://github.com/tmorin/faggregate[github.com/tmorin/faggregate].
 
-By combining the strengths of Domain Driven Design Aggregates and functional programming, developers can achieve a powerful and streamlined development process.
-Domain Driven Design Aggregates provide a clear structure for managing complex business entities and enforcing transactional consistency, while functional programming promotes a declarative style of programming, making code easier to understand and maintain.
-Together, these approaches lead to more predictable and reliable code, with a reduced likelihood of bugs and easier maintenance.
-Additionally, the functional programming paradigm supports code modularity and easy refactoring, making it a great fit for large-scale software development projects.
-Put simply, developers can build maintainable and scalable systems that effectively meet the demands of their business domain.
+`faggregate` synthesizes the robust methodologies of DDD Aggregates and functional programming to streamline the software development process.
+
+DDD Aggregates offer a structured approach to managing complex domain entities and ensuring transactional consistency.
+In parallel, functional programming emphasizes a declarative coding style, enhancing code clarity and simplifying maintenance efforts.
+The amalgamation of these methodologies not only fosters more stable and reliable software but also minimizes the incidence of defects.
+
+Furthermore, the emphasis on functional programming augments code modularity and facilitates straightforward refactoring, attributes highly beneficial in the context of extensive software development endeavors.
+
+In essence, `faggregate` empowers developers to create systems that are both scalable and maintainable, adeptly addressing the needs of their specific business domains.
 
 == The scope
 
@@ -49,7 +55,8 @@ We will then delve into defining the Counter aggregate, a core component of our 
 Following this, we'll tackle implementing the command handler for the IncrementCounter command, allowing us to interact with our aggregate.
 We'll also implement the mutator for the CounterIncremented domain event to handle state changes.
 The creation of the repository for the Counter aggregate will be our next step, ensuring we have a solid persistence mechanism.
-Finally, we'll conclude with implementing the configurer of the Counter aggregate, tying all components together for a cohesive application configuration.
+We'll continue with implementing the configurer of the Counter aggregate, tying all components together for a cohesive application configuration.
+Finally, we'll explore the validation of the Counter aggregate, ensuring that our implementation meets the requirements of our business domain.
 
 The source code of the tutorial is available on link:https://github.com/tmorin/faggregate/tree/main/examples/tutorial[github.com/tmorin/faggregate].
 
@@ -57,7 +64,8 @@ The source code of the tutorial is available on link:https://github.com/tmorin/f
 
 The Maven module brings four dependencies.
 The first one, `faggregate-core-simple`, brings the `faggregate` library.
-The second one, link:https://junit.org/junit5/docs/current/user-guide/[`junit-jupiter`], provides a test framework.
+The second one, `faggregate-core-scenario`, brings an extension of `faggregate` library to implement acceptance tests.
+The third one, link:https://junit.org/junit5/docs/current/user-guide/[`junit-jupiter`], provides a test framework.
 Finally, link:https://projectlombok.org/[`lombok`], _spices_ up java helping to save lines of codes.
 
 [source,xml,title=./pom.xml]
@@ -307,11 +315,43 @@ The Configurer is covered by the following unit test.
 include::../../src/test/java/faggregate/tutorial/CounterConfigurerTest.java[]
 ----
 
+== The validation
+
+The building blocks offered by `faggregate` facilitate the separation of the API, core, and side effects layers.
+This architecture allows the core to define acceptance scenarios with commands, events, and states, essential for validating the implementations of side effects.
+Consequently, side effects are testable from the core's perspective, which is crucial for ensuring that business rules are correctly implemented and accepted.
+This design principle underpins the framework's approach to robust, domain-driven application development.
+
+In this tutorial, we explore two key scenarios using `faggregate`: the creation and the incrementation of a counter, both of which are organized within the same suite. In the context of `faggregate`, a suite refers to a collection of acceptance scenarios.
+
+A scenario follows the _Given-When-Then_ pattern, which is a widely used format for writing acceptance tests. It consists of three parts:
+
+- *Given*: the initial state of the system
+- *When*: the action that triggers the change in the system
+- *Then*: the expected outcome of the action
+
+The acceptance suite of the Counter aggregate is provided by the following factory.
+
+[source,java,title=src/main/java/faggregate/tutorial/CounterSuiteFactory.java]
+----
+include::../../src/main/java/faggregate/tutorial/CounterSuiteFactory.java[]
+----
+
+The execution of the acceptance suite is handled by a usual JUnit test.
+
+[source,java,title=src/main/java/faggregate/tutorial/CounterSuiteFactory.java]
+----
+include::../../src/test/java/faggregate/tutorial/CounterSuiteTest.java[]
+----
+
 == Conclusion
 
-In conclusion, the tutorial provides an overview of the Java library that helps developers implement Domain Driven Design Aggregates and functional programming concepts.
-The library offers a set of tools and abstractions that make it easier to build complex software systems in a maintainable and scalable way.
+In conclusion, this tutorial offers a comprehensive exploration of the `faggregate` Java library, a potent resource for developers aiming to integrate Domain Driven Design Aggregates with functional programming principles.
+Through the meticulous construction of the Counter aggregate example, it showcases how `faggregate` simplifies the development of complex, domain-centric software systems, promoting maintainability and scalability.
 
-By following the guidelines and best practices outlined in the tutorial, developers can leverage the full potential of this library to build high-quality software that effectively meets the demands of their business domain.
+The step-by-step guidance provided throughout the tutorial, from setting up a Maven project to implementing domain-specific logic and persistence mechanisms, equips developers with the tools and knowledge needed to fully harness the capabilities of `faggregate`.
+This approach not only facilitates the building of high-quality software that aligns with business requirements but also enhances the overall development experience by leveraging functional programming's strengths in clarity, modularity, and immutability.
 
-Overall, the tutorial serves as a valuable resource for those looking to gain a deeper understanding of DDD Aggregates and functional programming, and for those looking to build robust and scalable software systems.
+As a valuable educational resource, the tutorial underscores the significance of adopting DDD Aggregates and functional programming in modern software development.
+It empowers developers to create software systems that are not only robust and scalable but also aligned with the strategic goals of their business domains.
+Thus, for those seeking to deepen their understanding of DDD and functional programming or to elevate the quality of their software projects, this tutorial proves to be an indispensable guide.

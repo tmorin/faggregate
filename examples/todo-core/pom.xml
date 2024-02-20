@@ -9,7 +9,7 @@
 
     <artifactId>examples-todo-core</artifactId>
 
-    <description>This example shows how to leverage on Faggregate to implement a Todo List.</description>
+    <description>This example shows how to leverage on faggregate to implement a Todo List.</description>
 
     <build>
         <plugins>

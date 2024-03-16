@@ -64,7 +64,7 @@ Therefore, a custom configuration is required to resolve the artifacts, please r
 <dependency>
     <groupId>io.morin.faggregate</groupId>
     <artifactId>faggregate-core-simple</artifactId>
-    <version>1.0.0</version>
+    <version>VERSION</version>
 </dependency>
 ```
 
@@ -76,17 +76,19 @@ Therefore, a custom configuration is required to resolve the artifacts, please r
 <dependency>
     <groupId>io.morin.faggregate</groupId>
     <artifactId>faggregate-spi-simple</artifactId>
-    <version>1.0.0</version>
+    <version>VERSION</version>
 </dependency>
 ```
 
 ### The validation framework
 
+[The GitHub Package](https://github.com/tmorin/faggregate/packages/1842497)
+
 ```xml
 <dependency>
     <groupId>io.morin.faggregate</groupId>
-    <artifactId>faggregate-core-validation</artifactId>
-    <version>1.0.0</version>
+    <artifactId>faggregate-core-scenario</artifactId>
+    <version>VERSION</version>
 </dependency>
 ```
 

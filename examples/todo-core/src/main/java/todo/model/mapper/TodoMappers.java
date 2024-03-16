@@ -18,7 +18,7 @@ public class TodoMappers {
      * @param todoList the list entity
      * @return the view
      */
-    public static TodoListView toView(TodoList todoList) {
+    public TodoListView toView(TodoList todoList) {
         return TodoListView.builder().todoListId(todoList.todoListId()).label(todoList.label()).build();
     }
 
@@ -29,7 +29,7 @@ public class TodoMappers {
      * @param todoItem the item entity
      * @return the view
      */
-    public static TodoItemView toView(TodoList todoList, TodoItem todoItem) {
+    public TodoItemView toView(TodoList todoList, TodoItem todoItem) {
         return TodoItemView
             .builder()
             .todoListId(todoList.todoListId())

@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 import io.morin.faggregate.api.AggregateManager;
+import io.morin.faggregate.api.AggregateManagerBuilder;
 import io.morin.faggregate.api.Output;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -36,7 +37,13 @@ class SuiteTest {
     Scenario.Then then;
 
     @Mock
-    AggregateManager<Object> am;
+    AggregateManager<String> am;
+
+    @Mock
+    AggregateManagerBuilder<String, String> amBuilder;
+
+    @Mock
+    Suite.Repository<String, String> repository;
 
     @Mock
     ScenarioExecutor.Before before;
@@ -46,6 +53,54 @@ class SuiteTest {
 
     @Mock
     Output<Object> output;
+
+    @Test
+    void shouldExecuteWithInMemory() {
+        when(scenarioA.getGiven()).thenReturn(given);
+        when(scenarioA.getWhen()).thenReturn(when);
+        when(scenarioA.getThen()).thenReturn(then);
+
+        when(scenarioB.getGiven()).thenReturn(given);
+        when(scenarioB.getWhen()).thenReturn(when);
+        when(scenarioB.getThen()).thenReturn(then);
+
+        when(scenarioC.getGiven()).thenReturn(given);
+        when(scenarioC.getWhen()).thenReturn(when);
+        when(scenarioC.getThen()).thenReturn(then);
+
+        when(repository.loadState(any())).thenReturn(CompletableFuture.completedFuture(null));
+        when(repository.applyTo(any())).thenReturn(amBuilder);
+
+        when(amBuilder.build()).thenReturn(am);
+        when(am.execute(any(), any())).thenReturn(CompletableFuture.completedFuture(output));
+
+        assertDoesNotThrow(() ->
+            Suite
+                .builder()
+                .scenario(scenarioA)
+                .scenario(scenarioB)
+                .scenario(scenarioC)
+                .repositorySupplier(() -> repository)
+                .build()
+                .execute(amBuilder)
+                .toCompletableFuture()
+                .get()
+        );
+
+        verify(am, Mockito.times(3)).execute(any(), any());
+
+        verify(scenarioA, Mockito.times(4)).getGiven();
+        verify(scenarioA, Mockito.times(1)).getWhen();
+        verify(scenarioA, Mockito.times(3)).getThen();
+
+        verify(scenarioB, Mockito.times(4)).getGiven();
+        verify(scenarioB, Mockito.times(1)).getWhen();
+        verify(scenarioB, Mockito.times(3)).getThen();
+
+        verify(scenarioC, Mockito.times(4)).getGiven();
+        verify(scenarioC, Mockito.times(1)).getWhen();
+        verify(scenarioC, Mockito.times(3)).getThen();
+    }
 
     @Test
     void shouldExecute() {
@@ -62,7 +117,7 @@ class SuiteTest {
         when(scenarioC.getThen()).thenReturn(then);
 
         when(am.execute(any(), any())).thenReturn(CompletableFuture.completedFuture(output));
-        when(after.load(any())).thenReturn(CompletableFuture.completedFuture(null));
+        when(after.loadState(any())).thenReturn(CompletableFuture.completedFuture(null));
 
         assertDoesNotThrow(() ->
             Suite
@@ -77,7 +132,7 @@ class SuiteTest {
         );
 
         verify(am, Mockito.times(3)).execute(any(), any());
-        verify(after, Mockito.times(3)).load(any());
+        verify(after, Mockito.times(3)).loadState(any());
 
         verify(scenarioA, Mockito.times(4)).getGiven();
         verify(scenarioA, Mockito.times(1)).getWhen();

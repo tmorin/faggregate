@@ -76,7 +76,8 @@ public class ScenarioExecutor {
         return Optional
             // GIVEN STEP - initialize the state of the aggregate with a given state
             .ofNullable(scenario.getGiven().getState())
-            .map(state -> before.store(scenario.getGiven().getIdentifier(), state, scenario.getGiven().getEvents()))
+            .map(state -> before.storeState(scenario.getGiven().getIdentifier(), state, scenario.getGiven().getEvents())
+            )
             .orElseGet(() -> CompletableFuture.completedStage(null))
             // GIVEN STEP - mutate the aggregate with given commands
             .thenAccept(unused -> {
@@ -94,7 +95,7 @@ public class ScenarioExecutor {
             // WHEN - create the outcome based on the fetch aggregate state and the output of the command
             .thenCompose(output ->
                 after
-                    .load(scenario.getGiven().getIdentifier())
+                    .loadState(scenario.getGiven().getIdentifier())
                     .thenApply(currentState -> new Outcome(output, currentState))
             )
             // THEN - assert the outcome
@@ -139,7 +140,7 @@ public class ScenarioExecutor {
          * @param events     a set of initial domain events
          * @return a completion stage
          */
-        CompletionStage<Void> store(@NonNull Object identifier, @NonNull Object state, @NonNull List<?> events);
+        CompletionStage<Void> storeState(@NonNull Object identifier, @NonNull Object state, @NonNull List<?> events);
     }
 
     /**
@@ -153,7 +154,7 @@ public class ScenarioExecutor {
          * @param identifier the identifier of the aggregate
          * @return the state of the aggregate as a completion stage
          */
-        CompletionStage<Object> load(@NonNull Object identifier);
+        CompletionStage<Object> loadState(@NonNull Object identifier);
     }
 
     /**
@@ -168,7 +169,7 @@ public class ScenarioExecutor {
         final Output<?> output;
 
         /**
-         * The state fetched using {@link After#load(Object)}.
+         * The state fetched using {@link After#loadState(Object)}.
          */
         final Object state;
     }

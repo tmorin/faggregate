@@ -83,9 +83,9 @@ class ScenarioExecutorTest {
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).add(expectedEvent).build()));
         when(am.execute(eq("id"), any(String.class)))
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).build()));
-        when(after.load(any())).thenReturn(CompletableFuture.completedStage(expectedState));
+        when(after.loadState(any())).thenReturn(CompletableFuture.completedStage(expectedState));
         Assertions.assertDoesNotThrow(() -> executor.execute().toCompletableFuture().get());
-        verify(before, new Only()).store(eq("id"), eq(initialState), anyList());
+        verify(before, new Only()).storeState(eq("id"), eq(initialState), anyList());
         verify(am, new Times(2)).execute(eq("id"), anyString());
         verify(asserter, new Only()).accept(eq(expectedState), anyList());
     }
@@ -94,9 +94,9 @@ class ScenarioExecutorTest {
     void shouldSuccessWhenInitialState() {
         when(am.execute(eq("id"), any(ApplyUppercase.class)))
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).add(expectedEvent).build()));
-        when(after.load(any())).thenReturn(CompletableFuture.completedStage(expectedState));
+        when(after.loadState(any())).thenReturn(CompletableFuture.completedStage(expectedState));
         Assertions.assertDoesNotThrow(() -> executorAlt.execute().toCompletableFuture().get());
-        verify(before, new NoInteractions()).store(any(), any(), any());
+        verify(before, new NoInteractions()).storeState(any(), any(), any());
         verify(am, new Only()).execute(eq("id"), any(ApplyUppercase.class));
     }
 
@@ -104,7 +104,7 @@ class ScenarioExecutorTest {
     void shouldFailedWhenWrongExpectedState() {
         when(am.execute(any(), any()))
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).add(expectedEvent).build()));
-        when(after.load(any())).thenReturn(CompletableFuture.completedStage(initialState));
+        when(after.loadState(any())).thenReturn(CompletableFuture.completedStage(initialState));
 
         Assertions.assertThrows(ExecutionException.class, () -> executor.execute().toCompletableFuture().get());
     }
@@ -113,7 +113,7 @@ class ScenarioExecutorTest {
     void shouldFailedWhenWrongExpectedEvent() {
         when(am.execute(any(), any()))
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).add(wrongExpectedEvent).build()));
-        when(after.load(any())).thenReturn(CompletableFuture.completedStage(expectedState));
+        when(after.loadState(any())).thenReturn(CompletableFuture.completedStage(expectedState));
 
         Assertions.assertThrows(ExecutionException.class, () -> executor.execute().toCompletableFuture().get());
     }
@@ -126,7 +126,7 @@ class ScenarioExecutorTest {
                     OutputBuilder.get(null).add(expectedEvent).add(wrongExpectedEvent).build()
                 )
             );
-        when(after.load(any())).thenReturn(CompletableFuture.completedStage(expectedState));
+        when(after.loadState(any())).thenReturn(CompletableFuture.completedStage(expectedState));
 
         Assertions.assertThrows(ExecutionException.class, () -> executor.execute().toCompletableFuture().get());
     }
@@ -143,7 +143,7 @@ class ScenarioExecutorTest {
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).add(expectedEvent).build()));
         when(am.execute(eq("id"), any(String.class)))
             .thenReturn(CompletableFuture.completedFuture(OutputBuilder.get(null).build()));
-        when(after.load(any())).thenReturn(CompletableFuture.completedStage(expectedState));
+        when(after.loadState(any())).thenReturn(CompletableFuture.completedStage(expectedState));
         doThrow(new IllegalStateException()).when(asserter).accept(any(), any());
 
         Assertions.assertThrows(ExecutionException.class, () -> executor.execute().toCompletableFuture().get());

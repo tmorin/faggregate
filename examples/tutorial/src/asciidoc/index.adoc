@@ -205,9 +205,6 @@ In `faggregate`, we define those functions as side effects:
 The side effects are applied according to the intention of the handled command.
 For instance, the *initializer* is executed when a Command Handler has been registered with the `INITIALIZATION` intention. The details of the intentions are explained in the following sections.
 
-The default implementation of `faggregate`, i.e. `faggregate-core-simple`, provides default implementation throwing an `UnsupportedOperationException`.
-Therefore, according to your context, you have to implement and register the side effects.
-
 === The Initializer
 
 An initializer is executed when the type of the handled Command has been registered with the `INITIALIZATION` intention.

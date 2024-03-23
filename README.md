@@ -5,10 +5,10 @@
 
 > Enhance DDD and Functional Programming with `faggregate`.
 >
-> `faggregate` offers Java developers tools and abstractions to streamline building scalable, robust software.
+> `faggregate` offers Java developers tools and abstractions to streamline building scalable and robust software.
 > Ideal for any developer level, it maximizes Domain Driven Design Aggregates and functional programming.
 
-The Value Stream is barely simple:
+The library provides a simple and flexible way to define Aggregates:
 
 1. define the data structure of the aggregate's state
 2. define the commands and events which change the state
@@ -38,7 +38,7 @@ The library emphases some functional programing concepts like immutable structur
 The [todo-core](examples/todo-core) example provides an implementation leveraging on the [Immutables](https://immutables.github.io) Java library to easily and nicely force the immutable structures of the Aggregate state.
 
 The [todo-core](examples/todo-core) module is also used by [todo-infra-quarkus](examples/todo-infra-quarkus).
-Therefore, it demonstrates [Immutables](https://immutables.github.io) can be used also into a Native Image.
+Therefore, it demonstrates [Immutables](https://immutables.github.io) can be used also within common Framework and Native Images.
 
 ### Validation framework
 
@@ -80,7 +80,7 @@ Therefore, a custom configuration is required to resolve the artifacts, please r
 </dependency>
 ```
 
-### The validation framework
+### The scenario framework
 
 [The GitHub Package](https://github.com/tmorin/faggregate/packages/1842497)
 

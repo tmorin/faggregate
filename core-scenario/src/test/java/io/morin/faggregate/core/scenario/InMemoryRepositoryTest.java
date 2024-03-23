@@ -1,4 +1,4 @@
-package io.morin.faggregate.core.validation;
+package io.morin.faggregate.core.scenario;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.verify;

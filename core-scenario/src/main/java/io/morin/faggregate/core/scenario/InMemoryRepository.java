@@ -1,4 +1,4 @@
-package io.morin.faggregate.core.validation;
+package io.morin.faggregate.core.scenario;
 
 import io.morin.faggregate.api.Context;
 import io.morin.faggregate.api.Initializer;

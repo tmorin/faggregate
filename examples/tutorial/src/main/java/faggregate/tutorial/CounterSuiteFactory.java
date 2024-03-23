@@ -1,7 +1,7 @@
 package faggregate.tutorial;
 
-import io.morin.faggregate.core.validation.Scenario;
-import io.morin.faggregate.core.validation.Suite;
+import io.morin.faggregate.core.scenario.Scenario;
+import io.morin.faggregate.core.scenario.Suite;
 import lombok.experimental.UtilityClass;
 import lombok.val;
 

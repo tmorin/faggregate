@@ -1,4 +1,4 @@
-package io.morin.faggregate.core.validation;
+package io.morin.faggregate.core.scenario;
 
 import java.util.List;
 import java.util.function.BiConsumer;

@@ -3,4 +3,4 @@
  * <p>
  * The scenarios are provided by the core to drive and validate the implementation of the side effects.
  */
-package io.morin.faggregate.core.validation;
+package io.morin.faggregate.core.scenario;

@@ -1,4 +1,4 @@
-package io.morin.faggregate.core.validation;
+package io.morin.faggregate.core.scenario;
 
 import io.morin.faggregate.api.*;
 import java.util.List;
@@ -65,8 +65,8 @@ public class Suite {
      *     <li>{@link io.morin.faggregate.api.Persister}</li>
      *     <li>{@link io.morin.faggregate.api.Loader}</li>
      *     <li>{@link io.morin.faggregate.api.Destroyer}</li>
-     *     <li>{@link io.morin.faggregate.core.validation.ScenarioExecutor.Before#storeState(Object, Object, List)}</li>
-     *     <li>{@link io.morin.faggregate.core.validation.ScenarioExecutor.After#loadState(Object)}</li>
+     *     <li>{@link io.morin.faggregate.core.scenario.ScenarioExecutor.Before#storeState(Object, Object, List)}</li>
+     *     <li>{@link io.morin.faggregate.core.scenario.ScenarioExecutor.After#loadState(Object)}</li>
      * </ul>
      *
      * @param amBuilder the Aggregate Manager Builder
@@ -103,12 +103,12 @@ public class Suite {
      * <p>
      * The before lambda is executed before the _Given_ phase.
      * Its purpose is to store the state of the aggregate.
-     * As long as the state of the artifact is not provided during the <i>Given</i> phase (i.e. {@link io.morin.faggregate.core.validation.Scenario.Given#state}),
+     * As long as the state of the artifact is not provided during the <i>Given</i> phase (i.e. {@link io.morin.faggregate.core.scenario.Scenario.Given#state}),
      * the before lambda is not mandatory.
      * <p>
      * The after lambda is executed after the _Then_ phase.
      * Its purpose is to load the state of the aggregate.
-     * As long as the state of the artifact is not validated during the <i>Then</i> phase (i.e. {@link io.morin.faggregate.core.validation.Scenario.Then#state}),
+     * As long as the state of the artifact is not validated during the <i>Then</i> phase (i.e. {@link io.morin.faggregate.core.scenario.Scenario.Then#state}),
      * the after lambda is not mandatory.
      *
      * @param am     the Aggregate Manager

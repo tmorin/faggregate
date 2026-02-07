@@ -26,6 +26,7 @@ jobs:
       - name: Build with Maven
         run: ./mvnw -P native --batch-mode --update-snapshots verify
       - name: Analyze with Sonar
+        if: ${{ env.SONAR_TOKEN != '' }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

@@ -12,11 +12,6 @@
 
     <description>The API of the integration of the library with SPI.</description>
 
-    <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
-    </properties>
-
     <build>
         <plugins>
             <plugin>
